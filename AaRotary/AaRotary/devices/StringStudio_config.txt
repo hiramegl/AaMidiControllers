@@ -1,0 +1,261 @@
+# ******************************************************************************
+# Configuration file for StringStudio device
+# ******************************************************************************
+
+# Bank 1
+
+  Device On       | Main_Button_0_0_0
+  Preset Save     | Main_Button_1_0_0
+  Preset Prev     | Main_Button_0_1_0
+  Preset Next     | Main_Button_1_1_0
+
+  Exc On/Off      | Main_Button_0_2_0
+  E Pos Abs       | Main_Button_1_2_0
+  Term On/Off     | Main_Button_0_3_0
+  Pickup On/Off   | Main_Button_0_4_0
+
+# Main Rotary
+
+  Excitator Type  | Main_Rotary_0_0_0
+  Exc Protrusion  | Main_Rotary_0_1_0
+  Exc Stiffness   | Main_Rotary_0_2_0
+  Exc Velocity    | Main_Rotary_0_3_0
+  E Pos           | Main_Rotary_0_4_0
+  Exc Damping     | Main_Rotary_0_5_0
+
+  String Decay    | Main_Rotary_1_0_0
+  S Decay < Key   | Main_Rotary_1_1_0
+  S Decay Ratio   | Main_Rotary_1_2_0
+  Str Inharmon    | Main_Rotary_1_3_0
+  Str Damping     | Main_Rotary_1_4_0
+  S Damp < Key    | Main_Rotary_1_5_0
+
+  T Mass < Vel    | Main_Rotary_2_0_0
+  T Mass < Key    | Main_Rotary_2_1_0
+  Term Mass       | Main_Rotary_2_2_0
+  Term Fng Stiff  | Main_Rotary_2_3_0
+  Term Fret Stiff | Main_Rotary_2_4_0
+  Pickup Pos      | Main_Rotary_2_5_0
+
+# Group Rotary 1
+
+  Exc Prot < Vel  | Group_Rotary_0_0_0
+  Exc Prot < Key  | Group_Rotary_0_1_0
+  Exc Stiff < Vel | Group_Rotary_0_2_0
+  Exc Stiff < Key | Group_Rotary_0_3_0
+  Exc Vel < Vel   | Group_Rotary_0_4_0
+  Exc Vel < Key   | Group_Rotary_0_5_0
+  E Pos < Vel     | Group_Rotary_0_6_0
+  E Pos < Key     | Group_Rotary_0_7_0
+
+# Bank 2
+
+  Damper On       | Main_Button_0_0_1
+  Damper Gated    | Main_Button_1_0_1
+  D Pos Abs       | Main_Button_0_1_1
+  Vibrato On/Off  | Main_Button_0_2_1
+  Body On/Off     | Main_Button_0_3_1
+
+# Main Rotary
+
+  Damper Mass     | Main_Rotary_0_0_1
+  D Stiffness     | Main_Rotary_0_1_1
+  D Velocity      | Main_Rotary_0_2_1
+  Damp Pos        | Main_Rotary_0_3_1
+  D Damping       | Main_Rotary_0_4_1
+
+  Vib Delay       | Main_Rotary_1_0_1
+  Vib Fade-In     | Main_Rotary_1_1_1
+  Vib Speed       | Main_Rotary_1_2_1
+  Vib Amount      | Main_Rotary_1_3_1
+  Vib < ModWh     | Main_Rotary_1_4_1
+  Vib Error       | Main_Rotary_1_5_1
+
+  Body Type       | Main_Rotary_2_0_1
+  Body Size       | Main_Rotary_2_1_1
+  Body Decay      | Main_Rotary_2_2_1
+  Body Low-Cut    | Main_Rotary_2_3_1
+  Body High-Cut   | Main_Rotary_2_4_1
+  Body Mix        | Main_Rotary_2_5_1
+  Volume          | Main_Rotary_2_6_1
+
+# Group Rotary 1
+
+  D Mass < Key    | Group_Rotary_0_0_1
+  D Stiff < Key   | Group_Rotary_0_1_1
+  D Velo < Key    | Group_Rotary_0_2_1
+  D Pos < Vel     | Group_Rotary_0_3_1
+  D Pos < Key     | Group_Rotary_0_4_1
+
+# Bank 3
+
+  Filter On/Off   | Main_Button_0_0_2
+  FEG On/Off      | Main_Button_0_1_2
+  LFO On/Off      | Main_Button_0_2_2
+  LFO Sync On     | Main_Button_1_2_2
+
+  Unison On/Off   | Main_Button_0_3_2
+  Unison Voices   | Main_Button_1_3_2
+
+  Porta On/Off    | Main_Button_0_4_2
+  Porta Legato    | Main_Button_0_5_2
+  Porta Prop      | Main_Button_1_5_2
+
+# Main Rotary
+
+  Filter Type     | Main_Rotary_0_0_2
+  Filter Freq     | Main_Rotary_0_1_2
+  Filter Reso     | Main_Rotary_0_2_2
+  LFO Shape       | Main_Rotary_0_3_2
+  LFO Delay       | Main_Rotary_0_4_2
+  LFO Fade In     | Main_Rotary_0_5_2
+  LFO Speed       | Main_Rotary_0_6_2
+  LFO SyncRate    | Main_Rotary_0_7_2
+
+  FEG Attack      | Main_Rotary_1_0_2
+  FEG Decay       | Main_Rotary_1_1_2
+  FEG Sustain     | Main_Rotary_1_2_2
+  FEG Release     | Main_Rotary_1_3_2
+  FEG Att < Vel   | Main_Rotary_1_4_2
+  FEG < Vel       | Main_Rotary_1_5_2
+
+  Octave          | Main_Rotary_2_0_2
+  Semitone        | Main_Rotary_2_1_2
+  Fine Tune       | Main_Rotary_2_2_2
+  Voices          | Main_Rotary_2_3_2
+  PB Depth        | Main_Rotary_2_4_2
+  Stretch         | Main_Rotary_2_5_2
+  Error           | Main_Rotary_2_6_2
+  Key Priority    | Main_Rotary_2_7_2
+
+# Group Rotary 1
+
+  Uni Detune      | Group_Rotary_0_0_2
+  Uni Delay       | Group_Rotary_0_1_2
+  Porta Time      | Group_Rotary_0_2_2
+
+# Group Rotary 2
+
+  Freq < Env      | Group_Rotary_1_0_2
+  Freq < LFO      | Group_Rotary_1_1_2
+  Freq < Key      | Group_Rotary_1_2_2
+  Reso < Env      | Group_Rotary_1_3_2
+  Reso < LFO      | Group_Rotary_1_4_2
+  Reso < Key      | Group_Rotary_1_5_2
+
+# Bank 1
+#     > Q param: Device On       , orig: Device On => Off, On
+# Main Button
+#    2> Q param: Exc On/Off      , orig: Exc On/Off => Off, On
+#    2> Q param: E Pos Abs       , orig: E Pos Abs => Off, On
+#    3> Q param: Term On/Off     , orig: Term On/Off => Off, On
+#    4> Q param: Pickup On/Off   , orig: Pickup On/Off => Off, On
+# Main Rotary
+#    0> Q param: Excitator Type  , orig: Excitator Type => Bow, Hammer, Hammer (bouncing), Plectrum
+#    1>   param: Exc Protrusion  , orig: Exc ForceMassProt, value: 0.500000, min: 0.000000, max: 1.000000
+#    2>   param: Exc Stiffness   , orig: Exc FricStiff, value: 0.500000, min: 0.000000, max: 1.000000
+#    3>   param: Exc Velocity    , orig: Exc Velocity, value: 0.500000, min: 0.000000, max: 1.000000
+#    4>   param: E Pos           , orig: E Pos, value: 0.500000, min: 0.000000, max: 1.000000
+#    5>   param: Exc Damping     , orig: Exc Damping, value: 0.500000, min: 0.000000, max: 1.000000
+#    0>   param: String Decay    , orig: String Decay, value: 0.750000, min: 0.000000, max: 1.000000
+#    1>   param: S Decay < Key   , orig: S Decay < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    2>   param: S Decay Ratio   , orig: S Decay Ratio, value: 0.500000, min: 0.000000, max: 1.000000
+#    3>   param: Str Inharmon    , orig: Str Inharmon, value: 0.500000, min: 0.000000, max: 1.000000
+#    4>   param: Str Damping     , orig: Str Damping, value: 0.500000, min: 0.000000, max: 1.000000
+#    5>   param: S Damp < Key    , orig: S Damp < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    0>   param: T Mass < Vel    , orig: T Mass < Vel, value: 0.000000, min: -1.000000, max: 1.000000
+#    1>   param: T Mass < Key    , orig: T Mass < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    2>   param: Term Mass       , orig: Term Mass, value: 0.500000, min: 0.000000, max: 1.000000
+#    3>   param: Term Fng Stiff  , orig: Term Fng Stiff, value: 0.500000, min: 0.000000, max: 1.000000
+#    4>   param: Term Fret Stiff , orig: Term Fret Stiff, value: 0.500000, min: 0.000000, max: 1.000000
+#    5>   param: Pickup Pos      , orig: Pickup Pos, value: 0.500000, min: 0.000000, max: 1.000000
+# Group Rotary 0
+#    0>   param: Exc Prot < Vel  , orig: Exc ForceMassProt < Vel, value: 0.000000, min: -1.000000, max: 1.000000
+#    1>   param: Exc Prot < Key  , orig: Exc ForceMassProt < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    2>   param: Exc Stiff < Vel , orig: Exc FricStiff < Vel, value: 0.000000, min: -1.000000, max: 1.000000
+#    3>   param: Exc Stiff < Key , orig: Exc FricStiff < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    4>   param: Exc Vel < Vel   , orig: Exc Vel < Vel, value: 0.000000, min: -1.000000, max: 1.000000
+#    5>   param: Exc Vel < Key   , orig: Exc Vel < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    6>   param: E Pos < Vel     , orig: E Pos < Vel, value: 0.000000, min: -1.000000, max: 1.000000
+#    7>   param: E Pos < Key     , orig: E Pos < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#
+# Bank 2
+#
+# Main Button
+#    0> Q param: Damper On       , orig: Damper On => Off, On
+#    0> Q param: Damper Gated    , orig: Damper Gated => Off, On
+#    1> Q param: D Pos Abs       , orig: D Pos Abs => Off, On
+#    2> Q param: Vibrato On/Off  , orig: Vibrato On/Off => Off, On
+#    3> Q param: Body On/Off     , orig: Body On/Off => Off, On
+# Main Rotary
+#    0>   param: Damper Mass     , orig: Damper Mass, value: 0.500000, min: 0.000000, max: 1.000000
+#    1>   param: D Stiffness     , orig: D Stiffness, value: 0.500000, min: 0.000000, max: 1.000000
+#    2>   param: D Velocity      , orig: D Velocity, value: 0.500000, min: 0.000000, max: 1.000000
+#    3>   param: Damp Pos        , orig: Damp Pos, value: 0.500000, min: 0.000000, max: 1.000000
+#    4>   param: D Damping       , orig: D Damping, value: 0.500000, min: 0.000000, max: 1.000000
+#    0>   param: Vib Delay       , orig: Vib Delay, value: 0.500000, min: 0.000000, max: 1.000000
+#    1>   param: Vib Fade-In     , orig: Vib Fade-In, value: 0.500000, min: 0.000000, max: 1.000000
+#    2>   param: Vib Speed       , orig: Vib Speed, value: 0.500000, min: 0.000000, max: 1.000000
+#    3>   param: Vib Amount      , orig: Vib Amount, value: 0.500000, min: 0.000000, max: 1.000000
+#    4>   param: Vib < ModWh     , orig: Vib < ModWh, value: 0.500000, min: 0.000000, max: 1.000000
+#    5>   param: Vib Error       , orig: Vib Error, value: 0.500000, min: 0.000000, max: 1.000000
+#    0> Q param: Body Type       , orig: Body Type => Piano, Guitar, Violin, Generic
+#    1> Q param: Body Size       , orig: Body Size => XS, S, M, L, XL
+#    2>   param: Body Decay      , orig: Body Decay, value: 0.000000, min: 0.000000, max: 1.000000
+#    3>   param: Body Low-Cut    , orig: Body Low-Cut, value: 0.000000, min: 0.000000, max: 1.000000
+#    4>   param: Body High-Cut   , orig: Body High-Cut, value: 0.000000, min: 0.000000, max: 1.000000
+#    5>   param: Body Mix        , orig: Body Mix, value: 0.500000, min: 0.000000, max: 1.000000
+#    6>   param: Volume          , orig: Volume, value: 0.705000, min: 0.000000, max: 1.000000
+# Group Rotary 0
+#    0>   param: D Mass < Key    , orig: D Mass < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    1>   param: D Stiff < Key   , orig: D Stiff < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    2>   param: D Velo < Key    , orig: D Velo < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    3>   param: D Pos < Key     , orig: D Pos < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    4>   param: D Pos < Vel     , orig: D Pos < Vel, value: 0.000000, min: -1.000000, max: 1.000000
+#
+# Bank 3
+#
+# Main Button
+#    0> Q param: Filter On/Off   , orig: Filter On/Off => Off, On
+#    1> Q param: FEG On/Off      , orig: FEG On/Off => Off, On
+#    2> Q param: LFO On/Off      , orig: LFO On/Off => Off, On
+#    2> Q param: LFO Sync On     , orig: LFO Sync On => Hertz, Beat
+#    3> Q param: Unison On/Off   , orig: Unison On/Off => Off, On
+#    3> Q param: Unison Voices   , orig: Unison Voices => 2, 4
+#    4> Q param: Porta On/Off    , orig: Porta On/Off => Off, On
+#    5> Q param: Porta Legato    , orig: Porta Legato => Off, On
+#    5> Q param: Porta Prop      , orig: Porta Prop => Off, On
+# Main Rotary
+#    0> Q param: Filter Type     , orig: Filter Type => Low-pass 12dB/oct, Low-pass 24dB/oct, Band-pass 6dB/oct, Band-pass 12dB/oct, Notch 2-pole, Notch 4-pole, High-pass 12dB/oct, High-pass 24dB/oct, Formant 6dB/oct, Formant 12dB/oct
+#    1>   param: Filter Freq     , orig: Filter Freq, value: 1.000000, min: 0.000000, max: 1.000000
+#    2>   param: Filter Reso     , orig: Filter Reso, value: 0.000000, min: 0.000000, max: 1.000000
+#    3> Q param: LFO Shape       , orig: LFO Shape => Sine, Tri, Rect, Random 1, Random 2
+#    4>   param: LFO Delay       , orig: LFO Delay, value: 0.500000, min: 0.000000, max: 1.000000
+#    5>   param: LFO Fade In     , orig: LFO Fade In, value: 0.500000, min: 0.000000, max: 1.000000
+#    6>   param: LFO Speed       , orig: LFO Speed, value: 0.500000, min: 0.000000, max: 1.000000
+#    7>   param: LFO SyncRate    , orig: LFO SyncRate, value: 13.000000, min: 0.000000, max: 23.000000
+#    0>   param: FEG Attack      , orig: FEG Attack, value: 0.000000, min: 0.000000, max: 1.000000
+#    1>   param: FEG Decay       , orig: FEG Decay, value: 0.500000, min: 0.000000, max: 1.000000
+#    2>   param: FEG Sustain     , orig: FEG Sustain, value: 0.500000, min: 0.000000, max: 1.000000
+#    3>   param: FEG Release     , orig: FEG Release, value: 0.500000, min: 0.000000, max: 1.000000
+#    4>   param: FEG Att < Vel   , orig: FEG Att < Vel, value: 0.000000, min: 0.000000, max: 1.000000
+#    5>   param: FEG < Vel       , orig: FEG < Vel, value: 0.000000, min: 0.000000, max: 1.000000
+#    0>   param: Octave          , orig: Octave, value: 0.000000, min: -3.000000, max: 3.000000
+#    1>   param: Semitone        , orig: Semitone, value: 0.000000, min: -12.000000, max: 12.000000
+#    2>   param: Fine Tune       , orig: Fine Tune, value: 0.500000, min: 0.000000, max: 1.000000
+#    3> Q param: Voices          , orig: Voices => Mono, 2, 4, 8, 12, 16, 20, 24, 28, 32
+#    4>   param: PB Depth        , orig: PB Depth, value: 2.000000, min: 0.000000, max: 12.000000
+#    5>   param: Stretch         , orig: Stretch, value: 0.500000, min: 0.000000, max: 1.000000
+#    6>   param: Error           , orig: Error, value: 0.000000, min: 0.000000, max: 1.000000
+#    7> Q param: Key Priority    , orig: Key Priority => High, Low, Last
+# Group Rotary 0
+#    0>   param: Uni Detune      , orig: Uni Detune, value: 0.500000, min: 0.000000, max: 1.000000
+#    1>   param: Uni Delay       , orig: Uni Delay, value: 0.500000, min: 0.000000, max: 1.000000
+#    2>   param: Porta Time      , orig: Porta Time, value: 0.500000, min: 0.000000, max: 1.000000
+# Group Rotary 1
+#    0>   param: Freq < Env      , orig: Freq < Env, value: 0.000000, min: -1.000000, max: 1.000000
+#    1>   param: Freq < LFO      , orig: Freq < LFO, value: 0.000000, min: -1.000000, max: 1.000000
+#    2>   param: Freq < Key      , orig: Freq < Key, value: 0.000000, min: -1.000000, max: 1.000000
+#    3>   param: Reso < Env      , orig: Reso < Env, value: 0.000000, min: -1.000000, max: 1.000000
+#    4>   param: Reso < LFO      , orig: Reso < LFO, value: 0.000000, min: -1.000000, max: 1.000000
+#    5>   param: Reso < Key      , orig: Reso < Key, value: 0.000000, min: -1.000000, max: 1.000000

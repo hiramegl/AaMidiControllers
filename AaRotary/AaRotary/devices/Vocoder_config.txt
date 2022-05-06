@@ -1,0 +1,50 @@
+# ******************************************************************************
+# Configuration file for Vocoder device
+# ******************************************************************************
+
+  Device On             | Main_Button_0_0
+  Preset Save           | Main_Button_1_0
+  Preset Prev           | Main_Button_0_1
+  Preset Next           | Main_Button_1_1
+
+  Enhance               | Main_Button_0_2
+  Unvoiced Speed        | Main_Button_1_2
+
+# Main Rotary
+
+  Unvoiced Level        | Main_Rotary_0_0
+  Unvoiced Sensitivity  | Main_Rotary_1_0
+  Ext. In Gain          | Main_Rotary_2_0
+
+  Envelope Depth        | Main_Rotary_0_1
+  Attack Time           | Main_Rotary_1_1
+  Release Time          | Main_Rotary_2_1
+
+  Mono/Stereo           | Main_Rotary_0_2
+  Formant Shift         | Main_Rotary_1_2
+  Dry/Wet               | Main_Rotary_2_2
+
+# Rotary / Button Group 1
+
+  Precise/Retro         | Group_Button_0_0
+
+  Upper Filter Band     | Group_Rotary_0_0
+  Lower Filter Band     | Group_Rotary_0_1
+  Filter Bandwidth      | Group_Rotary_0_2
+
+# Rotary / Button Group 1
+
+  Gate Threshold        | Group_Rotary_1_0
+  Output Level          | Group_Rotary_1_1
+
+# Rotary / Button Group 3
+
+  Upper Pitch Detection | Group_Rotary_2_0
+  Lower Pitch Detection | Group_Rotary_2_1
+  Noise Rate            | Group_Rotary_2_2
+
+# Rotary / Button Group 4
+
+  Oscillator Waveform   | Group_Rotary_3_0
+  Oscillator Pitch      | Group_Rotary_3_1
+  Noise Crackle         | Group_Rotary_3_2

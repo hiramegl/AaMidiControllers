@@ -1,0 +1,59 @@
+# ******************************************************************************
+# Configuration file for Reverb device
+# ******************************************************************************
+
+  Device On           | Main_Button_0_0
+  Preset Save         | Main_Button_1_0
+  Preset Prev         | Main_Button_0_1
+  Preset Next         | Main_Button_1_1
+
+# Main rotary groups
+
+  In Filter Freq      | Main_Rotary_0_0
+  In Filter Width     | Main_Rotary_1_0
+  PreDelay            | Main_Rotary_2_0
+
+  ER Spin Rate        | Main_Rotary_0_1
+  ER Spin Amount      | Main_Rotary_1_1
+  ER Shape            | Main_Rotary_2_1
+
+  ER Level            | Main_Rotary_0_2
+  Diffuse Level       | Main_Rotary_1_2
+  Dry/Wet             | Main_Rotary_2_2
+
+# Rotary / Button Group 1
+
+  In LowCut On        | Group_Button_0_0
+  In HighCut On       | Group_Button_0_1
+  ER Spin On          | Group_Button_0_2
+
+  Quality             | Group_Rotary_0_0
+  Room Size           | Group_Rotary_0_1
+  Stereo Image        | Group_Rotary_0_2
+
+# Rotary / Button Group 2
+
+  LowShelf On         | Group_Button_1_0
+  Freeze On           | Group_Button_1_1
+
+  LowShelf Freq       | Group_Rotary_1_0
+  LowShelf Gain       | Group_Rotary_1_1
+  DecayTime           | Group_Rotary_1_2
+
+# Rotary / Button Group 3
+
+  HiShelf On          | Group_Button_2_0
+  Flat On             | Group_Button_2_1
+  Cut On              | Group_Button_2_2
+
+  HiShelf Freq        | Group_Rotary_2_0
+  HiShelf Gain        | Group_Rotary_2_1
+  Density             | Group_Rotary_2_2
+
+# Rotary / Button Group 4
+
+  Chorus On           | Group_Button_3_0
+
+  Chorus Rate         | Group_Rotary_3_0
+  Chorus Amount       | Group_Rotary_3_1
+  Scale               | Group_Rotary_3_2

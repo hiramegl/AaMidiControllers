@@ -1,0 +1,4434 @@
+<head>
+<style>
+body {font-family: monospace; font-size: 12px}
+table {border-spacing: 0px}
+td {border: solid 1px; width: 200px; height: 48px; font-size: 18px; text-align: center;}
+button {margin: 2px; padding: 1px 20px; height: 40px; font-weight: bold;}
+.Group-header     {background-color: #666666; color: white; font-weight: bold;}
+.Main-header      {background-color: #000000; color: white; font-weight: bold;}
+.device-on        {background-color: #333333 !important; color: white !important; font-weight: bold;}
+.dry-wet          {background-color: #729fcf !important; color: black !important; font-weight: bold;}
+.Vocoder          {background-color: #ff99ff}
+.Overdrive        {background-color: #cc66ff}
+.BeatRepeat       {background-color: #ff9999}
+.Compressor2      {background-color: #ff66cc}
+.Resonator        {background-color: #ffcc00}
+.AutoPan          {background-color: #ff6600}
+.Echo             {background-color: #66ff00}
+.Delay            {background-color: #66cc00}
+.FilterDelay      {background-color: #00cc33}
+.GrainDelay       {background-color: #006600; color: white;}
+.Chorus           {background-color: #9999ff}
+.Flanger          {background-color: #3399ff}
+.Phaser           {background-color: #009999}
+.FrequencyShifter {background-color: #00ffff}
+.Reverb           {background-color: #ff9999}
+.Eq8              {background-color: #ff0000}
+.FilterEQ3        {background-color: #cc0000; color: white;}
+.Redux            {background-color: #cc3300}
+.Effects          {background-color: #000000; color: white;}
+.UltraAnalog      {background-color: #ffcc00}
+.Collision        {background-color: #ff9999}
+.LoungeLizard     {background-color: #ccccff}
+.Operator         {background-color: #3399ff}
+.MultiSampler     {background-color: #33ff33}
+.OriginalSimpler  {background-color: #00cc33}
+.StringStudio     {background-color: #33cccc}
+.InstrumentVector {background-color: #cc99ff}
+</style>
+<script type="text/javascript">
+function on_group(_nGroup) {
+  for (var i = 0; i < 9; i++) {
+    var oEl = document.getElementById('group-' + i)
+    oEl.style.display = (i == _nGroup) ? 'block' : 'none';
+  }
+}
+function on_bank(_nGroup, _nBank) {
+  for (var i = 0; i < 6; i++) {
+    var oEl = document.getElementById('bank-' + _nGroup + '-' + i)
+    if (oEl == null) continue;
+    oEl.style.display = (i == _nBank) ? 'block' : 'none';
+  }
+}
+
+</script>
+</head>
+<body>
+<button class='Effects' onclick='on_group(0)'>EFFECTS</button>
+<button class='UltraAnalog' onclick='on_group(1)'>ANALOG</button>
+<button class='Collision' onclick='on_group(2)'>COLLISION</button>
+<button class='LoungeLizard' onclick='on_group(3)'>ELECTRIC</button>
+<button class='Operator' onclick='on_group(4)'>OPERATOR</button>
+<button class='MultiSampler' onclick='on_group(5)'>SAMPLER</button>
+<button class='OriginalSimpler' onclick='on_group(6)'>SIMPLER</button>
+<button class='StringStudio' onclick='on_group(7)'>TENSION</button>
+<button class='InstrumentVector' onclick='on_group(8)'>WAVE</button>
+<br/>
+<div id='group-0' style='display: block'>
+<button onclick='on_bank(0, 0)'>BANK 0</button> <button onclick='on_bank(0, 1)'>BANK 1</button> <button onclick='on_bank(0, 2)'>BANK 2</button> <button onclick='on_bank(0, 3)'>BANK 3</button> <button onclick='on_bank(0, 4)'>BANK 4</button> <button onclick='on_bank(0, 5)'>BANK 5</button>
+<div id='bank-0-0' style='display: block'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td class='Vocoder'>Precise/Retro</td>
+<td></td>
+<td></td>
+<td></td>
+<td class='BeatRepeat'>Repeat</td>
+<td class='BeatRepeat'>Block Triplets</td>
+<td class='Compressor2'>S/C On</td>
+<td class='Compressor2'>S/C EQ On</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='BeatRepeat'>Filter On</td>
+<td></td>
+<td class='Compressor2'>S/C Listen</td>
+<td class='Compressor2'>Auto Release On/Off</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='BeatRepeat'>Pitch Reset</td>
+<td class='BeatRepeat'>PDecay Reset</td>
+<td class='Compressor2'>Makeup</td>
+<td class='Compressor2'>Env Mode</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='BeatRepeat'>Volume Reset</td>
+<td class='BeatRepeat'>Decay Reset</td>
+<td class='Compressor2'>LookAhead</td>
+<td class='Compressor2'>Model</td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Vocoder'>Upper Filter Band</td>
+<td class='Vocoder'>Lower Filter Band</td>
+<td class='Vocoder'>Filter Bandwidth</td>
+<td class='Overdrive'>Filter Freq</td>
+<td class='BeatRepeat'>Mix Type</td>
+<td class='BeatRepeat'>Variation Type</td>
+<td class='Compressor2'>S/C EQ Type</td>
+<td class='Compressor2'>S/C EQ Freq</td>
+</tr>
+<tr>
+<td class='Vocoder'>Gate Threshold</td>
+<td class='Vocoder'>Output Level</td>
+<td></td>
+<td class='Overdrive'>Filter Width</td>
+<td class='BeatRepeat'>Filter Freq</td>
+<td class='BeatRepeat'>Filter Width</td>
+<td class='Compressor2'>S/C EQ Gain</td>
+<td class='Compressor2'>S/C EQ Q</td>
+</tr>
+<tr>
+<td class='Vocoder'>Upper Pitch Detection</td>
+<td class='Vocoder'>Lower Pitch Detection</td>
+<td class='Vocoder'>Noise Rate</td>
+<td class='Overdrive'>Preserve Dynamics</td>
+<td class='BeatRepeat'>Pitch</td>
+<td class='BeatRepeat'>Pitch Decay</td>
+<td class='Compressor2'>Threshold</td>
+<td class='Compressor2'>Knee</td>
+</tr>
+<tr>
+<td class='Vocoder'>Oscillator Waveform</td>
+<td class='Vocoder'>Oscillator Pitch</td>
+<td class='Vocoder'>Noise Crackle</td>
+<td></td>
+<td class='BeatRepeat'>Volume</td>
+<td class='BeatRepeat'>Decay</td>
+<td class='Compressor2'>Output Gain</td>
+<td class='Compressor2'>Expansion Ratio</td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Vocoder device-on'>Vocoder<br/>On/Off</td>
+<td class='Vocoder'>Preset Prev</td>
+<td class='Vocoder'>Enhance</td>
+<td class='Overdrive device-on'>Overdrive<br/>On/Off</td>
+<td class='BeatRepeat device-on'>BeatRepeat<br/>On/Off</td>
+<td class='BeatRepeat'>Preset Prev</td>
+<td class='Compressor2 device-on'>Compressor2<br/>On/Off</td>
+<td class='Compressor2'>Preset Prev</td>
+</tr>
+<tr>
+<td class='Vocoder'>Preset Save</td>
+<td class='Vocoder'>Preset Next</td>
+<td class='Vocoder'>Unvoiced Speed</td>
+<td class='Overdrive'>Preset Save</td>
+<td class='BeatRepeat'>Preset Save</td>
+<td class='BeatRepeat'>Preset Next</td>
+<td class='Compressor2'>Preset Save</td>
+<td class='Compressor2'>Preset Next</td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Vocoder'>Unvoiced Level</td>
+<td class='Vocoder'>Envelope Depth</td>
+<td class='Vocoder'>Mono/Stereo</td>
+<td class='Overdrive'>Drive</td>
+<td class='BeatRepeat'>Interval</td>
+<td class='BeatRepeat'>Offset</td>
+<td class='Compressor2'>S/C Gain</td>
+<td class='Compressor2'>Ratio</td>
+</tr>
+<tr>
+<td class='Vocoder'>Unvoiced Sensitivity</td>
+<td class='Vocoder'>Attack Time</td>
+<td class='Vocoder'>Formant Shift</td>
+<td class='Overdrive'>Tone</td>
+<td class='BeatRepeat'>Grid</td>
+<td class='BeatRepeat'>Variation</td>
+<td class='Compressor2'>S/C Mix</td>
+<td class='Compressor2'>Attack</td>
+</tr>
+<tr>
+<td class='Vocoder'>Ext. In Gain</td>
+<td class='Vocoder'>Release Time</td>
+<td class='Vocoder dry-wet'>Dry/Wet</td>
+<td class='Overdrive dry-wet'>Dry/Wet</td>
+<td class='BeatRepeat'>Chance</td>
+<td class='BeatRepeat'>Gate</td>
+<td class='Compressor2 dry-wet'>Dry/Wet</td>
+<td class='Compressor2'>Release</td>
+</tr>
+</table>
+</div>
+<div id='bank-0-1' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td class='Resonator'>Mode</td>
+<td class='Resonator'>I On</td>
+<td class='Resonator'>II On</td>
+<td class='Resonator'>III On</td>
+<td class='Resonator'>IV On</td>
+<td class='Resonator'>V On</td>
+<td class='AutoPan'>LFO Type</td>
+<td class='AutoPan'>Stereo Mode</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='AutoPan'>Invert</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Resonator'>Decay</td>
+<td class='Resonator'>Color</td>
+<td class='Resonator'>Width</td>
+<td class='Resonator'>Global Gain</td>
+<td></td>
+<td></td>
+<td class='AutoPan'>Frequency</td>
+<td class='AutoPan'>Spin</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='AutoPan'>Width (Random)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Resonator device-on'>Resonator<br/>On/Off</td>
+<td class='Resonator'>Preset Prev</td>
+<td class='Resonator'>Filter On</td>
+<td class='Resonator'>Const</td>
+<td></td>
+<td></td>
+<td class='AutoPan device-on'>AutoPan<br/>On/Off</td>
+<td class='AutoPan'>Preset Prev</td>
+</tr>
+<tr>
+<td class='Resonator'>Preset Save</td>
+<td class='Resonator'>Preset Next</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='AutoPan'>Preset Save</td>
+<td class='AutoPan'>Preset Next</td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Resonator'>Frequency</td>
+<td class='Resonator'>I Note</td>
+<td class='Resonator'>II Pitch</td>
+<td class='Resonator'>III Pitch</td>
+<td class='Resonator'>IV Pitch</td>
+<td class='Resonator'>V Pitch</td>
+<td class='AutoPan'>Amount</td>
+<td class='AutoPan'>Sync Rate</td>
+</tr>
+<tr>
+<td class='Resonator'>Filter Type</td>
+<td class='Resonator'>I Tune</td>
+<td class='Resonator'>II Tune</td>
+<td class='Resonator'>III Tune</td>
+<td class='Resonator'>IV Tune</td>
+<td class='Resonator'>V Tune</td>
+<td class='AutoPan'>Phase</td>
+<td class='AutoPan'>Shape</td>
+</tr>
+<tr>
+<td class='Resonator dry-wet'>Dry/Wet</td>
+<td class='Resonator'>I Gain</td>
+<td class='Resonator'>II Gain</td>
+<td class='Resonator'>III Gain</td>
+<td class='Resonator'>IV Gain</td>
+<td class='Resonator'>V Gain</td>
+<td class='AutoPan'>Offset</td>
+<td class='AutoPan'>Waveform</td>
+</tr>
+</table>
+</div>
+<div id='bank-0-2' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td class='Echo'>L Sync</td>
+<td class='Echo'>R Sync</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='Delay'>L Sync</td>
+<td class='Delay'>R Sync</td>
+</tr>
+<tr>
+<td class='Echo'>Mod Sync</td>
+<td class='Echo'>Mod 4x</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='Delay'>Filter On</td>
+<td></td>
+</tr>
+<tr>
+<td class='Echo'>Gate On</td>
+<td></td>
+<td class='Echo'>Duck On</td>
+<td></td>
+<td class='Echo'>Noise On</td>
+<td></td>
+<td class='Delay'>Link</td>
+<td></td>
+</tr>
+<tr>
+<td class='Echo'>Wobble On</td>
+<td></td>
+<td class='Echo'>Repitch</td>
+<td></td>
+<td></td>
+<td></td>
+<td class='Delay'>Freeze</td>
+<td class='Delay'>Ping Pong</td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Echo'>L Time</td>
+<td class='Echo'>R Time</td>
+<td class='Echo'>L 16th</td>
+<td class='Echo'>R 16th</td>
+<td class='Echo'>LP Res</td>
+<td></td>
+<td class='Delay'>L Time</td>
+<td class='Delay'>R Time</td>
+</tr>
+<tr>
+<td class='Echo'>Mod Wave</td>
+<td class='Echo'>Mod Rate</td>
+<td class='Echo'>Mod Freq</td>
+<td class='Echo'>Mod Phase</td>
+<td class='Echo'>Dly < Mod</td>
+<td class='Echo'>Flt < Mod</td>
+<td class='Delay'>Filter Freq</td>
+<td class='Delay'>Filter Width</td>
+</tr>
+<tr>
+<td class='Echo'>Gate Thr</td>
+<td class='Echo'>Gate Release</td>
+<td class='Echo'>Duck Thr</td>
+<td class='Echo'>Duck Release</td>
+<td class='Echo'>Noise Amt</td>
+<td class='Echo'>Noise Mrph</td>
+<td class='Delay'>Mod Freq</td>
+<td class='Delay'>Filter < Mod</td>
+</tr>
+<tr>
+<td class='Echo'>Wobble Amt</td>
+<td class='Echo'>Wobble Mrph</td>
+<td class='Echo'>Env Mix</td>
+<td></td>
+<td></td>
+<td></td>
+<td class='Delay'>Dly < Mod</td>
+<td class='Delay'>Delay Mode</td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Echo device-on'>Echo<br/>On/Off</td>
+<td class='Echo'>Preset Prev</td>
+<td class='Echo'>Link</td>
+<td class='Echo'>Clip Dry</td>
+<td class='Echo'>Feedback Inv</td>
+<td class='Echo'>Filter On</td>
+<td class='Delay device-on'>Delay<br/>On/Off</td>
+<td class='Delay'>Preset Prev</td>
+</tr>
+<tr>
+<td class='Echo'>Preset Save</td>
+<td class='Echo'>Preset Next</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='Delay'>Preset Save</td>
+<td class='Delay'>Preset Next</td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Echo'>L Division</td>
+<td class='Echo'>R Division</td>
+<td class='Echo'>Input Gain</td>
+<td class='Echo'>HP Freq</td>
+<td class='Echo'>Reverb Level</td>
+<td class='Echo'>Stereo Width</td>
+<td class='Delay'>L 16th</td>
+<td class='Delay'>R 16th</td>
+</tr>
+<tr>
+<td class='Echo'>L Sync Mode</td>
+<td class='Echo'>R Sync Mode</td>
+<td class='Echo'>Feedback</td>
+<td class='Echo'>HP Res</td>
+<td class='Echo'>Reverb Loc</td>
+<td class='Echo'>Output Gain</td>
+<td class='Delay'>L Offset</td>
+<td class='Delay'>R Offset</td>
+</tr>
+<tr>
+<td class='Echo'>L Offset</td>
+<td class='Echo'>R Offset</td>
+<td class='Echo'>Channel Mode</td>
+<td class='Echo'>LP Freq</td>
+<td class='Echo'>Reverb Decay</td>
+<td class='Echo dry-wet'>Dry Wet</td>
+<td class='Delay'>Feedback</td>
+<td class='Delay dry-wet'>Dry/Wet</td>
+</tr>
+</table>
+</div>
+<div id='bank-0-3' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[3] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td class='FilterDelay'>1 Input On</td>
+<td class='FilterDelay'>1 Filter On</td>
+<td></td>
+<td class='FilterDelay'>1 Delay Mode</td>
+<td></td>
+<td></td>
+<td class='Chorus'>Link On</td>
+<td class='Chorus'>LFO Extend On</td>
+</tr>
+<tr>
+<td class='FilterDelay'>2 Input On</td>
+<td class='FilterDelay'>2 Filter On</td>
+<td></td>
+<td class='FilterDelay'>2 Delay Mode</td>
+<td class='GrainDelay'>Delay Mode</td>
+<td></td>
+<td class='Chorus'>Polarity</td>
+<td></td>
+</tr>
+<tr>
+<td class='FilterDelay'>3 Input On</td>
+<td class='FilterDelay'>3 Filter On</td>
+<td></td>
+<td class='FilterDelay'>3 Delay Mode</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[3] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='FilterDelay'>1 Feedback</td>
+<td class='FilterDelay'>1 Pan</td>
+<td class='FilterDelay'>1 Volume</td>
+<td class='FilterDelay'>1 Time Delay</td>
+<td class='GrainDelay'>Beat Delay</td>
+<td class='GrainDelay'>Beat Swing</td>
+<td class='Chorus'>LFO Amount</td>
+<td class='Chorus'>LFO Rate</td>
+</tr>
+<tr>
+<td class='FilterDelay'>2 Feedback</td>
+<td class='FilterDelay'>2 Pan</td>
+<td class='FilterDelay'>2 Volume</td>
+<td class='FilterDelay'>2 Time Delay</td>
+<td class='GrainDelay'>Time Delay</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='FilterDelay'>3 Feedback</td>
+<td class='FilterDelay'>3 Pan</td>
+<td class='FilterDelay'>3 Volume</td>
+<td class='FilterDelay'>3 Time Delay</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='FilterDelay'>Dry</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[3] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='FilterDelay device-on'>FilterDelay<br/>On/Off</td>
+<td class='FilterDelay'>Preset Prev</td>
+<td></td>
+<td></td>
+<td class='GrainDelay device-on'>GrainDelay<br/>On/Off</td>
+<td class='GrainDelay'>Preset Prev</td>
+<td class='Chorus device-on'>Chorus<br/>On/Off</td>
+<td class='Chorus'>Preset Prev</td>
+</tr>
+<tr>
+<td class='FilterDelay'>Preset Save</td>
+<td class='FilterDelay'>Preset Next</td>
+<td></td>
+<td></td>
+<td class='GrainDelay'>Preset Save</td>
+<td class='GrainDelay'>Preset Next</td>
+<td class='Chorus'>Preset Save</td>
+<td class='Chorus'>Preset Next</td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[3] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='FilterDelay'>1 Filter Freq</td>
+<td class='FilterDelay'>1 Filter Width</td>
+<td class='FilterDelay'>1 Beat Delay</td>
+<td class='FilterDelay'>1 Beat Swing</td>
+<td class='GrainDelay'>Spray</td>
+<td class='GrainDelay'>Frequency</td>
+<td class='Chorus'>Delay 1 HiPass</td>
+<td class='Chorus'>Delay 2 Mode</td>
+</tr>
+<tr>
+<td class='FilterDelay'>2 Filter Freq</td>
+<td class='FilterDelay'>2 Filter Width</td>
+<td class='FilterDelay'>2 Beat Delay</td>
+<td class='FilterDelay'>2 Beat Swing</td>
+<td class='GrainDelay'>Pitch</td>
+<td class='GrainDelay'>Random</td>
+<td class='Chorus'>Delay 1 Time</td>
+<td class='Chorus'>Delay 2 Time</td>
+</tr>
+<tr>
+<td class='FilterDelay'>3 Filter Freq</td>
+<td class='FilterDelay'>3 Filter Width</td>
+<td class='FilterDelay'>3 Beat Delay</td>
+<td class='FilterDelay'>3 Beat Swing</td>
+<td class='GrainDelay'>Feedback</td>
+<td class='GrainDelay dry-wet'>DryWet</td>
+<td class='Chorus'>Feedback</td>
+<td class='Chorus dry-wet'>Dry/Wet</td>
+</tr>
+</table>
+</div>
+<div id='bank-0-4' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[4] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td class='Flanger'>Polarity</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='FrequencyShifter'>Wide</td>
+<td></td>
+</tr>
+<tr>
+<td class='Flanger'>Sync</td>
+<td></td>
+<td class='Flanger'>LFO Stereo Mode</td>
+<td class='Phaser'>LFO Sync</td>
+<td></td>
+<td class='Phaser'>LFO Stereo Mode</td>
+<td class='FrequencyShifter'>Sync</td>
+<td class='FrequencyShifter'>LFO Stereo Mode</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='FrequencyShifter'>Mode</td>
+<td class='FrequencyShifter'>Drive On/Off</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[4] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Flanger'>Delay Time</td>
+<td class='Flanger'>Feedback</td>
+<td></td>
+<td class='Phaser'>Frequency</td>
+<td class='Phaser'>Feedback</td>
+<td></td>
+<td class='FrequencyShifter'>LFO Waveform</td>
+<td class='FrequencyShifter'>LFO Offset</td>
+</tr>
+<tr>
+<td class='Flanger'>Frequency</td>
+<td class='Flanger'>LFO Offset</td>
+<td class='Flanger'>LFO Spin</td>
+<td class='Phaser'>LFO Frequency</td>
+<td class='Phaser'>LFO Offset</td>
+<td class='Phaser'>LFO Spin</td>
+<td class='FrequencyShifter'>LFO Frequency</td>
+<td class='FrequencyShifter'>LFO Spin</td>
+</tr>
+<tr>
+<td class='Flanger'>LFO Waveform</td>
+<td class='Flanger'>LFO Width (Random)</td>
+<td></td>
+<td class='Phaser'>LFO Waveform</td>
+<td class='Phaser'>LFO Width (Random)</td>
+<td></td>
+<td class='FrequencyShifter'>Ring Mod Frequency</td>
+<td class='FrequencyShifter'>Drive</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class='FrequencyShifter'>LFO Width (Random)</td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[4] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Flanger device-on'>Flanger<br/>On/Off</td>
+<td class='Flanger'>Preset Prev</td>
+<td></td>
+<td class='Phaser device-on'>Phaser<br/>On/Off</td>
+<td class='Phaser'>Preset Prev</td>
+<td class='Phaser'>Type</td>
+<td class='FrequencyShifter device-on'>FrequencyShifter<br/>On/Off</td>
+<td class='FrequencyShifter'>Preset Prev</td>
+</tr>
+<tr>
+<td class='Flanger'>Preset Save</td>
+<td class='Flanger'>Preset Next</td>
+<td></td>
+<td class='Phaser'>Preset Save</td>
+<td class='Phaser'>Preset Next</td>
+<td></td>
+<td class='FrequencyShifter'>Preset Save</td>
+<td class='FrequencyShifter'>Preset Next</td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[4] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Flanger'>Hi Pass</td>
+<td class='Flanger'>Env. Modulation</td>
+<td class='Flanger'>LFO Amount</td>
+<td class='Phaser'>Poles</td>
+<td class='Phaser'>Env. Modulation</td>
+<td class='Phaser'>LFO Amount</td>
+<td class='FrequencyShifter'>LFO Amount</td>
+<td class='FrequencyShifter'>Coarse</td>
+</tr>
+<tr>
+<td></td>
+<td class='Flanger'>Env. Attack</td>
+<td class='Flanger'>Sync Rate</td>
+<td class='Phaser'>Color</td>
+<td class='Phaser'>Env. Attack</td>
+<td class='Phaser'>LFO Sync Rate</td>
+<td class='FrequencyShifter'>Sync Rate</td>
+<td class='FrequencyShifter'>Fine</td>
+</tr>
+<tr>
+<td class='Flanger dry-wet'>Dry/Wet</td>
+<td class='Flanger'>Env. Release</td>
+<td class='Flanger'>LFO Phase</td>
+<td class='Phaser dry-wet'>Dry/Wet</td>
+<td class='Phaser'>Env. Release</td>
+<td class='Phaser'>LFO Phase</td>
+<td class='FrequencyShifter'>LFO Phase</td>
+<td class='FrequencyShifter dry-wet'>Dry/Wet</td>
+</tr>
+</table>
+</div>
+<div id='bank-0-5' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[5] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td class='Reverb'>In LowCut On</td>
+<td class='Reverb'>In HighCut On</td>
+<td class='Reverb'>ER Spin On</td>
+<td class='Eq8'>1 Filter On A</td>
+<td class='Eq8'>2 Filter On A</td>
+<td class='FilterEQ3'>LowOn</td>
+<td class='Redux'>Bit On</td>
+<td></td>
+</tr>
+<tr>
+<td class='Reverb'>LowShelf On</td>
+<td class='Reverb'>Freeze On</td>
+<td></td>
+<td class='Eq8'>1 Auto Inc</td>
+<td class='Eq8'>2 Auto Dec</td>
+<td class='FilterEQ3'>HighOn</td>
+<td class='Redux'>Sample Mode</td>
+<td></td>
+</tr>
+<tr>
+<td class='Reverb'>HiShelf On</td>
+<td class='Reverb'>Flat On</td>
+<td class='Reverb'>Cut On</td>
+<td class='Eq8'>1 Auto Dec</td>
+<td class='Eq8'>2 Auto Inc</td>
+<td class='FilterEQ3'>MidOn</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Reverb'>Chorus On</td>
+<td></td>
+<td></td>
+<td class='Eq8'>Auto Q Dec</td>
+<td class='Eq8'>Auto Q Inc</td>
+<td class='FilterEQ3'>Slope</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[5] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Reverb'>Quality</td>
+<td class='Reverb'>Room Size</td>
+<td class='Reverb'>Stereo Image</td>
+<td class='Eq8'>1 Filter Type A</td>
+<td class='Eq8'>2 Filter Type A</td>
+<td class='FilterEQ3'>FreqLo</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Reverb'>LowShelf Freq</td>
+<td class='Reverb'>LowShelf Gain</td>
+<td class='Reverb'>DecayTime</td>
+<td class='Eq8'>1 Gain A</td>
+<td class='Eq8'>2 Gain A</td>
+<td class='FilterEQ3'>FreqHi</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Reverb'>HiShelf Freq</td>
+<td class='Reverb'>HiShelf Gain</td>
+<td class='Reverb'>Density</td>
+<td class='Eq8'>Output Gain</td>
+<td class='Eq8'>Scale</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Reverb'>Chorus Rate</td>
+<td class='Reverb'>Chorus Amount</td>
+<td class='Reverb'>Scale</td>
+<td class='Eq8'>Adaptive Q</td>
+<td class='Eq8'>Auto Time</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[5] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Reverb device-on'>Reverb<br/>On/Off</td>
+<td class='Reverb'>Preset Prev</td>
+<td></td>
+<td class='Eq8 device-on'>Eq8<br/>On/Off</td>
+<td class='Eq8'>Preset Prev</td>
+<td class='FilterEQ3 device-on'>FilterEQ3<br/>On/Off</td>
+<td class='Redux device-on'>Redux<br/>On/Off</td>
+<td></td>
+</tr>
+<tr>
+<td class='Reverb'>Preset Save</td>
+<td class='Reverb'>Preset Next</td>
+<td></td>
+<td class='Eq8'>Preset Save</td>
+<td class='Eq8'>Preset Next</td>
+<td class='FilterEQ3'>Preset Save</td>
+<td class='Redux'>Preset Save</td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[5] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Reverb'>In Filter Freq</td>
+<td class='Reverb'>ER Spin Rate</td>
+<td class='Reverb'>ER Level</td>
+<td class='Eq8'>Center Freq</td>
+<td class='Eq8'>Q</td>
+<td class='FilterEQ3'>GainHi</td>
+<td class='Redux'>Bit Depth</td>
+<td></td>
+</tr>
+<tr>
+<td class='Reverb'>In Filter Width</td>
+<td class='Reverb'>ER Spin Amount</td>
+<td class='Reverb'>Diffuse Level</td>
+<td class='Eq8'>1 Frequency A</td>
+<td class='Eq8'>2 Frequency A</td>
+<td class='FilterEQ3'>GainMid</td>
+<td class='Redux'>Sample Hard</td>
+<td></td>
+</tr>
+<tr>
+<td class='Reverb'>PreDelay</td>
+<td class='Reverb'>ER Shape</td>
+<td class='Reverb dry-wet'>Dry/Wet</td>
+<td class='Eq8'>1 Resonance A</td>
+<td class='Eq8'>2 Resonance A</td>
+<td class='FilterEQ3'>GainLo</td>
+<td class='Redux'>Sample Soft</td>
+<td></td>
+</tr>
+</table>
+</div>
+<button onclick='on_bank(0, 0)'>BANK 0</button> <button onclick='on_bank(0, 1)'>BANK 1</button> <button onclick='on_bank(0, 2)'>BANK 2</button> <button onclick='on_bank(0, 3)'>BANK 3</button> <button onclick='on_bank(0, 4)'>BANK 4</button> <button onclick='on_bank(0, 5)'>BANK 5</button>
+</div>
+<div id='group-1' style='display: none'>
+<button onclick='on_bank(1, 0)'>BANK 0</button>
+<button onclick='on_bank(1, 1)'>BANK 1</button>
+<button onclick='on_bank(1, 2)'>BANK 2</button>
+<div id='bank-1-0' style='display: block'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>OSC1 < LFO</td>
+<td class='UltraAnalog'>O1 Keytrack</td>
+<td class='UltraAnalog'>OSC1 PW</td>
+<td class='UltraAnalog'>O1 PW < LFO</td>
+<td class='UltraAnalog'>O1 Sub/Sync</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='UltraAnalog'>OSC2 < LFO</td>
+<td class='UltraAnalog'>O2 Keytrack</td>
+<td class='UltraAnalog'>OSC2 PW</td>
+<td class='UltraAnalog'>O2 PW < LFO</td>
+<td class='UltraAnalog'>O2 Sub/Sync</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='UltraAnalog device-on'>UltraAnalog<br/>Device On</td>
+<td class='UltraAnalog'>Preset Save</td>
+<td class='UltraAnalog'>OSC1 On/Off</td>
+<td class='UltraAnalog'>OSC1 Mode</td>
+<td class='UltraAnalog'>Noise On/Off</td>
+<td class='UltraAnalog'>Unison On/Off</td>
+<td class='UltraAnalog'>Glide On/Off</td>
+<td class='UltraAnalog'>Glide Legato</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>Preset Prev</td>
+<td class='UltraAnalog'>Preset Next</td>
+<td class='UltraAnalog'>OSC2 On/Off</td>
+<td class='UltraAnalog'>OSC2 Mode</td>
+<td></td>
+<td class='UltraAnalog'>Unison Voices</td>
+<td class='UltraAnalog'>Glide Mode</td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>OSC1 Level</td>
+<td class='UltraAnalog'>OSC1 Balance</td>
+<td class='UltraAnalog'>OSC1 Shape</td>
+<td class='UltraAnalog'>OSC1 Octave</td>
+<td class='UltraAnalog'>OSC1 Semi</td>
+<td class='UltraAnalog'>OSC1 Detune</td>
+<td class='UltraAnalog'>PEG1 Amount</td>
+<td class='UltraAnalog'>PEG1 Time</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>Noise Level</td>
+<td class='UltraAnalog'>Noise Balance</td>
+<td class='UltraAnalog'>Noise Color</td>
+<td class='UltraAnalog'>Volume</td>
+<td class='UltraAnalog'>Unison Delay</td>
+<td class='UltraAnalog'>Unison Detune</td>
+<td class='UltraAnalog'>Glide Time</td>
+<td></td>
+</tr>
+<tr>
+<td class='UltraAnalog'>OSC2 Level</td>
+<td class='UltraAnalog'>OSC2 Balance</td>
+<td class='UltraAnalog'>OSC2 Shape</td>
+<td class='UltraAnalog'>OSC2 Octave</td>
+<td class='UltraAnalog'>OSC2 Semi</td>
+<td class='UltraAnalog'>OSC2 Detune</td>
+<td class='UltraAnalog'>PEG2 Amount</td>
+<td class='UltraAnalog'>PEG2 Time</td>
+</tr>
+</table>
+</div>
+<div id='bank-1-1' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>FEG1 S Time</td>
+<td class='UltraAnalog'>FEG1 Rel</td>
+<td class='UltraAnalog'>FEG1 Loop</td>
+<td class='UltraAnalog'>FEG1 < Vel</td>
+<td class='UltraAnalog'>F1 Drive</td>
+<td class='UltraAnalog'>F1 Freq < LFO</td>
+<td class='UltraAnalog'>F1 Freq < Key</td>
+<td class='UltraAnalog'>F1 Freq < Env</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>F1 Res < LFO</td>
+<td class='UltraAnalog'>F1 Reso < Key</td>
+<td class='UltraAnalog'>F1 Res < Env</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='UltraAnalog'>FEG2 S Time</td>
+<td class='UltraAnalog'>FEG2 Rel</td>
+<td class='UltraAnalog'>FEG2 Loop</td>
+<td class='UltraAnalog'>FEG2 < Vel</td>
+<td class='UltraAnalog'>F2 Drive</td>
+<td class='UltraAnalog'>F2 Freq < LFO</td>
+<td class='UltraAnalog'>F2 Freq < Key</td>
+<td class='UltraAnalog'>F2 Freq < Env</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>F2 Res < LFO</td>
+<td class='UltraAnalog'>F2 Reso < Key</td>
+<td class='UltraAnalog'>F2 Res < Env</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>F1 On/Off</td>
+<td class='UltraAnalog'>FEG1 Exp</td>
+<td class='UltraAnalog'>FEG1 Legato</td>
+<td class='UltraAnalog'>FEG1 Free</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='UltraAnalog'>F2 On/Off</td>
+<td class='UltraAnalog'>FEG2 Exp</td>
+<td class='UltraAnalog'>FEG2 Legato</td>
+<td class='UltraAnalog'>FEG2 Free</td>
+<td class='UltraAnalog'>F2 Slave</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>F1 Type</td>
+<td class='UltraAnalog'>F1 To F2</td>
+<td class='UltraAnalog'>F1 Freq</td>
+<td class='UltraAnalog'>F1 Resonance</td>
+<td class='UltraAnalog'>FEG1 A < Vel</td>
+<td class='UltraAnalog'>FEG1 Attack</td>
+<td class='UltraAnalog'>FEG1 Decay</td>
+<td class='UltraAnalog'>FEG1 Sustain</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>Octave</td>
+<td class='UltraAnalog'>Semitone</td>
+<td class='UltraAnalog'>Detune</td>
+<td class='UltraAnalog'>Voices</td>
+<td class='UltraAnalog'>PB Range</td>
+<td class='UltraAnalog'>Key Stretch</td>
+<td class='UltraAnalog'>Key Error</td>
+<td class='UltraAnalog'>Key Priority</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>F2 Type</td>
+<td></td>
+<td class='UltraAnalog'>F2 Freq</td>
+<td class='UltraAnalog'>F2 Resonance</td>
+<td class='UltraAnalog'>FEG2 A < Vel</td>
+<td class='UltraAnalog'>FEG2 Attack</td>
+<td class='UltraAnalog'>FEG2 Decay</td>
+<td class='UltraAnalog'>FEG2 Sustain</td>
+</tr>
+</table>
+</div>
+<div id='bank-1-2' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>AEG1 Loop</td>
+<td class='UltraAnalog'>AEG1 < Vel</td>
+<td class='UltraAnalog'>A1 Pan < LFO</td>
+<td class='UltraAnalog'>A1 Pan < Key</td>
+<td class='UltraAnalog'>A1 Pan < Env</td>
+<td class='UltraAnalog'>AMP1 < LFO</td>
+<td class='UltraAnalog'>AMP1 < Key</td>
+<td></td>
+</tr>
+<tr>
+<td class='UltraAnalog'>LFO1 Shape</td>
+<td class='UltraAnalog'>LFO1 Speed</td>
+<td class='UltraAnalog'>LFO1 SncRate</td>
+<td class='UltraAnalog'>LFO1 PW</td>
+<td class='UltraAnalog'>LFO1 Phase</td>
+<td class='UltraAnalog'>LFO1 Delay</td>
+<td class='UltraAnalog'>LFO1 Fade In</td>
+<td></td>
+</tr>
+<tr>
+<td class='UltraAnalog'>AEG2 Loop</td>
+<td class='UltraAnalog'>AEG2 < Vel</td>
+<td class='UltraAnalog'>A2 Pan < LFO</td>
+<td class='UltraAnalog'>A2 Pan < Key</td>
+<td class='UltraAnalog'>A2 Pan < Env</td>
+<td class='UltraAnalog'>AMP2 < LFO</td>
+<td class='UltraAnalog'>AMP2 < Key</td>
+<td></td>
+</tr>
+<tr>
+<td class='UltraAnalog'>LFO2 Shape</td>
+<td class='UltraAnalog'>LFO2 Speed</td>
+<td class='UltraAnalog'>LFO2 SncRate</td>
+<td class='UltraAnalog'>LFO2 PW</td>
+<td class='UltraAnalog'>LFO2 Phase</td>
+<td class='UltraAnalog'>LFO2 Delay</td>
+<td class='UltraAnalog'>LFO2 Fade In</td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>AMP1 On/Off</td>
+<td class='UltraAnalog'>AEG1 Exp</td>
+<td class='UltraAnalog'>AEG1 Legato</td>
+<td class='UltraAnalog'>AEG1 Free</td>
+<td class='UltraAnalog'>LFO1 On/Off</td>
+<td class='UltraAnalog'>LFO1 Sync</td>
+<td class='UltraAnalog'>LFO1 Retrig</td>
+<td class='UltraAnalog'>Vib On/Off</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>AMP2 On/Off</td>
+<td class='UltraAnalog'>AEG2 Exp</td>
+<td class='UltraAnalog'>AEG2 Legato</td>
+<td class='UltraAnalog'>AEG2 Free</td>
+<td class='UltraAnalog'>LFO2 On/Off</td>
+<td class='UltraAnalog'>LFO2 Sync</td>
+<td class='UltraAnalog'>LFO2 Retrig</td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>AMP1 Pan</td>
+<td class='UltraAnalog'>AMP1 Level</td>
+<td class='UltraAnalog'>AEG1 A < Vel</td>
+<td class='UltraAnalog'>AEG1 Attack</td>
+<td class='UltraAnalog'>AEG1 Decay</td>
+<td class='UltraAnalog'>AEG1 Sustain</td>
+<td class='UltraAnalog'>AEG1 S Time</td>
+<td class='UltraAnalog'>AEG1 Rel</td>
+</tr>
+<tr>
+<td class='UltraAnalog'>Vib Delay</td>
+<td class='UltraAnalog'>Vib Fade-In</td>
+<td class='UltraAnalog'>Vib Error</td>
+<td class='UltraAnalog'>Vib < ModWh</td>
+<td class='UltraAnalog'>Vib Amount</td>
+<td class='UltraAnalog'>Vib Speed</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='UltraAnalog'>AMP2 Pan</td>
+<td class='UltraAnalog'>AMP2 Level</td>
+<td class='UltraAnalog'>AEG2 A < Vel</td>
+<td class='UltraAnalog'>AEG2 Attack</td>
+<td class='UltraAnalog'>AEG2 Decay</td>
+<td class='UltraAnalog'>AEG2 Sustain</td>
+<td class='UltraAnalog'>AEG2 S Time</td>
+<td class='UltraAnalog'>AEG2 Rel</td>
+</tr>
+</table>
+</div>
+<button onclick='on_bank(1, 0)'>BANK 0</button>
+<button onclick='on_bank(1, 1)'>BANK 1</button>
+<button onclick='on_bank(1, 2)'>BANK 2</button>
+</div>
+<div id='group-2' style='display: none'>
+<button onclick='on_bank(2, 0)'>BANK 0</button>
+<button onclick='on_bank(2, 1)'>BANK 1</button>
+<button onclick='on_bank(2, 2)'>BANK 2</button>
+<div id='bank-2-0' style='display: block'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Collision'>LFO 1 Shape</td>
+<td class='Collision'>LFO 1 Depth</td>
+<td class='Collision'>LFO 1 Depth < Vel</td>
+<td class='Collision'>LFO 1 Rate</td>
+<td class='Collision'>LFO 1 Sync Rate</td>
+<td class='Collision'>LFO 1 Rate < Key</td>
+<td class='Collision'>LFO 1 Offset</td>
+<td class='Collision'>Voices</td>
+</tr>
+<tr>
+<td class='Collision'>LFO 2 Shape</td>
+<td class='Collision'>LFO 2 Depth</td>
+<td class='Collision'>LFO 2 Depth < Vel</td>
+<td class='Collision'>LFO 2 Rate</td>
+<td class='Collision'>LFO 2 Sync Rate</td>
+<td class='Collision'>LFO 2 Rate < Key</td>
+<td class='Collision'>LFO 2 Offset</td>
+<td></td>
+</tr>
+<tr>
+<td class='Collision'>LFO 1 Destination A</td>
+<td class='Collision'>LFO 1 Destination A Amount</td>
+<td class='Collision'>LFO 1 Destination B</td>
+<td class='Collision'>LFO 1 Destination B Amount</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Collision'>LFO 2 Destination A</td>
+<td class='Collision'>LFO 2 Destination A Amount</td>
+<td class='Collision'>LFO 2 Destination B</td>
+<td class='Collision'>LFO 2 Destination B Amount</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Collision device-on'>Collision<br/>Device On</td>
+<td class='Collision'>Preset Prev</td>
+<td class='Collision'>Mallet On/Off</td>
+<td class='Collision'>LFO 1 On/Off</td>
+<td class='Collision'>LFO 1 Sync</td>
+<td class='Collision'>LFO 2 On/Off</td>
+<td class='Collision'>LFO 2 Sync</td>
+<td class='Collision'>Structure</td>
+</tr>
+<tr>
+<td class='Collision'>Preset Save</td>
+<td class='Collision'>Preset Next</td>
+<td class='Collision'>Noise On/Off</td>
+<td class='Collision'>LFO 1 Retrigger</td>
+<td></td>
+<td class='Collision'>LFO 2 Retrigger</td>
+<td></td>
+<td class='Collision'>Retrigger</td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Collision'>Mallet Volume</td>
+<td class='Collision'>Mallet Noise Amount</td>
+<td class='Collision'>Mallet Stiffness</td>
+<td class='Collision'>Noise Volume</td>
+<td class='Collision'>Noise Filter Type</td>
+<td class='Collision'>Noise Freq < Key</td>
+<td class='Collision'>Noise Attack</td>
+<td class='Collision'>Noise Release</td>
+</tr>
+<tr>
+<td class='Collision'>Mallet Volume < Key</td>
+<td class='Collision'>Mallet Noise Amount < Key</td>
+<td class='Collision'>Mallet Stiffness < Key</td>
+<td class='Collision'>Noise Volume < Key</td>
+<td class='Collision'>Noise Filter Freq</td>
+<td class='Collision'>Noise Freq < Vel</td>
+<td class='Collision'>Noise Decay</td>
+<td class='Collision'>Mallet Noise Color</td>
+</tr>
+<tr>
+<td class='Collision'>Mallet Volume < Vel</td>
+<td class='Collision'>Mallet Noise Amount < Vel</td>
+<td class='Collision'>Mallet Stiffness < Vel</td>
+<td class='Collision'>Noise Volume < Vel</td>
+<td class='Collision'>Noise Filter Q</td>
+<td class='Collision'>Noise Freq < Env</td>
+<td class='Collision'>Noise Sustain</td>
+<td class='Collision'>Volume</td>
+</tr>
+</table>
+</div>
+<div id='bank-2-1' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Collision'>Res 1 Off Decay</td>
+<td class='Collision'>Res 1 Hit < Random</td>
+<td class='Collision'>Res 1 Radius</td>
+<td class='Collision'>Res 1 Radius < Key</td>
+<td class='Collision'>Res 1 Radius < Vel</td>
+<td class='Collision'>Res 1 Opening</td>
+<td class='Collision'>Res 1 Opening < Vel</td>
+<td class='Collision'>Pan < Key</td>
+</tr>
+<tr>
+<td class='Collision'>PB Destination A</td>
+<td class='Collision'>PB Destination A Amount</td>
+<td class='Collision'>PB Range</td>
+<td class='Collision'>MW Destination A</td>
+<td class='Collision'>MW Destination A Amount</td>
+<td class='Collision'>MW Destination B</td>
+<td class='Collision'>MW Destination B Amount</td>
+<td></td>
+</tr>
+<tr>
+<td class='Collision'>AT Destination A</td>
+<td class='Collision'>AT Destination A Amount</td>
+<td class='Collision'>AT Destination B</td>
+<td class='Collision'>AT Destination B Amount</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Collision'>Res 1 On/Off</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Collision'>Res 1 Tune</td>
+<td class='Collision'>Res 1 Pitch Env.</td>
+<td class='Collision'>Res 1 Type</td>
+<td class='Collision'>Res 1 Ratio</td>
+<td class='Collision'>Res 1 Decay</td>
+<td class='Collision'>Res 1 Material</td>
+<td class='Collision'>Res 1 Listening L</td>
+<td class='Collision'>Res 1 Volume</td>
+</tr>
+<tr>
+<td class='Collision'>Res 1 Fine Tune</td>
+<td class='Collision'>Res 1 Pitch Env. Time</td>
+<td class='Collision'>Res 1 Quality</td>
+<td class='Collision'>Res 1 Brightness</td>
+<td class='Collision'>Res 1 Decay < Key</td>
+<td class='Collision'>Res 1 Material < Key</td>
+<td class='Collision'>Res 1 Listening R</td>
+<td class='Collision'>Res 1 Bleed</td>
+</tr>
+<tr>
+<td class='Collision'>Res 1 Tune < Key</td>
+<td class='Collision'>Res 1 Pitch Env. < Vel</td>
+<td class='Collision'>Res 1 Inharmonics < Vel</td>
+<td class='Collision'>Res 1 Inharmonics</td>
+<td class='Collision'>Res 1 Decay < Vel</td>
+<td class='Collision'>Res 1 Material < Vel</td>
+<td class='Collision'>Res 1 Hit</td>
+<td class='Collision'>Panorama</td>
+</tr>
+</table>
+</div>
+<div id='bank-2-2' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Collision'>Res 2 Off Decay</td>
+<td class='Collision'>Res 2 Hit < Random</td>
+<td class='Collision'>Res 2 Radius</td>
+<td class='Collision'>Res 2 Radius < Key</td>
+<td class='Collision'>Res 2 Radius < Vel</td>
+<td class='Collision'>Res 2 Opening</td>
+<td class='Collision'>Res 2 Opening < Vel</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Collision'>Res 2 On/Off</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Collision'>Res 2 Tune</td>
+<td class='Collision'>Res 2 Pitch Env.</td>
+<td class='Collision'>Res 2 Type</td>
+<td class='Collision'>Res 2 Ratio</td>
+<td class='Collision'>Res 2 Decay</td>
+<td class='Collision'>Res 2 Material</td>
+<td class='Collision'>Res 2 Listening L</td>
+<td class='Collision'>Res 2 Volume</td>
+</tr>
+<tr>
+<td class='Collision'>Res 2 Fine Tune</td>
+<td class='Collision'>Res 2 Pitch Env. Time</td>
+<td class='Collision'>Res 2 Quality</td>
+<td class='Collision'>Res 2 Brightness</td>
+<td class='Collision'>Res 2 Decay < Key</td>
+<td class='Collision'>Res 2 Material < Vel</td>
+<td class='Collision'>Res 2 Listening R</td>
+<td class='Collision'>Res 2 Bleed</td>
+</tr>
+<tr>
+<td class='Collision'>Res 2 Tune < Key</td>
+<td class='Collision'>Res 2 Pitch Env. < Vel</td>
+<td class='Collision'>Res 2 Inharmonics < Vel</td>
+<td class='Collision'>Res 2 Inharmonics</td>
+<td class='Collision'>Res 2 Decay < Vel</td>
+<td class='Collision'>Res 2 Material < Key</td>
+<td class='Collision'>Res 2 Hit</td>
+<td></td>
+</tr>
+</table>
+</div>
+<button onclick='on_bank(2, 0)'>BANK 0</button>
+<button onclick='on_bank(2, 1)'>BANK 1</button>
+<button onclick='on_bank(2, 2)'>BANK 2</button>
+</div>
+<div id='group-3' style='display: none'>
+<button onclick='on_bank(3, 0)'>BANK 0</button>
+<div id='bank-3-0' style='display: block'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='LoungeLizard'>M Stiff < Vel</td>
+<td class='LoungeLizard'>M Stiff < Key</td>
+<td class='LoungeLizard'>M Force < Vel</td>
+<td class='LoungeLizard'>M Force < Key</td>
+<td class='LoungeLizard'>Noise < Key</td>
+<td class='LoungeLizard'>F Tine < Key</td>
+<td class='LoungeLizard'>P Amp Out</td>
+<td class='LoungeLizard'>P Amp < Key</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='LoungeLizard device-on'>LoungeLizard<br/>Device On</td>
+<td class='LoungeLizard'>Preset Prev</td>
+<td class='LoungeLizard'>Pickup Model</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='LoungeLizard'>Preset Save</td>
+<td class='LoungeLizard'>Preset Next</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='LoungeLizard'>M Stiffness</td>
+<td class='LoungeLizard'>Noise Pitch</td>
+<td class='LoungeLizard'>F Tine Color</td>
+<td class='LoungeLizard'>F Tone Decay</td>
+<td class='LoungeLizard'>Damp Tone</td>
+<td class='LoungeLizard'>P Symmetry</td>
+<td class='LoungeLizard'>Volume</td>
+<td class='LoungeLizard'>Detune</td>
+</tr>
+<tr>
+<td class='LoungeLizard'>M Force</td>
+<td class='LoungeLizard'>Noise Decay</td>
+<td class='LoungeLizard'>F Tine Decay</td>
+<td class='LoungeLizard'>F Tone Vol</td>
+<td class='LoungeLizard'>Damp Balance</td>
+<td class='LoungeLizard'>P Distance</td>
+<td class='LoungeLizard'>Voices</td>
+<td class='LoungeLizard'>KB Stretch</td>
+</tr>
+<tr>
+<td></td>
+<td class='LoungeLizard'>Noise Amount</td>
+<td class='LoungeLizard'>F Tine Vol</td>
+<td class='LoungeLizard'>F Release</td>
+<td class='LoungeLizard'>Damp Amount</td>
+<td class='LoungeLizard'>P Amp In</td>
+<td class='LoungeLizard'>Semitone</td>
+<td class='LoungeLizard'>PB Range</td>
+</tr>
+</table>
+</div>
+<button onclick='on_bank(3, 0)'>BANK 0</button>
+</div>
+<div id='group-4' style='display: none'>
+<button onclick='on_bank(4, 0)'>BANK 0</button>
+<button onclick='on_bank(4, 1)'>BANK 1</button>
+<button onclick='on_bank(4, 2)'>BANK 2</button>
+<button onclick='on_bank(4, 3)'>BANK 3</button>
+<div id='bank-4-0' style='display: block'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Operator'>Ae Loop</td>
+<td class='Operator'>Ae Retrig</td>
+<td class='Operator'>Ae R < Vel</td>
+<td class='Operator'>Osc-A Lev < Vel</td>
+<td class='Operator'>Osc-A Lev < Key</td>
+<td class='Operator'>Osc-A Feedb</td>
+<td class='Operator'>A Freq<Vel</td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>Be Loop</td>
+<td class='Operator'>Be Retrig</td>
+<td class='Operator'>Be R < Vel</td>
+<td class='Operator'>Osc-B Lev < Vel</td>
+<td class='Operator'>Osc-B Lev < Key</td>
+<td class='Operator'>Osc-B Feedb</td>
+<td class='Operator'>B Freq<Vel</td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>A Fix Freq</td>
+<td class='Operator'>A Fix Freq Mul</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>B Fix Freq</td>
+<td class='Operator'>B Fix Freq Mul</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Operator device-on'>Operator<br/>Device On</td>
+<td class='Operator'>Preset Prev</td>
+<td class='Operator'>Osc-A On</td>
+<td class='Operator'>Osc-A Retrig</td>
+<td class='Operator'>Osc-B On</td>
+<td class='Operator'>Osc-B Retrig</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>Preset Save</td>
+<td class='Operator'>Preset Next</td>
+<td class='Operator'>A Fix On_</td>
+<td class='Operator'>A Quantize</td>
+<td class='Operator'>B Fix On_</td>
+<td class='Operator'>B Quantize</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Operator'>A Coarse</td>
+<td class='Operator'>A Fine</td>
+<td class='Operator'>Osc-A Level</td>
+<td class='Operator'>Osc-A Wave</td>
+<td class='Operator'>B Coarse</td>
+<td class='Operator'>B Fine</td>
+<td class='Operator'>Osc-B Level</td>
+<td class='Operator'>Osc-B Wave</td>
+</tr>
+<tr>
+<td class='Operator'>Ae Attack</td>
+<td class='Operator'>Ae Decay</td>
+<td class='Operator'>Ae Release</td>
+<td class='Operator'>Osc-A Phase</td>
+<td class='Operator'>Be Attack</td>
+<td class='Operator'>Be Decay</td>
+<td class='Operator'>Be Release</td>
+<td class='Operator'>Osc-B Phase</td>
+</tr>
+<tr>
+<td class='Operator'>Ae Init</td>
+<td class='Operator'>Ae Peak</td>
+<td class='Operator'>Ae Sustain</td>
+<td class='Operator'>Ae Mode</td>
+<td class='Operator'>Be Init</td>
+<td class='Operator'>Be Peak</td>
+<td class='Operator'>Be Sustain</td>
+<td class='Operator'>Be Mode</td>
+</tr>
+</table>
+</div>
+<div id='bank-4-1' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Operator'>Ce Loop</td>
+<td class='Operator'>Ce Retrig</td>
+<td class='Operator'>Ce R < Vel</td>
+<td class='Operator'>Osc-C Lev < Vel</td>
+<td class='Operator'>Osc-C Lev < Key</td>
+<td class='Operator'>Osc-C Feedb</td>
+<td class='Operator'>C Freq<Vel</td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>De Loop</td>
+<td class='Operator'>De Retrig</td>
+<td class='Operator'>De R < Vel</td>
+<td class='Operator'>Osc-D Lev < Vel</td>
+<td class='Operator'>Osc-D Lev < Key</td>
+<td class='Operator'>Osc-D Feedb</td>
+<td class='Operator'>D Freq<Vel</td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>C Fix Freq</td>
+<td class='Operator'>C Fix Freq Mul</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>D Fix Freq</td>
+<td class='Operator'>D Fix Freq Mul</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Operator'>Osc-C On</td>
+<td class='Operator'>Osc-C Retrig</td>
+<td></td>
+<td></td>
+<td class='Operator'>Osc-D On</td>
+<td class='Operator'>Osc-D Retrig</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>C Fix On_</td>
+<td class='Operator'>C Quantize</td>
+<td></td>
+<td></td>
+<td class='Operator'>D Fix On_</td>
+<td class='Operator'>D Quantize</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Operator'>C Coarse</td>
+<td class='Operator'>C Fine</td>
+<td class='Operator'>Osc-C Level</td>
+<td class='Operator'>Osc-C Wave</td>
+<td class='Operator'>D Coarse</td>
+<td class='Operator'>D Fine</td>
+<td class='Operator'>Osc-D Level</td>
+<td class='Operator'>Osc-D Wave</td>
+</tr>
+<tr>
+<td class='Operator'>Ce Attack</td>
+<td class='Operator'>Ce Decay</td>
+<td class='Operator'>Ce Release</td>
+<td class='Operator'>Osc-C Phase</td>
+<td class='Operator'>De Attack</td>
+<td class='Operator'>De Decay</td>
+<td class='Operator'>De Release</td>
+<td class='Operator'>Osc-D Phase</td>
+</tr>
+<tr>
+<td class='Operator'>Ce Init</td>
+<td class='Operator'>Ce Peak</td>
+<td class='Operator'>Ce Sustain</td>
+<td class='Operator'>Ce Mode</td>
+<td class='Operator'>De Init</td>
+<td class='Operator'>De Peak</td>
+<td class='Operator'>De Sustain</td>
+<td class='Operator'>De Mode</td>
+</tr>
+</table>
+</div>
+<div id='bank-4-2' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Operator'>Le Loop</td>
+<td class='Operator'>Le Retrig</td>
+<td class='Operator'>Le R < Vel</td>
+<td class='Operator'>LFO Amt A</td>
+<td class='Operator'>LFO Amt B</td>
+<td class='Operator'>LFO Dst B</td>
+<td class='Operator'>LFO R < K</td>
+<td class='Operator'>LFO < Vel</td>
+</tr>
+<tr>
+<td class='Operator'>Fe Loop</td>
+<td class='Operator'>Fe Retrig</td>
+<td class='Operator'>Fe R < Vel</td>
+<td class='Operator'>Fe Amount</td>
+<td class='Operator'>Fe A Slope</td>
+<td class='Operator'>Fe D Slope</td>
+<td class='Operator'>Fe R Slope</td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>LFO Sync</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>Filter Morph</td>
+<td class='Operator'>Filt < Vel</td>
+<td class='Operator'>Filt < Key</td>
+<td class='Operator'>Shaper Type</td>
+<td class='Operator'>Shaper Drive</td>
+<td class='Operator'>Shaper Mix</td>
+<td class='Operator'>Filter Drive</td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Operator'>LFO On</td>
+<td class='Operator'>LFO Retrigger</td>
+<td></td>
+<td class='Operator'>Filt < LFO</td>
+<td class='Operator'>Filter On</td>
+<td class='Operator'>Filter Slope</td>
+<td class='Operator'>Filter Circuit - BP/NO/Morph</td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>Osc-A < LFO</td>
+<td class='Operator'>Osc-B < LFO</td>
+<td class='Operator'>Osc-C < LFO</td>
+<td class='Operator'>Osc-D < LFO</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Operator'>LFO Type</td>
+<td class='Operator'>LFO Range</td>
+<td class='Operator'>LFO Rate</td>
+<td class='Operator'>LFO Amt</td>
+<td class='Operator'>Filter Type</td>
+<td class='Operator'>Filter Circuit - LP/HP</td>
+<td class='Operator'>Filter Freq</td>
+<td class='Operator'>Filter Res</td>
+</tr>
+<tr>
+<td class='Operator'>Le Attack</td>
+<td class='Operator'>Le Decay</td>
+<td class='Operator'>Le Release</td>
+<td class='Operator'>Le Mode</td>
+<td class='Operator'>Fe Attack</td>
+<td class='Operator'>Fe Decay</td>
+<td class='Operator'>Fe Release</td>
+<td class='Operator'>Fe Mode</td>
+</tr>
+<tr>
+<td class='Operator'>Le Init</td>
+<td class='Operator'>Le Peak</td>
+<td class='Operator'>Le Sustain</td>
+<td class='Operator'>Le End</td>
+<td class='Operator'>Fe Init</td>
+<td class='Operator'>Fe Peak</td>
+<td class='Operator'>Fe Sustain</td>
+<td class='Operator'>Fe End</td>
+</tr>
+</table>
+</div>
+<div id='bank-4-3' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[3] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[3] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='Operator'>Pe Loop</td>
+<td class='Operator'>Pe Retrig</td>
+<td class='Operator'>Pe R < Vel</td>
+<td class='Operator'>Pe Amt A</td>
+<td class='Operator'>Pe Amt B</td>
+<td class='Operator'>Pe Dst B</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>Pe A Slope</td>
+<td class='Operator'>Pe D Slope</td>
+<td class='Operator'>Pe R Slope</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[3] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='Operator'>Pe On</td>
+<td></td>
+<td></td>
+<td class='Operator'>LFO < Pe</td>
+<td class='Operator'>Glide On</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>Osc-A < Pe</td>
+<td class='Operator'>Osc-B < Pe</td>
+<td class='Operator'>Osc-C < Pe</td>
+<td class='Operator'>Osc-D < Pe</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[3] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='Operator'>Pe Amount</td>
+<td class='Operator'>Spread</td>
+<td class='Operator'>Transpose</td>
+<td class='Operator'>Glide Time</td>
+<td class='Operator'>Algorithm</td>
+<td class='Operator'>Time</td>
+<td class='Operator'>Tone</td>
+<td class='Operator'>Volume</td>
+</tr>
+<tr>
+<td class='Operator'>Pe Attack</td>
+<td class='Operator'>Pe Decay</td>
+<td class='Operator'>Pe Release</td>
+<td class='Operator'>Pe Mode</td>
+<td class='Operator'>Time < Key</td>
+<td class='Operator'>PB Range</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='Operator'>Pe Init</td>
+<td class='Operator'>Pe Peak</td>
+<td class='Operator'>Pe Sustain</td>
+<td class='Operator'>Pe End</td>
+<td class='Operator'>Panorama</td>
+<td class='Operator'>Pan < Key</td>
+<td class='Operator'>Pan < Rnd</td>
+<td></td>
+</tr>
+</table>
+</div>
+<button onclick='on_bank(4, 0)'>BANK 0</button>
+<button onclick='on_bank(4, 1)'>BANK 1</button>
+<button onclick='on_bank(4, 2)'>BANK 2</button>
+<button onclick='on_bank(4, 3)'>BANK 3</button>
+</div>
+<div id='group-5' style='display: none'>
+<button onclick='on_bank(5, 0)'>BANK 0</button>
+<button onclick='on_bank(5, 1)'>BANK 1</button>
+<button onclick='on_bank(5, 2)'>BANK 2</button>
+<div id='bank-5-0' style='display: block'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Oe Loop</td>
+<td class='MultiSampler'>Oe Retrig</td>
+<td class='MultiSampler'>O Type</td>
+<td class='MultiSampler'>O Volume</td>
+<td class='MultiSampler'>O Vol < Vel</td>
+<td class='MultiSampler'>O Fix Freq</td>
+<td class='MultiSampler'>O Fix Freq Mul</td>
+<td></td>
+</tr>
+<tr>
+<td class='MultiSampler'>O Coarse</td>
+<td class='MultiSampler'>O Fine</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='MultiSampler'>Pe Loop</td>
+<td class='MultiSampler'>Pe Retrig</td>
+<td class='MultiSampler'>Spread</td>
+<td class='MultiSampler'>Transpose</td>
+<td class='MultiSampler'>Detune</td>
+<td class='MultiSampler'>Key Zone Shift</td>
+<td class='MultiSampler'>Glide Mode</td>
+<td class='MultiSampler'>Glide Time</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Pe < Env</td>
+<td class='MultiSampler'>Sample Selector</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='MultiSampler device-on'>MultiSampler<br/>Device On</td>
+<td class='MultiSampler'>Preset Prev</td>
+<td class='MultiSampler'>Reverse</td>
+<td class='MultiSampler'>Osc On</td>
+<td class='MultiSampler'>O Mode</td>
+<td class='MultiSampler'>O Fix On</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='MultiSampler'>Preset Save</td>
+<td class='MultiSampler'>Preset Next</td>
+<td class='MultiSampler'>Snap</td>
+<td class='MultiSampler'>Pe On</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Oe Init</td>
+<td class='MultiSampler'>Oe Peak</td>
+<td class='MultiSampler'>Oe Sustain</td>
+<td class='MultiSampler'>Oe End</td>
+<td class='MultiSampler'>Pe Init</td>
+<td class='MultiSampler'>Pe Peak</td>
+<td class='MultiSampler'>Pe Sustain</td>
+<td class='MultiSampler'>Pe End</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Oe Attack</td>
+<td class='MultiSampler'>Oe Decay</td>
+<td class='MultiSampler'>Oe Release</td>
+<td class='MultiSampler'>Oe R < Vel</td>
+<td class='MultiSampler'>Pe Attack</td>
+<td class='MultiSampler'>Pe Decay</td>
+<td class='MultiSampler'>Pe Release</td>
+<td class='MultiSampler'>Pe R < Vel</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Oe A Slope</td>
+<td class='MultiSampler'>Oe D Slope</td>
+<td class='MultiSampler'>Oe R Slope</td>
+<td class='MultiSampler'>Oe Mode</td>
+<td class='MultiSampler'>Pe A Slope</td>
+<td class='MultiSampler'>Pe D Slope</td>
+<td class='MultiSampler'>Pe R Slope</td>
+<td class='MultiSampler'>Pe Mode</td>
+</tr>
+</table>
+</div>
+<div id='bank-5-1' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Volume</td>
+<td class='MultiSampler'>Vol < Vel</td>
+<td class='MultiSampler'>Ve Init</td>
+<td class='MultiSampler'>Ve Peak</td>
+<td class='MultiSampler'>Ve Sustain</td>
+<td class='MultiSampler'>Ve Attack</td>
+<td class='MultiSampler'>Ve Decay</td>
+<td class='MultiSampler'>Ve Release</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Ve R < Vel</td>
+<td class='MultiSampler'>Ve Mode</td>
+<td class='MultiSampler'>Ve Loop</td>
+<td class='MultiSampler'>Ve Retrig</td>
+<td class='MultiSampler'>Ve A Slope</td>
+<td class='MultiSampler'>Ve D Slope</td>
+<td class='MultiSampler'>Ve R Slope</td>
+<td></td>
+</tr>
+<tr>
+<td class='MultiSampler'>Shaper Type</td>
+<td class='MultiSampler'>Shaper Amt</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='MultiSampler'>Pan</td>
+<td class='MultiSampler'>Pan < Rnd</td>
+<td class='MultiSampler'>Time</td>
+<td class='MultiSampler'>Time < Key</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='MultiSampler'>F On</td>
+<td class='MultiSampler'>Fe On</td>
+<td class='MultiSampler'>Filter Circuit - BP/NO/Morph</td>
+<td class='MultiSampler'>Shaper Pre-Filter</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='MultiSampler'>Filter Slope</td>
+<td class='MultiSampler'>Shaper On</td>
+<td class='MultiSampler'>Trigger Mode</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Filter Type</td>
+<td class='MultiSampler'>Filter Freq</td>
+<td class='MultiSampler'>Filter Res</td>
+<td class='MultiSampler'>Fe Init</td>
+<td class='MultiSampler'>Fe Peak</td>
+<td class='MultiSampler'>Fe Sustain</td>
+<td class='MultiSampler'>Fe End</td>
+<td class='MultiSampler'>Fe Mode</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Filter Morph</td>
+<td class='MultiSampler'>Filter Drive</td>
+<td class='MultiSampler'>Filter Circuit - LP/HP</td>
+<td class='MultiSampler'>Fe Attack</td>
+<td class='MultiSampler'>Fe Decay</td>
+<td class='MultiSampler'>Fe Release</td>
+<td class='MultiSampler'>Fe R < Vel</td>
+<td class='MultiSampler'>Fe Loop</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Filt < Vel</td>
+<td class='MultiSampler'>Filt < Key</td>
+<td></td>
+<td class='MultiSampler'>Fe < Env</td>
+<td class='MultiSampler'>Fe A Slope</td>
+<td class='MultiSampler'>Fe D Slope</td>
+<td class='MultiSampler'>Fe R Slope</td>
+<td class='MultiSampler'>Fe Retrig</td>
+</tr>
+</table>
+</div>
+<div id='bank-5-2' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='MultiSampler'>L 1 Attack</td>
+<td class='MultiSampler'>L 1 Offset</td>
+<td class='MultiSampler'>L 1 R < Key</td>
+<td class='MultiSampler'>Vol < LFO</td>
+<td class='MultiSampler'>Filt < LFO</td>
+<td class='MultiSampler'>Pan < LFO</td>
+<td class='MultiSampler'>Pitch < LFO</td>
+<td></td>
+</tr>
+<tr>
+<td class='MultiSampler'>L 2 Attack</td>
+<td class='MultiSampler'>L 2 Offset</td>
+<td class='MultiSampler'>L 2 R < Key</td>
+<td class='MultiSampler'>L 2 Phase</td>
+<td class='MultiSampler'>L 2 Spin</td>
+<td class='MultiSampler'>L 2 Width</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='MultiSampler'>L 3 Attack</td>
+<td class='MultiSampler'>L 3 Offset</td>
+<td class='MultiSampler'>L 3 R < Key</td>
+<td class='MultiSampler'>L 3 Phase</td>
+<td class='MultiSampler'>L 3 Spin</td>
+<td class='MultiSampler'>L 3 Width</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='MultiSampler'>Fade In</td>
+<td class='MultiSampler'>Fade Out</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Ae On</td>
+<td></td>
+<td class='MultiSampler'>L 1 On</td>
+<td class='MultiSampler'>L 1 Sync</td>
+<td class='MultiSampler'>L 2 On</td>
+<td class='MultiSampler'>L 2 Sync</td>
+<td class='MultiSampler'>L 3 On</td>
+<td class='MultiSampler'>L 3 Sync</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td class='MultiSampler'>L 1 Retrig</td>
+<td></td>
+<td class='MultiSampler'>L 2 Retrig</td>
+<td class='MultiSampler'>L 2 St Mode</td>
+<td class='MultiSampler'>L 3 Retrig</td>
+<td class='MultiSampler'>L 3 St Mode</td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Ae Init</td>
+<td class='MultiSampler'>Ae Peak</td>
+<td class='MultiSampler'>Ae Sustain</td>
+<td class='MultiSampler'>Ae End</td>
+<td class='MultiSampler'>Ae Mode</td>
+<td class='MultiSampler'>L 1 Wave</td>
+<td class='MultiSampler'>L 2 Wave</td>
+<td class='MultiSampler'>L 3 Wave</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Ae Attack</td>
+<td class='MultiSampler'>Ae Decay</td>
+<td class='MultiSampler'>Ae Release</td>
+<td class='MultiSampler'>Ae R < Vel</td>
+<td class='MultiSampler'>Ae Loop</td>
+<td class='MultiSampler'>L 1 Rate</td>
+<td class='MultiSampler'>L 2 Rate</td>
+<td class='MultiSampler'>L 3 Rate</td>
+</tr>
+<tr>
+<td class='MultiSampler'>Ae A Slope</td>
+<td class='MultiSampler'>Ae D Slope</td>
+<td class='MultiSampler'>Ae R Slope</td>
+<td></td>
+<td class='MultiSampler'>Ae Retrig</td>
+<td class='MultiSampler'>L 1 Sync Rate</td>
+<td class='MultiSampler'>L 2 Sync Rate</td>
+<td class='MultiSampler'>L 3 Sync Rate</td>
+</tr>
+</table>
+</div>
+<button onclick='on_bank(5, 0)'>BANK 0</button>
+<button onclick='on_bank(5, 1)'>BANK 1</button>
+<button onclick='on_bank(5, 2)'>BANK 2</button>
+</div>
+<div id='group-6' style='display: none'>
+<button onclick='on_bank(6, 0)'>BANK 0</button>
+<button onclick='on_bank(6, 1)'>BANK 1</button>
+<button onclick='on_bank(6, 2)'>BANK 2</button>
+<div id='bank-6-0' style='display: block'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Slicing Playback Mode</td>
+<td class='OriginalSimpler'>Fade In</td>
+<td class='OriginalSimpler'>Fade Out</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='OriginalSimpler device-on'>OriginalSimpler<br/>Device On</td>
+<td class='OriginalSimpler'>Preset Prev</td>
+<td class='OriginalSimpler'>S Loop On</td>
+<td class='OriginalSimpler'>Retrigger</td>
+<td class='OriginalSimpler'>Reverse</td>
+<td class='OriginalSimpler'>Crop</td>
+<td class='OriginalSimpler'>Warp</td>
+<td class='OriginalSimpler'>Warp As</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Preset Save</td>
+<td class='OriginalSimpler'>Preset Next</td>
+<td class='OriginalSimpler'>Snap</td>
+<td class='OriginalSimpler'>Trigger Mode</td>
+<td class='OriginalSimpler'>Clear Slices</td>
+<td></td>
+<td class='OriginalSimpler'>Warp Half</td>
+<td class='OriginalSimpler'>Warp Double</td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Playback Mode</td>
+<td class='OriginalSimpler'>Gain</td>
+<td class='OriginalSimpler'>S Start</td>
+<td class='OriginalSimpler'>S Loop Length</td>
+<td class='OriginalSimpler'>S Length</td>
+<td class='OriginalSimpler'>S Loop Fade</td>
+<td class='OriginalSimpler'>Voices</td>
+<td class='OriginalSimpler'>Warp Mode</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Beats Gran Res</td>
+<td class='OriginalSimpler'>Beats Trans Loop Mode</td>
+<td class='OriginalSimpler'>Beats Trans Envelope</td>
+<td class='OriginalSimpler'>Tones Grain Size</td>
+<td class='OriginalSimpler'>Texture Grain Size</td>
+<td class='OriginalSimpler'>Texture Flux</td>
+<td class='OriginalSimpler'>Start Marker Pos</td>
+<td class='OriginalSimpler'>End Marker Pos</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Complex Pro Formants</td>
+<td class='OriginalSimpler'>Complex Pro Envelope</td>
+<td class='OriginalSimpler'>Slicing Style</td>
+<td class='OriginalSimpler'>Slicing Sensitivity</td>
+<td class='OriginalSimpler'>Slicing Beat Division</td>
+<td class='OriginalSimpler'>Slicing Region Count</td>
+<td class='OriginalSimpler'>Start Marker Res</td>
+<td class='OriginalSimpler'>End Marker Res</td>
+</tr>
+</table>
+</div>
+<div id='bank-6-1' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>L Rate</td>
+<td class='OriginalSimpler'>L Sync Rate</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Fe R < Vel</td>
+<td class='OriginalSimpler'>Fe Mode</td>
+<td class='OriginalSimpler'>Fe Loop</td>
+<td class='OriginalSimpler'>Fe Retrig</td>
+<td class='OriginalSimpler'>Fe Init</td>
+<td class='OriginalSimpler'>Fe Peak</td>
+<td class='OriginalSimpler'>Fe End</td>
+<td></td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Fe A Slope</td>
+<td class='OriginalSimpler'>Fe D Slope</td>
+<td class='OriginalSimpler'>Fe R Slope</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>F On</td>
+<td class='OriginalSimpler'>Fe On</td>
+<td class='OriginalSimpler'>L On</td>
+<td class='OriginalSimpler'>L Retrig</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Filter Slope</td>
+<td class='OriginalSimpler'>Filter Circuit - BP/NO/Morph</td>
+<td></td>
+<td class='OriginalSimpler'>L Sync</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Filter Type</td>
+<td class='OriginalSimpler'>Filter Circuit - LP/HP</td>
+<td class='OriginalSimpler'>Filter Freq</td>
+<td class='OriginalSimpler'>Filter Res</td>
+<td class='OriginalSimpler'>Filter Morph</td>
+<td class='OriginalSimpler'>Filter Drive</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Fe < Env</td>
+<td class='OriginalSimpler'>Fe Attack</td>
+<td class='OriginalSimpler'>Fe Decay</td>
+<td class='OriginalSimpler'>Fe Sustain</td>
+<td class='OriginalSimpler'>Fe Release</td>
+<td class='OriginalSimpler'>Filt < Vel</td>
+<td class='OriginalSimpler'>Filt < Key</td>
+<td></td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>L Attack</td>
+<td class='OriginalSimpler'>L R < Key</td>
+<td class='OriginalSimpler'>L Offset</td>
+<td class='OriginalSimpler'>Vol < LFO</td>
+<td class='OriginalSimpler'>Pitch < LFO</td>
+<td class='OriginalSimpler'>Pan < LFO</td>
+<td class='OriginalSimpler'>Filt < LFO</td>
+<td class='OriginalSimpler'>L Wave</td>
+</tr>
+</table>
+</div>
+<div id='bank-6-2' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Pe R < Vel</td>
+<td class='OriginalSimpler'>Pe Init</td>
+<td class='OriginalSimpler'>Pe Peak</td>
+<td class='OriginalSimpler'>Pe End</td>
+<td class='OriginalSimpler'>Pe A Slope</td>
+<td class='OriginalSimpler'>Pe D Slope</td>
+<td class='OriginalSimpler'>Pe R Slope</td>
+<td></td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Pe Mode</td>
+<td class='OriginalSimpler'>Pe Loop</td>
+<td class='OriginalSimpler'>Pe Retrig</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Pe On</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Ve Loop</td>
+<td class='OriginalSimpler'>Ve Mode</td>
+<td class='OriginalSimpler'>Ve Retrig</td>
+<td class='OriginalSimpler'>Volume</td>
+<td class='OriginalSimpler'>Pan</td>
+<td class='OriginalSimpler'>Pan < Rnd</td>
+<td class='OriginalSimpler'>Transpose</td>
+<td class='OriginalSimpler'>Glide Mode</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Ve Attack</td>
+<td class='OriginalSimpler'>Ve Decay</td>
+<td class='OriginalSimpler'>Ve Sustain</td>
+<td class='OriginalSimpler'>Ve Release</td>
+<td class='OriginalSimpler'>Spread</td>
+<td class='OriginalSimpler'>Vol < Vel</td>
+<td class='OriginalSimpler'>Detune</td>
+<td class='OriginalSimpler'>Glide Time</td>
+</tr>
+<tr>
+<td class='OriginalSimpler'>Pe < Env</td>
+<td class='OriginalSimpler'>Pe Attack</td>
+<td class='OriginalSimpler'>Pe Decay</td>
+<td class='OriginalSimpler'>Pe Sustain</td>
+<td class='OriginalSimpler'>Pe Release</td>
+<td class='OriginalSimpler'>Sample Selector</td>
+<td></td>
+<td></td>
+</tr>
+</table>
+</div>
+<button onclick='on_bank(6, 0)'>BANK 0</button>
+<button onclick='on_bank(6, 1)'>BANK 1</button>
+<button onclick='on_bank(6, 2)'>BANK 2</button>
+</div>
+<div id='group-7' style='display: none'>
+<button onclick='on_bank(7, 0)'>BANK 0</button>
+<button onclick='on_bank(7, 1)'>BANK 1</button>
+<button onclick='on_bank(7, 2)'>BANK 2</button>
+<div id='bank-7-0' style='display: block'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='StringStudio'>Exc Prot < Vel</td>
+<td class='StringStudio'>Exc Prot < Key</td>
+<td class='StringStudio'>Exc Stiff < Vel</td>
+<td class='StringStudio'>Exc Stiff < Key</td>
+<td class='StringStudio'>Exc Vel < Vel</td>
+<td class='StringStudio'>Exc Vel < Key</td>
+<td class='StringStudio'>E Pos < Vel</td>
+<td class='StringStudio'>E Pos < Key</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='StringStudio device-on'>StringStudio<br/>Device On</td>
+<td class='StringStudio'>Preset Prev</td>
+<td class='StringStudio'>Exc On/Off</td>
+<td class='StringStudio'>Term On/Off</td>
+<td class='StringStudio'>Pickup On/Off</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='StringStudio'>Preset Save</td>
+<td class='StringStudio'>Preset Next</td>
+<td class='StringStudio'>E Pos Abs</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='StringStudio'>Excitator Type</td>
+<td class='StringStudio'>Exc Protrusion</td>
+<td class='StringStudio'>Exc Stiffness</td>
+<td class='StringStudio'>Exc Velocity</td>
+<td class='StringStudio'>E Pos</td>
+<td class='StringStudio'>Exc Damping</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='StringStudio'>String Decay</td>
+<td class='StringStudio'>S Decay < Key</td>
+<td class='StringStudio'>S Decay Ratio</td>
+<td class='StringStudio'>Str Inharmon</td>
+<td class='StringStudio'>Str Damping</td>
+<td class='StringStudio'>S Damp < Key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='StringStudio'>T Mass < Vel</td>
+<td class='StringStudio'>T Mass < Key</td>
+<td class='StringStudio'>Term Mass</td>
+<td class='StringStudio'>Term Fng Stiff</td>
+<td class='StringStudio'>Term Fret Stiff</td>
+<td class='StringStudio'>Pickup Pos</td>
+<td></td>
+<td></td>
+</tr>
+</table>
+</div>
+<div id='bank-7-1' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='StringStudio'>D Mass < Key</td>
+<td class='StringStudio'>D Stiff < Key</td>
+<td class='StringStudio'>D Velo < Key</td>
+<td class='StringStudio'>D Pos < Vel</td>
+<td class='StringStudio'>D Pos < Key</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='StringStudio'>Damper On</td>
+<td class='StringStudio'>D Pos Abs</td>
+<td class='StringStudio'>Vibrato On/Off</td>
+<td class='StringStudio'>Body On/Off</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='StringStudio'>Damper Gated</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='StringStudio'>Damper Mass</td>
+<td class='StringStudio'>D Stiffness</td>
+<td class='StringStudio'>D Velocity</td>
+<td class='StringStudio'>Damp Pos</td>
+<td class='StringStudio'>D Damping</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='StringStudio'>Vib Delay</td>
+<td class='StringStudio'>Vib Fade-In</td>
+<td class='StringStudio'>Vib Speed</td>
+<td class='StringStudio'>Vib Amount</td>
+<td class='StringStudio'>Vib < ModWh</td>
+<td class='StringStudio'>Vib Error</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='StringStudio'>Body Type</td>
+<td class='StringStudio'>Body Size</td>
+<td class='StringStudio'>Body Decay</td>
+<td class='StringStudio'>Body Low-Cut</td>
+<td class='StringStudio'>Body High-Cut</td>
+<td class='StringStudio'>Body Mix</td>
+<td class='StringStudio'>Volume</td>
+<td></td>
+</tr>
+</table>
+</div>
+<div id='bank-7-2' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='StringStudio'>Uni Detune</td>
+<td class='StringStudio'>Uni Delay</td>
+<td class='StringStudio'>Porta Time</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='StringStudio'>Freq < Env</td>
+<td class='StringStudio'>Freq < LFO</td>
+<td class='StringStudio'>Freq < Key</td>
+<td class='StringStudio'>Reso < Env</td>
+<td class='StringStudio'>Reso < LFO</td>
+<td class='StringStudio'>Reso < Key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='StringStudio'>Filter On/Off</td>
+<td class='StringStudio'>FEG On/Off</td>
+<td class='StringStudio'>LFO On/Off</td>
+<td class='StringStudio'>Unison On/Off</td>
+<td class='StringStudio'>Porta On/Off</td>
+<td class='StringStudio'>Porta Legato</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td class='StringStudio'>LFO Sync On</td>
+<td class='StringStudio'>Unison Voices</td>
+<td></td>
+<td class='StringStudio'>Porta Prop</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='StringStudio'>Filter Type</td>
+<td class='StringStudio'>Filter Freq</td>
+<td class='StringStudio'>Filter Reso</td>
+<td class='StringStudio'>LFO Shape</td>
+<td class='StringStudio'>LFO Delay</td>
+<td class='StringStudio'>LFO Fade In</td>
+<td class='StringStudio'>LFO Speed</td>
+<td class='StringStudio'>LFO SyncRate</td>
+</tr>
+<tr>
+<td class='StringStudio'>FEG Attack</td>
+<td class='StringStudio'>FEG Decay</td>
+<td class='StringStudio'>FEG Sustain</td>
+<td class='StringStudio'>FEG Release</td>
+<td class='StringStudio'>FEG Att < Vel</td>
+<td class='StringStudio'>FEG < Vel</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='StringStudio'>Octave</td>
+<td class='StringStudio'>Semitone</td>
+<td class='StringStudio'>Fine Tune</td>
+<td class='StringStudio'>Voices</td>
+<td class='StringStudio'>PB Depth</td>
+<td class='StringStudio'>Stretch</td>
+<td class='StringStudio'>Error</td>
+<td class='StringStudio'>Key Priority</td>
+</tr>
+</table>
+</div>
+<button onclick='on_bank(7, 0)'>BANK 0</button>
+<button onclick='on_bank(7, 1)'>BANK 1</button>
+<button onclick='on_bank(7, 2)'>BANK 2</button>
+</div>
+<div id='group-8' style='display: none'>
+<button onclick='on_bank(8, 0)'>BANK 0</button>
+<button onclick='on_bank(8, 1)'>BANK 1</button>
+<button onclick='on_bank(8, 2)'>BANK 2</button>
+<div id='bank-8-0' style='display: block'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[0] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='InstrumentVector device-on'>InstrumentVector<br/>Device On</td>
+<td class='InstrumentVector'>Preset Prev</td>
+<td class='InstrumentVector'>Sub On</td>
+<td class='InstrumentVector'>Osc 1 On</td>
+<td class='InstrumentVector'>Osc 2 On</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Preset Save</td>
+<td class='InstrumentVector'>Preset Next</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[0] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Sub Gain</td>
+<td class='InstrumentVector'>Osc 1 Pan</td>
+<td class='InstrumentVector'>Osc 1 Gain</td>
+<td class='InstrumentVector'>Osc 1 Effect 1</td>
+<td class='InstrumentVector'>Osc 1 Effect 2</td>
+<td class='InstrumentVector'>Osc 1 Transp</td>
+<td class='InstrumentVector'>Osc 1 Detune</td>
+<td class='InstrumentVector'>Osc 1 Pos</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Sub Tone</td>
+<td class='InstrumentVector'>Osc 2 Pan</td>
+<td class='InstrumentVector'>Osc 2 Gain</td>
+<td class='InstrumentVector'>Osc 2 Effect 1</td>
+<td class='InstrumentVector'>Osc 2 Effect 2</td>
+<td class='InstrumentVector'>Osc 2 Transp</td>
+<td class='InstrumentVector'>Osc 2 Detune</td>
+<td class='InstrumentVector'>Osc 2 Pos</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Sub Transpose</td>
+<td class='InstrumentVector'>Transpose</td>
+<td class='InstrumentVector'>Time</td>
+<td class='InstrumentVector'>Global Mod Amount</td>
+<td class='InstrumentVector'>Volume</td>
+<td class='InstrumentVector'>Glide</td>
+<td class='InstrumentVector'>Unison Amount</td>
+<td></td>
+</tr>
+</table>
+</div>
+<div id='bank-8-1' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[1] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Filter 1 On</td>
+<td class='InstrumentVector'>Filter 1 Slope</td>
+<td class='InstrumentVector'>Filter 2 On</td>
+<td class='InstrumentVector'>Filter 2 Slope</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Filter 1 BP/NO/Morph</td>
+<td></td>
+<td class='InstrumentVector'>Filter 2 BP/NO/Morph</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[1] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Filter 1 Type</td>
+<td class='InstrumentVector'>Filter 1 LP/HP</td>
+<td class='InstrumentVector'>Filter 1 Freq</td>
+<td class='InstrumentVector'>Filter 1 Res</td>
+<td class='InstrumentVector'>Filter 1 Drive</td>
+<td class='InstrumentVector'>Filter 1 Morph</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Filter 2 Type</td>
+<td class='InstrumentVector'>Filter 2 LP/HP</td>
+<td class='InstrumentVector'>Filter 2 Freq</td>
+<td class='InstrumentVector'>Filter 2 Res</td>
+<td class='InstrumentVector'>Filter 2 Drive</td>
+<td class='InstrumentVector'>Filter 2 Morph</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Amp Attack</td>
+<td class='InstrumentVector'>Amp Decay</td>
+<td class='InstrumentVector'>Amp Release</td>
+<td class='InstrumentVector'>Amp Sustain</td>
+<td class='InstrumentVector'>Amp A Slope</td>
+<td class='InstrumentVector'>Amp D Slope</td>
+<td class='InstrumentVector'>Amp R Slope</td>
+<td class='InstrumentVector'>Amp Loop Mode</td>
+</tr>
+</table>
+</div>
+<div id='bank-8-2' style='display: none'>
+<table>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - BUTTON</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Group-header'>[2] - GROUP - ROTARY</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>LFO 1 Shape</td>
+<td class='InstrumentVector'>LFO 1 Attack Time</td>
+<td class='InstrumentVector'>LFO 1 Rate</td>
+<td class='InstrumentVector'>LFO 1 S. Rate</td>
+<td class='InstrumentVector'>LFO 1 Amount</td>
+<td class='InstrumentVector'>LFO 1 Shaping</td>
+<td class='InstrumentVector'>LFO 1 Phase Offset</td>
+<td></td>
+</tr>
+<tr>
+<td class='InstrumentVector'>LFO 2 Shape</td>
+<td class='InstrumentVector'>LFO 2 Attack Time</td>
+<td class='InstrumentVector'>LFO 2 Rate</td>
+<td class='InstrumentVector'>LFO 2 S. Rate</td>
+<td class='InstrumentVector'>LFO 2 Amount</td>
+<td class='InstrumentVector'>LFO 2 Shaping</td>
+<td class='InstrumentVector'>LFO 2 Phase Offset</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - BUTTON</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>LFO 1 Sync</td>
+<td class='InstrumentVector'>LFO 1 Retrigger</td>
+<td class='InstrumentVector'>LFO 2 Sync</td>
+<td class='InstrumentVector'>LFO 2 Retrigger</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan='8' class='Main-header'>[2] - MAIN - ROTARY</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Env 2 Attack</td>
+<td class='InstrumentVector'>Env 2 Decay</td>
+<td class='InstrumentVector'>Env 2 Release</td>
+<td class='InstrumentVector'>Env 2 Loop Mode</td>
+<td class='InstrumentVector'>Env 3 Attack</td>
+<td class='InstrumentVector'>Env 3 Decay</td>
+<td class='InstrumentVector'>Env 3 Release</td>
+<td class='InstrumentVector'>Env 3 Loop Mode</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Env 2 Initial</td>
+<td class='InstrumentVector'>Env 2 Peak</td>
+<td class='InstrumentVector'>Env 2 Sustain</td>
+<td class='InstrumentVector'>Env 2 Final</td>
+<td class='InstrumentVector'>Env 3 Initial</td>
+<td class='InstrumentVector'>Env 3 Peak</td>
+<td class='InstrumentVector'>Env 3 Sustain</td>
+<td class='InstrumentVector'>Env 3 Final</td>
+</tr>
+<tr>
+<td class='InstrumentVector'>Env 2 A Slope</td>
+<td class='InstrumentVector'>Env 2 D Slope</td>
+<td class='InstrumentVector'>Env 2 R Slope</td>
+<td></td>
+<td class='InstrumentVector'>Env 3 A Slope</td>
+<td class='InstrumentVector'>Env 3 D Slope</td>
+<td class='InstrumentVector'>Env 3 R Slope</td>
+<td></td>
+</tr>
+</table>
+</div>
+<button onclick='on_bank(8, 0)'>BANK 0</button>
+<button onclick='on_bank(8, 1)'>BANK 1</button>
+<button onclick='on_bank(8, 2)'>BANK 2</button>
+</div>
+<button class='Effects' onclick='on_group(0)'>EFFECTS</button>
+<button class='UltraAnalog' onclick='on_group(1)'>ANALOG</button>
+<button class='Collision' onclick='on_group(2)'>COLLISION</button>
+<button class='LoungeLizard' onclick='on_group(3)'>ELECTRIC</button>
+<button class='Operator' onclick='on_group(4)'>OPERATOR</button>
+<button class='MultiSampler' onclick='on_group(5)'>SAMPLER</button>
+<button class='OriginalSimpler' onclick='on_group(6)'>SIMPLER</button>
+<button class='StringStudio' onclick='on_group(7)'>TENSION</button>
+<button class='InstrumentVector' onclick='on_group(8)'>WAVE</button>
+</body>

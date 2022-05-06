@@ -1,0 +1,25 @@
+# ******************************************************************************
+# Configuration file for AudioEffectGroupDevice device
+# ******************************************************************************
+
+  Device On           | Main_Button_0_0
+  Preset Save         | Main_Button_1_0
+  Preset Prev         | Main_Button_0_1
+  Preset Next         | Main_Button_1_1
+
+# Main rotary groups
+
+  Effect              | Main_Rotary_0_0
+  L 16th              | Main_Rotary_0_1
+  Dry/Wet             | Main_Rotary_1_0
+
+  Feedback            | Main_Rotary_1_1
+  Filter Freq         | Main_Rotary_2_0
+  Filter Width        | Main_Rotary_2_1
+
+# Rotary / Button Group 1
+
+  Fade Out            | Group_Button_0_0
+
+  L Sync              | Group_Rotary_0_0
+  L Time              | Group_Rotary_0_1

@@ -1,0 +1,42 @@
+# ******************************************************************************
+# Configuration file for Flanger device
+# ******************************************************************************
+
+  Device On           | Main_Button_0_0
+  Preset Save         | Main_Button_1_0
+  Preset Prev         | Main_Button_0_1
+  Preset Next         | Main_Button_1_1
+
+# Main rotary groups
+
+  Hi Pass             | Main_Rotary_0_0
+  Dry/Wet             | Main_Rotary_2_0
+
+  Env. Modulation     | Main_Rotary_0_1
+  Env. Attack         | Main_Rotary_1_1
+  Env. Release        | Main_Rotary_2_1
+
+  LFO Amount          | Main_Rotary_0_2
+  Sync Rate           | Main_Rotary_1_2
+  LFO Phase           | Main_Rotary_2_2
+
+# Rotary / Button Group 1
+
+  Polarity            | Group_Button_0_0
+
+  Delay Time          | Group_Rotary_0_0
+  Feedback            | Group_Rotary_0_1
+
+# Rotary / Button Group 2
+
+  Sync                | Group_Button_1_0
+  LFO Stereo Mode     | Group_Button_1_2
+
+  Frequency           | Group_Rotary_1_0
+  LFO Offset          | Group_Rotary_1_1
+  LFO Spin            | Group_Rotary_1_2
+
+# Rotary / Button Group 3
+
+  LFO Waveform        | Group_Rotary_2_0
+  LFO Width (Random)  | Group_Rotary_2_1

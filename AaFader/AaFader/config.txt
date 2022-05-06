@@ -1,0 +1,57 @@
+# ******************************************************************************
+# Configuration file for 'AaFader' Ableton Live controller
+# ******************************************************************************
+
+# Controller features
+  num_scenes    | 2
+
+# fixed config
+  bank_0_channel| 0
+  session_left  | 25
+  session_right | 26
+  stop_total    | 27
+  vol_offset    | 17
+
+# bank 1: fx 1
+  bank_1_sync   | 28
+  bank_1_channel| 0   # midi channel 1
+
+  send_1_offset | 33
+  send_2_offset | 41
+  pitch_offset  | 49
+  detune_offset | 57
+  pit_res_offset| 65  # pitch reset
+  det_res_offset| 73  # detune reset
+
+  mute_offset   | 1
+  solo_offset   | 9
+
+# bank 2: fx 2, pan & pitch
+  bank_2_sync   | 29
+  bank_2_channel| 1   # midi channel 2
+
+  send_3_offset | 33
+  send_4_offset | 41
+  pan_offset    | 49
+  sel_clp_offset| 57
+
+  stop_offset   | 1
+  arm_offset    | 9
+
+# bank 3: auto-volume, deck, select
+  bank_3_sync   | 30
+  bank_3_channel| 2   # midi channel 3
+
+  send_5_offset | 33
+  send_6_offset | 41  # in channel 1!
+  av_vel_offset | 49
+  deck_offset   | 57
+  vol_res_offset| 65
+  vel_tog_offset| 73
+
+  av_incr_offset| 1
+  av_decr_offset| 9
+
+# bank 4: auto-volume, deck, select
+  bank_4_sync   | 31
+  bank_4_channel| 3   # midi channel 4

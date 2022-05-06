@@ -1,0 +1,46 @@
+# ******************************************************************************
+# Configuration file for FrequencyShifter device
+# ******************************************************************************
+
+  Device On           | Main_Button_0_0
+  Preset Save         | Main_Button_1_0
+  Preset Prev         | Main_Button_0_1
+  Preset Next         | Main_Button_1_1
+
+# Main Rotary
+
+  LFO Amount          | Main_Rotary_0_0
+  Sync Rate           | Main_Rotary_1_0
+  LFO Phase           | Main_Rotary_2_0
+
+  Coarse              | Main_Rotary_0_1
+  Fine                | Main_Rotary_1_1
+  Dry/Wet             | Main_Rotary_2_1
+
+# Rotary / Button Group 1
+
+  Wide                | Group_Button_0_0
+
+  LFO Waveform        | Group_Rotary_0_0
+  LFO Offset          | Group_Rotary_0_1
+
+# Rotary / Button Group 2
+
+  Sync                | Group_Button_1_0
+  LFO Stereo Mode     | Group_Button_1_1
+
+  LFO Frequency       | Group_Rotary_1_0
+  LFO Spin            | Group_Rotary_1_1
+
+# Rotary / Button Group 3
+
+  Mode                | Group_Button_2_0
+  Drive On/Off        | Group_Button_2_1
+
+  Ring Mod Frequency  | Group_Rotary_2_0
+  Drive               | Group_Rotary_2_1
+
+# Rotary / Button Group 4
+
+  LFO Width (Random)  | Group_Rotary_3_0
+

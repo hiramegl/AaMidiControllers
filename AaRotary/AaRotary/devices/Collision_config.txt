@@ -1,0 +1,202 @@
+# ******************************************************************************
+# Configuration file for Collision device
+# ******************************************************************************
+
+# Bank 1
+
+  Device On                  | Main_Button_0_0_0
+  Preset Save                | Main_Button_1_0_0
+  Preset Prev                | Main_Button_0_1_0
+  Preset Next                | Main_Button_1_1_0
+
+  Mallet On/Off              | Main_Button_0_2_0
+  Noise On/Off               | Main_Button_1_2_0
+
+  LFO 1 On/Off               | Main_Button_0_3_0
+  LFO 1 Retrigger            | Main_Button_1_3_0
+  LFO 1 Sync                 | Main_Button_0_4_0
+
+  LFO 2 On/Off               | Main_Button_0_5_0
+  LFO 2 Retrigger            | Main_Button_1_5_0
+  LFO 2 Sync                 | Main_Button_0_6_0
+
+  Structure                  | Main_Button_0_7_0
+  Retrigger                  | Main_Button_1_7_0
+
+# Main Rotary
+
+  Mallet Volume              | Main_Rotary_0_0_0
+  Mallet Volume < Key        | Main_Rotary_1_0_0
+  Mallet Volume < Vel        | Main_Rotary_2_0_0
+  Mallet Noise Amount        | Main_Rotary_0_1_0
+  Mallet Noise Amount < Key  | Main_Rotary_1_1_0
+  Mallet Noise Amount < Vel  | Main_Rotary_2_1_0
+  Mallet Stiffness           | Main_Rotary_0_2_0
+  Mallet Stiffness < Key     | Main_Rotary_1_2_0
+  Mallet Stiffness < Vel     | Main_Rotary_2_2_0
+
+  Noise Volume               | Main_Rotary_0_3_0
+  Noise Volume < Key         | Main_Rotary_1_3_0
+  Noise Volume < Vel         | Main_Rotary_2_3_0
+  Noise Filter Type          | Main_Rotary_0_4_0
+  Noise Filter Freq          | Main_Rotary_1_4_0
+  Noise Filter Q             | Main_Rotary_2_4_0
+  Noise Freq < Key           | Main_Rotary_0_5_0
+  Noise Freq < Vel           | Main_Rotary_1_5_0
+  Noise Freq < Env           | Main_Rotary_2_5_0
+
+  Noise Attack               | Main_Rotary_0_6_0
+  Noise Decay                | Main_Rotary_1_6_0
+  Noise Sustain              | Main_Rotary_2_6_0
+
+  Noise Release              | Main_Rotary_0_7_0
+  Mallet Noise Color         | Main_Rotary_1_7_0
+  Volume                     | Main_Rotary_2_7_0
+
+# Group Rotary 1
+
+  LFO 1 Shape                | Group_Rotary_0_0_0
+  LFO 1 Depth                | Group_Rotary_0_1_0
+  LFO 1 Depth < Vel          | Group_Rotary_0_2_0
+  LFO 1 Rate                 | Group_Rotary_0_3_0
+  LFO 1 Sync Rate            | Group_Rotary_0_4_0
+  LFO 1 Rate < Key           | Group_Rotary_0_5_0
+  LFO 1 Offset               | Group_Rotary_0_6_0
+  Voices                     | Group_Rotary_0_7_0
+
+# Group Rotary 2
+
+  LFO 2 Shape                | Group_Rotary_1_0_0
+  LFO 2 Depth                | Group_Rotary_1_1_0
+  LFO 2 Depth < Vel          | Group_Rotary_1_2_0
+  LFO 2 Rate                 | Group_Rotary_1_3_0
+  LFO 2 Sync Rate            | Group_Rotary_1_4_0
+  LFO 2 Rate < Key           | Group_Rotary_1_5_0
+  LFO 2 Offset               | Group_Rotary_1_6_0
+
+# Group Rotary 3
+
+  LFO 1 Destination A        | Group_Rotary_2_0_0
+  LFO 1 Destination A Amount | Group_Rotary_2_1_0
+  LFO 1 Destination B        | Group_Rotary_2_2_0
+  LFO 1 Destination B Amount | Group_Rotary_2_3_0
+
+# Group Rotary 4
+
+  LFO 2 Destination A        | Group_Rotary_3_0_0
+  LFO 2 Destination A Amount | Group_Rotary_3_1_0
+  LFO 2 Destination B        | Group_Rotary_3_2_0
+  LFO 2 Destination B Amount | Group_Rotary_3_3_0
+
+# Bank 2
+
+  Res 1 On/Off               | Main_Button_0_0_1
+
+# Main Rotary
+
+  Res 1 Tune                 | Main_Rotary_0_0_1
+  Res 1 Fine Tune            | Main_Rotary_1_0_1
+  Res 1 Tune < Key           | Main_Rotary_2_0_1
+
+  Res 1 Pitch Env.           | Main_Rotary_0_1_1
+  Res 1 Pitch Env. Time      | Main_Rotary_1_1_1
+  Res 1 Pitch Env. < Vel     | Main_Rotary_2_1_1
+
+  Res 1 Type                 | Main_Rotary_0_2_1
+  Res 1 Quality              | Main_Rotary_1_2_1
+  Res 1 Inharmonics < Vel    | Main_Rotary_2_2_1
+
+  Res 1 Ratio                | Main_Rotary_0_3_1
+  Res 1 Brightness           | Main_Rotary_1_3_1
+  Res 1 Inharmonics          | Main_Rotary_2_3_1
+
+  Res 1 Decay                | Main_Rotary_0_4_1
+  Res 1 Decay < Key          | Main_Rotary_1_4_1
+  Res 1 Decay < Vel          | Main_Rotary_2_4_1
+
+  Res 1 Material             | Main_Rotary_0_5_1
+  Res 1 Material < Key       | Main_Rotary_1_5_1
+  Res 1 Material < Vel       | Main_Rotary_2_5_1
+
+  Res 1 Listening L          | Main_Rotary_0_6_1
+  Res 1 Listening R          | Main_Rotary_1_6_1
+  Res 1 Hit                  | Main_Rotary_2_6_1
+
+  Res 1 Volume               | Main_Rotary_0_7_1
+  Res 1 Bleed                | Main_Rotary_1_7_1
+  Panorama                   | Main_Rotary_2_7_1
+
+# Group Rotary 1
+
+  Res 1 Off Decay            | Group_Rotary_0_0_1
+  Res 1 Hit < Random         | Group_Rotary_0_1_1
+  Res 1 Radius               | Group_Rotary_0_2_1
+  Res 1 Radius < Key         | Group_Rotary_0_3_1
+  Res 1 Radius < Vel         | Group_Rotary_0_4_1
+  Res 1 Opening              | Group_Rotary_0_5_1
+  Res 1 Opening < Vel        | Group_Rotary_0_6_1
+  Pan < Key                  | Group_Rotary_0_7_1
+
+# Group Rotary 2
+
+  PB Destination A           | Group_Rotary_1_0_1
+  PB Destination A Amount    | Group_Rotary_1_1_1
+  PB Range                   | Group_Rotary_1_2_1
+  MW Destination A           | Group_Rotary_1_3_1
+  MW Destination A Amount    | Group_Rotary_1_4_1
+  MW Destination B           | Group_Rotary_1_5_1
+  MW Destination B Amount    | Group_Rotary_1_6_1
+
+# Group Rotary 3
+
+  AT Destination A           | Group_Rotary_2_0_1
+  AT Destination A Amount    | Group_Rotary_2_1_1
+  AT Destination B           | Group_Rotary_2_2_1
+  AT Destination B Amount    | Group_Rotary_2_3_1
+
+# Bank 3
+
+  Res 2 On/Off               | Main_Button_0_0_2
+
+# Main Rotary
+
+  Res 2 Tune                 | Main_Rotary_0_0_2
+  Res 2 Fine Tune            | Main_Rotary_1_0_2
+  Res 2 Tune < Key           | Main_Rotary_2_0_2
+
+  Res 2 Pitch Env.           | Main_Rotary_0_1_2
+  Res 2 Pitch Env. Time      | Main_Rotary_1_1_2
+  Res 2 Pitch Env. < Vel     | Main_Rotary_2_1_2
+
+  Res 2 Type                 | Main_Rotary_0_2_2
+  Res 2 Quality              | Main_Rotary_1_2_2
+  Res 2 Inharmonics < Vel    | Main_Rotary_2_2_2
+
+  Res 2 Ratio                | Main_Rotary_0_3_2
+  Res 2 Brightness           | Main_Rotary_1_3_2
+  Res 2 Inharmonics          | Main_Rotary_2_3_2
+
+  Res 2 Decay                | Main_Rotary_0_4_2
+  Res 2 Decay < Key          | Main_Rotary_1_4_2
+  Res 2 Decay < Vel          | Main_Rotary_2_4_2
+
+  Res 2 Material             | Main_Rotary_0_5_2
+  Res 2 Material < Vel       | Main_Rotary_1_5_2
+  Res 2 Material < Key       | Main_Rotary_2_5_2
+
+  Res 2 Listening L          | Main_Rotary_0_6_2
+  Res 2 Listening R          | Main_Rotary_1_6_2
+  Res 2 Hit                  | Main_Rotary_2_6_2
+
+  Res 2 Volume               | Main_Rotary_0_7_2
+  Res 2 Bleed                | Main_Rotary_1_7_2
+
+# Group Rotary 1
+
+  Res 2 Off Decay            | Group_Rotary_0_0_2
+  Res 2 Hit < Random         | Group_Rotary_0_1_2
+  Res 2 Radius               | Group_Rotary_0_2_2
+  Res 2 Radius < Key         | Group_Rotary_0_3_2
+  Res 2 Radius < Vel         | Group_Rotary_0_4_2
+  Res 2 Opening              | Group_Rotary_0_5_2
+  Res 2 Opening < Vel        | Group_Rotary_0_6_2

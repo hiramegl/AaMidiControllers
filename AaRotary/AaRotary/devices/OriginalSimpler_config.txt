@@ -1,0 +1,167 @@
+# ******************************************************************************
+# Configuration file for OriginalSimpler device
+# ******************************************************************************
+
+# Bank 1
+
+  Device On                    | Main_Button_0_0_0
+  Preset Save                  | Main_Button_1_0_0
+  Preset Prev                  | Main_Button_0_1_0
+  Preset Next                  | Main_Button_1_1_0
+
+  S Loop On                    | Main_Button_0_2_0
+  Snap                         | Main_Button_1_2_0
+  Retrigger                    | Main_Button_0_3_0
+  Trigger Mode                 | Main_Button_1_3_0
+
+  Reverse                      | Main_Button_0_4_0
+  Clear Slices                 | Main_Button_1_4_0
+  Crop                         | Main_Button_0_5_0
+
+  Warp                         | Main_Button_0_6_0
+  Warp Half                    | Main_Button_1_6_0
+  Warp As                      | Main_Button_0_7_0
+  Warp Double                  | Main_Button_1_7_0
+
+# Main Rotary
+
+  Playback Mode                | Main_Rotary_0_0_0
+  Gain                         | Main_Rotary_0_1_0
+  S Start                      | Main_Rotary_0_2_0
+  S Loop Length                | Main_Rotary_0_3_0
+  S Length                     | Main_Rotary_0_4_0
+  S Loop Fade                  | Main_Rotary_0_5_0
+  Voices                       | Main_Rotary_0_6_0
+  Warp Mode                    | Main_Rotary_0_7_0
+
+  Beats Gran Res               | Main_Rotary_1_0_0
+  Beats Trans Loop Mode        | Main_Rotary_1_1_0
+  Beats Trans Envelope         | Main_Rotary_1_2_0
+  Tones Grain Size             | Main_Rotary_1_3_0
+  Texture Grain Size           | Main_Rotary_1_4_0
+  Texture Flux                 | Main_Rotary_1_5_0
+  Start Marker Pos             | Main_Rotary_1_6_0
+  End Marker Pos               | Main_Rotary_1_7_0
+
+  Complex Pro Formants         | Main_Rotary_2_0_0
+  Complex Pro Envelope         | Main_Rotary_2_1_0
+  Slicing Style                | Main_Rotary_2_2_0
+  Slicing Sensitivity          | Main_Rotary_2_3_0
+  Slicing Beat Division        | Main_Rotary_2_4_0
+  Slicing Region Count         | Main_Rotary_2_5_0
+  Start Marker Res             | Main_Rotary_2_6_0
+  End Marker Res               | Main_Rotary_2_7_0
+
+# Group Rotary 1
+
+  Ve Attack                    | Group_Rotary_0_0_0
+  Ve Decay                     | Group_Rotary_0_1_0
+  Ve Sustain                   | Group_Rotary_0_2_0
+  Ve Release                   | Group_Rotary_0_3_0
+  Volume                       | Group_Rotary_0_4_0
+
+# Group Rotary 2
+
+  Slicing Playback Mode        | Group_Rotary_1_0_0
+  Fade In                      | Group_Rotary_1_1_0
+  Fade Out                     | Group_Rotary_1_2_0
+
+# Bank 2 *************************************************************
+
+  F On                         | Main_Button_0_0_1
+  Filter Slope                 | Main_Button_1_0_1
+  Fe On                        | Main_Button_0_1_1
+  Filter Circuit - BP/NO/Morph | Main_Button_1_1_1
+
+  L On                         | Main_Button_0_2_1
+  L Retrig                     | Main_Button_0_3_1
+  L Sync                       | Main_Button_1_3_1
+
+# Main Rotary
+
+  Filter Type                  | Main_Rotary_0_0_1
+  Filter Circuit - LP/HP       | Main_Rotary_0_1_1
+  Filter Freq                  | Main_Rotary_0_2_1
+  Filter Res                   | Main_Rotary_0_3_1
+  Filter Morph                 | Main_Rotary_0_4_1
+  Filter Drive                 | Main_Rotary_0_5_1
+
+  Fe < Env                     | Main_Rotary_1_0_1
+  Fe Attack                    | Main_Rotary_1_1_1
+  Fe Decay                     | Main_Rotary_1_2_1
+  Fe Sustain                   | Main_Rotary_1_3_1
+  Fe Release                   | Main_Rotary_1_4_1
+  Filt < Vel                   | Main_Rotary_1_5_1
+  Filt < Key                   | Main_Rotary_1_6_1
+
+  L Attack                     | Main_Rotary_2_0_1
+  L R < Key                    | Main_Rotary_2_1_1
+  L Offset                     | Main_Rotary_2_2_1
+  Vol < LFO                    | Main_Rotary_2_3_1
+  Pitch < LFO                  | Main_Rotary_2_4_1
+  Pan < LFO                    | Main_Rotary_2_5_1
+  Filt < LFO                   | Main_Rotary_2_6_1
+  L Wave                       | Main_Rotary_2_7_1
+
+# Group Rotary 1
+
+  L Rate                       | Group_Rotary_0_0_1
+  L Sync Rate                  | Group_Rotary_0_1_1
+
+# Group Rotary 3
+
+  Fe R < Vel                   | Group_Rotary_2_0_1
+  Fe Mode                      | Group_Rotary_2_1_1
+  Fe Loop                      | Group_Rotary_2_2_1
+  Fe Retrig                    | Group_Rotary_2_3_1
+  Fe Init                      | Group_Rotary_2_4_1
+  Fe Peak                      | Group_Rotary_2_5_1
+  Fe End                       | Group_Rotary_2_6_1
+
+# Group Rotary 4
+
+  Fe A Slope                   | Group_Rotary_3_0_1
+  Fe D Slope                   | Group_Rotary_3_1_1
+  Fe R Slope                   | Group_Rotary_3_2_1
+
+# Bank 3 *************************************************************
+
+  Pe On                        | Main_Button_0_0_2
+
+# Main Rotary
+
+  Ve Loop                      | Main_Rotary_0_0_2
+  Ve Mode                      | Main_Rotary_0_1_2
+  Ve Retrig                    | Main_Rotary_0_2_2
+
+  Pan                          | Main_Rotary_0_4_2
+  Pan < Rnd                    | Main_Rotary_0_5_2
+  Transpose                    | Main_Rotary_0_6_2
+  Glide Mode                   | Main_Rotary_0_7_2
+  Spread                       | Main_Rotary_1_4_2
+  Vol < Vel                    | Main_Rotary_1_5_2
+  Detune                       | Main_Rotary_1_6_2
+  Glide Time                   | Main_Rotary_1_7_2
+
+  Pe < Env                     | Main_Rotary_2_0_2
+  Pe Attack                    | Main_Rotary_2_1_2
+  Pe Decay                     | Main_Rotary_2_2_2
+  Pe Sustain                   | Main_Rotary_2_3_2
+  Pe Release                   | Main_Rotary_2_4_2
+  Sample Selector              | Main_Rotary_2_5_2
+
+# Group Rotary 1
+
+  Pe R < Vel                   | Group_Rotary_0_0_2
+  Pe Init                      | Group_Rotary_0_1_2
+  Pe Peak                      | Group_Rotary_0_2_2
+  Pe End                       | Group_Rotary_0_3_2
+  Pe A Slope                   | Group_Rotary_0_4_2
+  Pe D Slope                   | Group_Rotary_0_5_2
+  Pe R Slope                   | Group_Rotary_0_6_2
+
+# Group Rotary 2
+
+  Pe Mode                      | Group_Rotary_1_0_2
+  Pe Loop                      | Group_Rotary_1_1_2
+  Pe Retrig                    | Group_Rotary_1_2_2

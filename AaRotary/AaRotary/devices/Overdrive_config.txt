@@ -1,0 +1,25 @@
+# ******************************************************************************
+# Configuration file for Overdrive device
+# ******************************************************************************
+
+  Device On         | Main_Button_0_0
+  Preset Save       | Main_Button_1_0
+
+# Main rotary groups
+
+  Drive             | Main_Rotary_0_0
+  Tone              | Main_Rotary_1_0
+  Dry/Wet           | Main_Rotary_2_0
+
+# Rotary / Button Group 1
+
+  Filter Freq       | Group_Rotary_0_0
+
+# Rotary / Button Group 2
+
+  Filter Width      | Group_Rotary_1_0
+
+# Rotary / Button Group 3
+
+  Preserve Dynamics | Group_Rotary_2_0
+

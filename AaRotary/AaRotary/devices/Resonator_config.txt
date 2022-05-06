@@ -1,0 +1,51 @@
+# ******************************************************************************
+# Configuration file for Resonator device
+# ******************************************************************************
+
+  Device On      | Main_Button_0_0
+  Preset Save    | Main_Button_1_0
+  Preset Prev    | Main_Button_0_1
+  Preset Next    | Main_Button_1_1
+
+  Filter On      | Main_Button_0_2
+  Const          | Main_Button_0_3
+
+# Main rotary groups
+
+  Frequency      | Main_Rotary_0_0
+  Filter Type    | Main_Rotary_1_0
+  Dry/Wet        | Main_Rotary_2_0
+                
+  I Note         | Main_Rotary_0_1
+  I Tune         | Main_Rotary_1_1
+  I Gain         | Main_Rotary_2_1
+                
+  II Pitch       | Main_Rotary_0_2
+  II Tune        | Main_Rotary_1_2
+  II Gain        | Main_Rotary_2_2
+                
+  III Pitch      | Main_Rotary_0_3
+  III Tune       | Main_Rotary_1_3
+  III Gain       | Main_Rotary_2_3
+                
+  IV Pitch       | Main_Rotary_0_4
+  IV Tune        | Main_Rotary_1_4
+  IV Gain        | Main_Rotary_2_4
+                
+  V Pitch        | Main_Rotary_0_5
+  V Tune         | Main_Rotary_1_5
+  V Gain         | Main_Rotary_2_5
+
+# Rotary / Button Group 1
+
+  Mode           | Group_Button_0_0
+  I On           | Group_Button_0_1
+  II On          | Group_Button_0_2
+  III On         | Group_Button_0_3
+  IV On          | Group_Button_0_4
+  V On           | Group_Button_0_5
+             
+  Decay          | Group_Rotary_0_0
+  Color          | Group_Rotary_0_1
+  Width          | Group_Rotary_0_2
+  Global Gain    | Group_Rotary_0_3

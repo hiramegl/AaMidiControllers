@@ -1,0 +1,34 @@
+# ******************************************************************************
+# Configuration file for AutoPan device
+# ******************************************************************************
+
+  Device On       | Main_Button_0_0
+  Preset Save     | Main_Button_1_0
+  Preset Prev     | Main_Button_0_1
+  Preset Next     | Main_Button_1_1
+
+# Main rotary groups
+
+  Amount          | Main_Rotary_0_0
+  Sync Rate       | Main_Rotary_0_1
+
+  Phase           | Main_Rotary_1_0
+  Shape           | Main_Rotary_1_1
+
+  Offset          | Main_Rotary_2_0
+  Waveform        | Main_Rotary_2_1
+
+# Rotary / Button Group 1
+
+  LFO Type        | Group_Button_0_0
+  Stereo Mode     | Group_Button_0_1
+
+  Frequency       | Group_Rotary_0_0
+  Spin            | Group_Rotary_0_1
+
+# Rotary / Button Group 2
+
+  Invert          | Group_Button_1_0
+
+  Width (Random)  | Group_Rotary_1_0
+

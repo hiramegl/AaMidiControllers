@@ -1,0 +1,47 @@
+# ******************************************************************************
+# Configuration file for Delay device
+# ******************************************************************************
+
+  Device On           | Main_Button_0_0
+  Preset Save         | Main_Button_1_0
+  Preset Prev         | Main_Button_0_1
+  Preset Next         | Main_Button_1_1
+
+# Main rotary groups
+
+  L 16th              | Main_Rotary_0_0
+  L Offset            | Main_Rotary_1_0
+  Feedback            | Main_Rotary_2_0
+  R 16th              | Main_Rotary_0_1
+  R Offset            | Main_Rotary_1_1
+  Dry/Wet             | Main_Rotary_2_1
+
+# Rotary / Button Group 1
+
+  L Sync              | Group_Button_0_0
+  R Sync              | Group_Button_0_1
+
+  L Time              | Group_Rotary_0_0
+  R Time              | Group_Rotary_0_1
+
+# Rotary / Button Group 2
+
+  Filter On           | Group_Button_1_0
+
+  Filter Freq         | Group_Rotary_1_0
+  Filter Width        | Group_Rotary_1_1
+
+# Rotary / Button Group 3
+
+  Link                | Group_Button_2_0
+
+  Mod Freq            | Group_Rotary_2_0
+  Filter < Mod        | Group_Rotary_2_1
+
+# Rotary / Button Group 4
+
+  Freeze              | Group_Button_3_0
+  Ping Pong           | Group_Button_3_1
+
+  Dly < Mod           | Group_Rotary_3_0
+  Delay Mode          | Group_Rotary_3_1

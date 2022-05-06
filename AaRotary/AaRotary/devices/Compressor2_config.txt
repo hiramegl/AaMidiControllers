@@ -1,0 +1,50 @@
+# ******************************************************************************
+# Configuration file for Compressor2 device
+# ******************************************************************************
+
+  Device On           | Main_Button_0_0
+  Preset Save         | Main_Button_1_0
+  Preset Prev         | Main_Button_0_1
+  Preset Next         | Main_Button_1_1
+
+# Main Rotary
+
+  S/C Gain            | Main_Rotary_0_0 # Main rotary groups
+  S/C Mix             | Main_Rotary_1_0
+  Dry/Wet             | Main_Rotary_2_0
+
+  Ratio               | Main_Rotary_0_1
+  Attack              | Main_Rotary_1_1
+  Release             | Main_Rotary_2_1
+
+# Rotary / Button Group 1
+
+  S/C On              | Group_Button_0_0
+  S/C EQ On           | Group_Button_0_1
+
+  S/C EQ Type         | Group_Rotary_0_0
+  S/C EQ Freq         | Group_Rotary_0_1
+
+# Rotary / Button Group 1
+
+  S/C Listen          | Group_Button_1_0
+  Auto Release On/Off | Group_Button_1_1
+
+  S/C EQ Gain         | Group_Rotary_1_0
+  S/C EQ Q            | Group_Rotary_1_1
+
+# Rotary / Button Group 3
+
+  Makeup              | Group_Button_2_0
+  Env Mode            | Group_Button_2_1
+
+  Threshold           | Group_Rotary_2_0
+  Knee                | Group_Rotary_2_1
+
+# Rotary / Button Group 4
+
+  LookAhead           | Group_Button_3_0
+  Model               | Group_Button_3_1
+
+  Output Gain         | Group_Rotary_3_0
+  Expansion Ratio     | Group_Rotary_3_1

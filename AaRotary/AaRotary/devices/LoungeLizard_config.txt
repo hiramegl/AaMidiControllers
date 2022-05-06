@@ -1,0 +1,56 @@
+# ******************************************************************************
+# Configuration file for LoungeLizard (Electric) device
+# ******************************************************************************
+
+# Bank 1
+
+  Device On      | Main_Button_0_0_0
+  Preset Save    | Main_Button_1_0_0
+  Preset Prev    | Main_Button_0_1_0
+  Preset Next    | Main_Button_1_1_0
+
+  Pickup Model   | Main_Button_0_2_0
+
+# Main Rotary
+
+  M Stiffness    | Main_Rotary_0_0_0
+  M Force        | Main_Rotary_1_0_0
+
+  Noise Pitch    | Main_Rotary_0_1_0
+  Noise Decay    | Main_Rotary_1_1_0
+  Noise Amount   | Main_Rotary_2_1_0
+
+  F Tine Color   | Main_Rotary_0_2_0
+  F Tine Decay   | Main_Rotary_1_2_0
+  F Tine Vol     | Main_Rotary_2_2_0
+
+  F Tone Decay   | Main_Rotary_0_3_0
+  F Tone Vol     | Main_Rotary_1_3_0
+  F Release      | Main_Rotary_2_3_0
+
+  Damp Tone      | Main_Rotary_0_4_0
+  Damp Balance   | Main_Rotary_1_4_0
+  Damp Amount    | Main_Rotary_2_4_0
+
+  P Symmetry     | Main_Rotary_0_5_0
+  P Distance     | Main_Rotary_1_5_0
+  P Amp In       | Main_Rotary_2_5_0
+
+  Volume         | Main_Rotary_0_6_0
+  Voices         | Main_Rotary_1_6_0
+  Semitone       | Main_Rotary_2_6_0
+
+  Detune         | Main_Rotary_0_7_0
+  KB Stretch     | Main_Rotary_1_7_0
+  PB Range       | Main_Rotary_2_7_0
+
+# Group Rotary 1
+
+  M Stiff < Vel  | Group_Rotary_0_0_0
+  M Stiff < Key  | Group_Rotary_0_1_0
+  M Force < Vel  | Group_Rotary_0_2_0
+  M Force < Key  | Group_Rotary_0_3_0
+  Noise < Key    | Group_Rotary_0_4_0
+  F Tine < Key   | Group_Rotary_0_5_0
+  P Amp Out      | Group_Rotary_0_6_0
+  P Amp < Key    | Group_Rotary_0_7_0

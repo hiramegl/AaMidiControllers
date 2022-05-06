@@ -1,0 +1,6 @@
+@params:Drive|Dry/Wet|Filter Freq|Filter Width|Preserve Dynamics|Tone
+Distort:100.0|100.0|0.578125|9.0|1.0|50.0
+Enhance:50.0|7.0|1.0|3.0234375|0.0|50.0
+Mids Distort:75.0|100.0|0.568181812763|0.5|1.0|50.0
+Mids Overdrive:100.0|10.0|0.613636374474|1.296875|0.75|50.0
+Overdrive:60.0|25.0|0.659090936184|6.34375|0.34999999404|39.6825408936

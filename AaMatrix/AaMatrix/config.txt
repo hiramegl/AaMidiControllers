@@ -1,0 +1,8 @@
+# ******************************************************************************
+# Configuration file for 'AaMatrix' Ableton Live controller
+# ******************************************************************************
+
+# Controller features
+  num_tracks     | 8
+  num_scenes     | 8
+

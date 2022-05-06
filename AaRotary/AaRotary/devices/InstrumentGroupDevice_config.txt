@@ -1,0 +1,22 @@
+# ******************************************************************************
+# Configuration file for InstrumentGroupDevice device
+# ******************************************************************************
+
+  Device On       | Main_Button_0_0
+  Preset Save     | Main_Button_1_0
+  Preset Prev     | Main_Button_0_1
+  Preset Next     | Main_Button_1_1
+
+# Main rotary groups
+
+  Macro 1         | Main_Rotary_0_0
+  Macro 2         | Main_Rotary_0_1
+  Macro 3         | Main_Rotary_0_2
+  Macro 4         | Main_Rotary_0_3
+
+  Macro 5         | Main_Rotary_1_0
+  Macro 6         | Main_Rotary_1_1
+  Macro 7         | Main_Rotary_1_2
+  Macro 8         | Main_Rotary_1_3
+
+  Chain Selector  | Main_Rotary_2_0

@@ -1,0 +1,210 @@
+Inheritance tree
+================
+                          Object
+                             |
+                      Disconnectable --------------------------------------------------------------------------
+                      /             \                                                                          \
+       CompoundDisconnectable     Subject----------------------------------------------------                  |
+                |                    |                                    \                  \                 |
+           SlotManager               |                                    |                   \          ControlElement
+          /           \              |                                    |                    \        /
+ ControlSurface   ControlManager     |                                    |               NotifyingControlElement
+                        \            |                                    |                        |
+                   ControlSurfaceComponent-------------------------       |               InputControlElement    ButtonElementMixin
+                  /                       \                        \      |                    /      \             /
+          CompoundComponent           ChannelStripComponent,    DeviceComponent    EncoderElement      ButtonElement
+                 |                    ToggleComponent,                                    |
+         MixerComponent,              ScrollComponent,                              SliderElement
+         SessionComponent,            DrumRackComponent,
+         TransportComponent,          ClipSlotComponent
+         SessionZoomingComponent,     BackgroundComponent
+         ViewControlComponent,
+         SceneComponent,
+         SessionRecordingComponent,
+         SliderComponent
+
+ControlSurface:
+  - has a reference _c_instance which is a ?
+  - has a getter for song(), components(), root_components(), application()
+  - has schedule_message()
+
+CompoundComponent:
+  - has register_components()
+
+========================================================================================================================================================================================================
+
+--- IMPLEMENTED / DEVICE
+Live.SimplerDevice.SimplerDevice.playback_mode      [Property] Access to Simpler's playback mode.
+Live.SimplerDevice.SimplerDevice.retrigger          [Property] Access to Simpler's retrigger mode.
+Live.SimplerDevice.SimplerDevice.voices             [Property] Access to the number of voices in Simpler.
+    Live.SimplerDevice.get_available_voice_numbers()[Built-In] get_available_voice_numbers() -> IntVector : Get a vector of valid Simpler voice numbers. C++ signature : std::__1::vector<int, std::__1::allocator<int> > get_available_voice_numbers()
+Live.SimplerDevice.SimplerDevice.reverse()          [Method] reverse( (SimplerDevice)self) -> None : Reverse the loaded sample. Calling this method on an empty simpler raises an error. C++ signature : void reverse(TSimplerDevicePyHandle)
+Live.SimplerDevice.SimplerDevice.crop()             [Method] crop( (SimplerDevice)self) -> None : Crop the loaded sample to the active area between start- and end marker. Calling this method on an empty simpler raises an error. C++ signature : void crop(TSimplerDevicePyHandle)
+Live.SimplerDevice.SimplerDevice.warp_as()                [Method] warp_as( (SimplerDevice)self, (float)beat_time) -> None : Warp the playback region between start- and end-marker as the given length. Calling this method on an empty simpler raises an error. C++ signature : void warp_as(TSimplerDevicePyHandle,double)
+Live.SimplerDevice.SimplerDevice.guess_playback_length()  [Method] guess_playback_length( (SimplerDevice)self) -> float : Return an estimated beat time for the playback length between start- and end-marker. Calling this method on an empty simpler raises an error. C++ signature : double guess_playback_length(TSimplerDevicePyHandle)
+Live.SimplerDevice.SimplerDevice.can_warp_as              [Property] Returns true if warp_as is available.
+Live.SimplerDevice.SimplerDevice.can_warp_double          [Property] Returns true if warp_double is available.
+Live.SimplerDevice.SimplerDevice.warp_double()            [Method] warp_double( (SimplerDevice)self) -> None : Doubles the tempo for region between start- and end-marker. C++ signature : void warp_double(TSimplerDevicePyHandle)
+Live.SimplerDevice.SimplerDevice.can_warp_half            [Property] Returns true if warp_half is available.
+Live.SimplerDevice.SimplerDevice.warp_half()              [Method] warp_half( (SimplerDevice)self) -> None : Halves the tempo for region between start- and end-marker. C++ signature : void warp_half(TSimplerDevicePyHandle)
+Live.SimplerDevice.SimplerDevice.slicing_playback_mode    [Property] Access to Simpler's slicing playback mode. 0 = Mono, 1 = Poly, 2 = Thru
+--- IMPLEMENTED / SAMPLE
+Live.Sample.Sample.length                       [Property] Get the length of the sample file in sample frames.
+Live.Sample.Sample.gain                         [Property] Access to the sample gain.
+Live.Sample.Sample.start_marker                 [Property] Access to the position of the sample's start marker.
+Live.Sample.Sample.end_marker                   [Property] Access to the position of the sample's end marker.
+Live.Sample.Sample.warp_mode                    [Property] Access to the sample's warp mode.
+Live.Sample.Sample.warping                      [Property] Access to the sample's warping property.
+Live.Sample.Sample.beats_granulation_resolution [Property] Access to the Granulation Resolution parameter in Beats Warp Mode.
+Live.Sample.Sample.beats_transient_loop_mode    [Property] Access to the Transient Loop Mode parameter in Beats Warp Mode.
+Live.Sample.Sample.beats_transient_envelope     [Property] Access to the Transient Envelope parameter in Beats Warp Mode. 0 ... 100
+Live.Sample.Sample.tones_grain_size             [Property] Access to the Grain Size parameter in Tones Warp Mode.
+Live.Sample.Sample.texture_grain_size           [Property] Access to the Grain Size parameter in Texture Warp Mode.
+Live.Sample.Sample.texture_flux                 [Property] Access to the Flux parameter in Texture Warp Mode. 0 ... 100
+Live.Sample.Sample.complex_pro_formants         [Property] Access to the Formants parameter in Complex Pro Warp Mode. 0 ... 100
+Live.Sample.Sample.complex_pro_envelope         [Property] Access to the Envelope parameter in Complex Pro Mode. 8 ... 256
+Live.Sample.Sample.clear_slices()               [Method] clear_slices( (Sample)self) -> None : Clears all slices created in Simpler's manual mode. C++ signature : void clear_slices(TPyHandle<AMultiSamplePart>)
+Live.Sample.Sample.slicing_style                [Property] Access to sample's slicing style.
+    Live.Sample.SlicingStyle.beat                      [Value] 0
+    Live.Sample.SlicingStyle.manual                    [Value] 1
+    Live.Sample.SlicingStyle.region                    [Value] 2
+    Live.Sample.SlicingStyle.transient                 [Value] 3
+Live.Sample.Sample.slicing_sensitivity          [Property] Access to sample's slicing sensitivity whose sensitivity is in between 0.0 and 1.0.The higher the sensitivity, the more slices will be available.
+Live.Sample.Sample.slicing_beat_division        [Property] Access to sample's slicing step size.
+    Live.Sample.SlicingBeatDivision.eighth             [Value] 0
+    Live.Sample.SlicingBeatDivision.eighth_triplett    [Value] 1
+    Live.Sample.SlicingBeatDivision.four_bars          [Value] 2
+    Live.Sample.SlicingBeatDivision.half               [Value] 3
+    Live.Sample.SlicingBeatDivision.half_triplett      [Value] 4
+    Live.Sample.SlicingBeatDivision.one_bar            [Value] 5
+    Live.Sample.SlicingBeatDivision.quarter            [Value] 6
+    Live.Sample.SlicingBeatDivision.quarter_triplett   [Value] 7
+    Live.Sample.SlicingBeatDivision.sixteenth          [Value] 8
+    Live.Sample.SlicingBeatDivision.sixteenth_triplett [Value] 9
+    Live.Sample.SlicingBeatDivision.two_bars           [Value] 10
+Live.Sample.Sample.slicing_region_count         [Property] Access to sample's slicing split count. 2 ... 64
+- TO IMPLEMENT ====================================================================================================
+Live.SimplerDevice.SimplerDevice.View.sample_loop_fade    [Property] Access to the modulated samples loop fade position in samples. Returns -1 in case there is no sample loaded.
+Live.SimplerDevice.SimplerDevice.pad_slicing              [Property] When set to true, slices can be added in slicing mode by playing notes .that are not assigned to slices, yet.
+Live.SimplerDevice.SimplerDevice.playing_position         [Property] Constant access to the current playing position in the sample. The returned value is the normalized position between sample start and end.
+Live.SimplerDevice.SimplerDevice.playing_position_enabled [Property] Returns whether Simpler is showing the playing position. The returned value is True while the sample is played back
+Live.SimplerDevice.SimplerDevice.store_chosen_bank()      [Method] store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -> None : Set the selected bank in the device for persistency. C++ signature : void store_chosen_bank(TPyHandle<ADevice>,int,int)
+-----------
+Live.Sample.Sample.slices                       [Property] Access to the list of slice points in sample time in the sample.
+Live.Sample.Sample.beat_to_sample_time()        [Method] beat_to_sample_time( (Sample)self, (float)beat_time) -> float : Converts the given beat time to sample time. Raises an error if the sample is not warped. C++ signature : double beat_to_sample_time(TPyHandle<AMultiSamplePart>,double)
+Live.Sample.Sample.sample_to_beat_time()        [Method] sample_to_beat_time( (Sample)self, (float)sample_time) -> float : Converts the given sample time to beat time. Raises an error if the sample is not warped. C++ signature : double sample_to_beat_time(TPyHandle<AMultiSamplePart>,double)
+Live.Sample.Sample.insert_slice()               [Method] insert_slice( (Sample)self, (int)slice_time) -> None : Add a slice point at the provided time if there is none. C++ signature : void insert_slice(TPyHandle<AMultiSamplePart>,int)
+Live.Sample.Sample.move_slice()                 [Method] move_slice( (Sample)self, (int)old_time, (int)new_time) -> int : Move the slice point at the provided time. C++ signature : int move_slice(TPyHandle<AMultiSamplePart>,int,int)
+Live.Sample.Sample.remove_slice()               [Method] remove_slice( (Sample)self, (int)slice_time) -> None : Remove the slice point at the provided time if there is one. C++ signature : void remove_slice(TPyHandle<AMultiSamplePart>,int)
+Live.Sample.Sample.reset_slices()               [Method] reset_slices( (Sample)self) -> None : Resets all edited slices to their original positions. C++ signature : void reset_slices(TPyHandle<AMultiSamplePart>)
+
+Live.SimplerDevice.SimplerDevice.View.sample_start        [Property] Access to the modulated samples start position in samples. Returns -1 in case there is no sample loaded.
+Live.SimplerDevice.SimplerDevice.View.sample_end          [Property] Access to the modulated samples end position in samples. Returns -1 in case there is no sample loaded.
+Live.SimplerDevice.SimplerDevice.View.sample_loop_start   [Property] Access to the modulated samples loop start position in samples. Returns -1 in case there is no sample loaded.
+Live.SimplerDevice.SimplerDevice.View.sample_loop_end     [Property] Access to the modulated samples loop end position in samples. Returns -1 in case there is no sample loaded.
+Live.SimplerDevice.SimplerDevice.View.sample_env_fade_in  [Property] Access to the envelope fade-in time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded.
+Live.SimplerDevice.SimplerDevice.View.sample_env_fade_out [Property] Access to the envelope fade-out time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded.
+Live.SimplerDevice.SimplerDevice.View.selected_slice      [Property] Access to the selected slice.
+**********************************************************************************************************************************
+Live.SimplerDevice.SimplerDevice.sample             [Property] Get the loaded Sample.
+Live.SimplerDevice.SimplerDevice.multi_sample_mode  [Property] Returns whether Simpler is in mulit-sample mode.
+Live.SimplerDevice.SimplerDevice.can_have_chains    [Property] Returns true if the device is a rack.
+Live.SimplerDevice.SimplerDevice.can_have_drum_pads [Property] Returns true if the device is a drum rack.
+Live.SimplerDevice.SimplerDevice.class_display_name [Property] Return const access to the name of the device's class name as displayed in Live's browser and device chain
+Live.SimplerDevice.SimplerDevice.class_name         [Property] Return const access to the name of the device's class.
+Live.SimplerDevice.SimplerDevice.name               [Property] Return access to the name of the device.
+Live.SimplerDevice.SimplerDevice.type               [Property] Return the type of the device.
+Live.SimplerDevice.SimplerDevice.is_active          [Property] Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+Live.Sample.Sample.gain_display_string()            [Method] gain_display_string( (Sample)self) -> unicode : Get the gain's display value as a string. C++ signature : TString gain_display_string(TPyHandle<AMultiSamplePart>)
+Live.SimplerDevice.SimplerDevice.View.is_collapsed        [Property] Get/Set/Listen if the device is shown collapsed in the device chain.
+Live.SimplerDevice.SimplerDevice.view               [Property] Representing the view aspects of a device.
+Live.SimplerDevice.SimplerDevice.parameters         [Property] Const access to the list of available automatable parameters for this device.
+
+Live.Sample.Sample.canonical_parent                 [Property] Access to the sample's canonical parent.
+Live.Sample.Sample.file_path                        [Property] Get the path of the sample file.
+====================================================================================================
+
+Live.WavetableDevice.WavetableDevice.mono_poly                              [Property] Return the current voicing mode.
+Live.WavetableDevice.WavetableDevice.poly_voices                            [Property] Return the current number of polyphonic voices. Uses the VoiceCount enumeration.
+Live.WavetableDevice.WavetableDevice.unison_mode                            [Property] Return the current unison mode.
+Live.WavetableDevice.WavetableDevice.unison_voice_count                     [Property] Return the current number of unison voices.
+Live.WavetableDevice.WavetableDevice.filter_routing                         [Property] Return the current filter routing.
+Live.WavetableDevice.WavetableDevice.oscillator_1_effect_mode               [Property] Return the current effect mode of the oscillator 1.
+Live.WavetableDevice.WavetableDevice.oscillator_1_wavetable_category        [Property] Return the current wavetable category of the oscillator 1.
+Live.WavetableDevice.WavetableDevice.oscillator_1_wavetable_index           [Property] Return the current wavetable index of the oscillator 1.
+Live.WavetableDevice.WavetableDevice.oscillator_1_wavetables                [Property] Get a vector of oscillator 1's wavetable names.
+Live.WavetableDevice.WavetableDevice.oscillator_2_effect_mode               [Property] Return the current effect mode of the oscillator 2.
+Live.WavetableDevice.WavetableDevice.oscillator_2_wavetable_category        [Property] Return the current wavetable category of the oscillator 2.
+Live.WavetableDevice.WavetableDevice.oscillator_2_wavetable_index           [Property] Return the current wavetable index of the oscillator 2.
+Live.WavetableDevice.WavetableDevice.oscillator_2_wavetables                [Property] Get a vector of oscillator 2's wavetable names.
+Live.WavetableDevice.WavetableDevice.oscillator_wavetable_categories        [Property] Get a vector of the available wavetable categories.
+Live.WavetableDevice.WavetableDevice.visible_modulation_target_names        [Property] Get the names of all the visible modulation targets.
+Live.WavetableDevice.WavetableDevice.get_modulation_target_parameter_name() [Method] get_modulation_target_parameter_name( (WavetableDevice)self, (int)target_index) -> unicode : Get the parameter name of the modulation target at the given index. C++ signature : TString get_modulation_target_parameter_name(TWavetableDevicePyHandle,int)
+Live.WavetableDevice.WavetableDevice.add_parameter_to_modulation_matrix()   [Method] add_parameter_to_modulation_matrix( (WavetableDevice)self, (DeviceParameter)parameter) -> int : Add a non-pitch parameter to the modulation matrix. C++ signature : int add_parameter_to_modulation_matrix(TWavetableDevicePyHandle,TPyHandle<ATimeableValue>)
+Live.WavetableDevice.WavetableDevice.is_parameter_modulatable()             [Method] is_parameter_modulatable( (WavetableDevice)self, (DeviceParameter)parameter) -> bool : Indicate whether the parameter is modulatable. Note that pitch parameters only exist in python and must be handled there. C++ signature : bool is_parameter_modulatable(TWavetableDevicePyHandle,TPyHandle<ATimeableValue>)
+Live.WavetableDevice.WavetableDevice.set_modulation_value()                 [Method] set_modulation_value( (WavetableDevice)self, (int)target_index, (int)source, (float)value) -> None : Set the value of a modulation amount for the given target-source connection. C++ signature : void set_modulation_value(TWavetableDevicePyHandle,int,int,float)
+Live.WavetableDevice.WavetableDevice.get_modulation_value()                 [Method] get_modulation_value( (WavetableDevice)self, (int)target_index, (int)source) -> float : Get the value of a modulation amount for the given target-source connection. C++ signature : float get_modulation_value(TWavetableDevicePyHandle,int,int)
+
+Live.WavetableDevice.EffectMode.frequency_modulation        [Value]
+Live.WavetableDevice.EffectMode.none                        [Value]
+Live.WavetableDevice.EffectMode.sync_and_pulse_width        [Value]
+Live.WavetableDevice.EffectMode.warp_and_fold               [Value]
+
+Live.WavetableDevice.FilterRouting.parallel                 [Value]
+Live.WavetableDevice.FilterRouting.serial                   [Value]
+Live.WavetableDevice.FilterRouting.split                    [Value]
+
+Live.WavetableDevice.ModulationSource.amp_envelope          [Value]
+Live.WavetableDevice.ModulationSource.envelope_2            [Value]
+Live.WavetableDevice.ModulationSource.envelope_3            [Value]
+Live.WavetableDevice.ModulationSource.lfo_1                 [Value]
+Live.WavetableDevice.ModulationSource.lfo_2                 [Value]
+Live.WavetableDevice.ModulationSource.midi_channel_pressure [Value]
+Live.WavetableDevice.ModulationSource.midi_mod_wheel        [Value]
+Live.WavetableDevice.ModulationSource.midi_note             [Value]
+Live.WavetableDevice.ModulationSource.midi_pitch_bend       [Value]
+Live.WavetableDevice.ModulationSource.midi_random           [Value]
+Live.WavetableDevice.ModulationSource.midi_velocity         [Value]
+
+Live.WavetableDevice.UnisonMode.classic                     [Value]
+Live.WavetableDevice.UnisonMode.fast_shimmer                [Value]
+Live.WavetableDevice.UnisonMode.none                        [Value]
+Live.WavetableDevice.UnisonMode.phase_sync                  [Value]
+Live.WavetableDevice.UnisonMode.position_spread             [Value]
+Live.WavetableDevice.UnisonMode.random_note                 [Value]
+Live.WavetableDevice.UnisonMode.slow_shimmer                [Value]
+
+Live.WavetableDevice.VoiceCount.eight                       [Value]
+Live.WavetableDevice.VoiceCount.five                        [Value]
+Live.WavetableDevice.VoiceCount.four                        [Value]
+Live.WavetableDevice.VoiceCount.seven                       [Value]
+Live.WavetableDevice.VoiceCount.six                         [Value]
+Live.WavetableDevice.VoiceCount.three                       [Value]
+Live.WavetableDevice.VoiceCount.two                         [Value]
+
+Live.WavetableDevice.Voicing.mono                           [Value]
+Live.WavetableDevice.Voicing.poly                           [Value]
+
+Live.WavetableDevice.WavetableDevice.can_have_chains                 [Property] Returns true if the device is a rack.
+Live.WavetableDevice.WavetableDevice.can_have_drum_pads              [Property] Returns true if the device is a drum rack.
+Live.WavetableDevice.WavetableDevice.canonical_parent                [Property] Get the canonical parent of the Device.
+Live.WavetableDevice.WavetableDevice.class_display_name              [Property] Return const access to the name of the device's class name as displayed in Live's browser and device chain
+Live.WavetableDevice.WavetableDevice.class_name                      [Property] Return const access to the name of the device's class.
+Live.WavetableDevice.WavetableDevice.name                            [Property] Return access to the name of the device.
+Live.WavetableDevice.WavetableDevice.type                            [Property] Return the type of the device.
+Live.WavetableDevice.WavetableDevice.is_active                       [Property] Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+Live.WavetableDevice.WavetableDevice.parameters                      [Property] Const access to the list of available automatable parameters for this device.
+Live.WavetableDevice.WavetableDevice.view                            [Property] Representing the view aspects of a device.
+Live.WavetableDevice.WavetableDevice.store_chosen_bank()                    [Method] store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -> None : Set the selected bank in the device for persistency. C++ signature : void store_chosen_bank(TPyHandle<ADevice>,int,int)
+Live.WavetableDevice.WavetableDevice.View.is_collapsed                      [Property] Get/Set/Listen if the device is shown collapsed in the device chain.
+====================================================================================================
+Live.CompressorDevice.CompressorDevice.View.is_collapsed  [Property] Get/Set/Listen if the device is shown collapsed in the device chain.
+Live.Device.Device.View.is_collapsed                      [Property] Get/Set/Listen if the device is shown collapsed in the device chain.
+Live.Eq8Device.Eq8Device.View.is_collapsed                [Property] Get/Set/Listen if the device is shown collapsed in the device chain.
+Live.Eq8Device.Eq8Device.View.selected_band               [Property] Access to the selected filter band.
+Live.RackDevice.RackDevice.View.drum_pads_scroll_position [Property] Access to the index of the lowest visible row of pads. Throws an exception if can_have_drum_pads is false.
+Live.RackDevice.RackDevice.View.is_collapsed              [Property] Get/Set/Listen if the device is shown collapsed in the device chain.
+Live.RackDevice.RackDevice.View.is_showing_chain_devices  [Property] Return whether the devices in the currently selected chain are visible. Throws an exception if can_have_chains is false.
+Live.RackDevice.RackDevice.View.selected_chain            [Property] Return access to the currently selected chain.
+Live.RackDevice.RackDevice.View.selected_drum_pad         [Property] Return access to the currently selected drum pad. Throws an exception if can_have_drum_pads is false.
+

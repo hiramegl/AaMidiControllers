@@ -1,0 +1,293 @@
+# ******************************************************************************
+# Configuration file for Operator device
+# ******************************************************************************
+
+# Bank 1
+
+  Device On                    | Main_Button_0_0_0
+  Preset Save                  | Main_Button_1_0_0
+  Preset Prev                  | Main_Button_0_1_0
+  Preset Next                  | Main_Button_1_1_0
+
+  Osc-A On                     | Main_Button_0_2_0
+  A Fix On_                    | Main_Button_1_2_0
+  Osc-A Retrig                 | Main_Button_0_3_0
+  A Quantize                   | Main_Button_1_3_0
+
+  Osc-B On                     | Main_Button_0_4_0
+  B Fix On_                    | Main_Button_1_4_0
+  Osc-B Retrig                 | Main_Button_0_5_0
+  B Quantize                   | Main_Button_1_5_0
+
+# Main Rotary
+
+  A Coarse                     | Main_Rotary_0_0_0
+  A Fine                       | Main_Rotary_0_1_0
+  Osc-A Level                  | Main_Rotary_0_2_0
+  Osc-A Wave                   | Main_Rotary_0_3_0
+
+  Ae Attack                    | Main_Rotary_1_0_0
+  Ae Decay                     | Main_Rotary_1_1_0
+  Ae Release                   | Main_Rotary_1_2_0
+  Osc-A Phase                  | Main_Rotary_1_3_0
+
+  Ae Init                      | Main_Rotary_2_0_0
+  Ae Peak                      | Main_Rotary_2_1_0
+  Ae Sustain                   | Main_Rotary_2_2_0
+  Ae Mode                      | Main_Rotary_2_3_0
+
+  B Coarse                     | Main_Rotary_0_4_0
+  B Fine                       | Main_Rotary_0_5_0
+  Osc-B Level                  | Main_Rotary_0_6_0
+  Osc-B Wave                   | Main_Rotary_0_7_0
+
+  Be Attack                    | Main_Rotary_1_4_0
+  Be Decay                     | Main_Rotary_1_5_0
+  Be Release                   | Main_Rotary_1_6_0
+  Osc-B Phase                  | Main_Rotary_1_7_0
+
+  Be Init                      | Main_Rotary_2_4_0
+  Be Peak                      | Main_Rotary_2_5_0
+  Be Sustain                   | Main_Rotary_2_6_0
+  Be Mode                      | Main_Rotary_2_7_0
+
+# Group Rotary 1
+
+  Ae Loop                      | Group_Rotary_0_0_0
+  Ae Retrig                    | Group_Rotary_0_1_0
+  Ae R < Vel                   | Group_Rotary_0_2_0
+  Osc-A Lev < Vel              | Group_Rotary_0_3_0
+  Osc-A Lev < Key              | Group_Rotary_0_4_0
+  Osc-A Feedb                  | Group_Rotary_0_5_0
+  A Freq<Vel                   | Group_Rotary_0_6_0
+
+# Group Rotary 2
+
+  Be Loop                      | Group_Rotary_1_0_0
+  Be Retrig                    | Group_Rotary_1_1_0
+  Be R < Vel                   | Group_Rotary_1_2_0
+  Osc-B Lev < Vel              | Group_Rotary_1_3_0
+  Osc-B Lev < Key              | Group_Rotary_1_4_0
+  Osc-B Feedb                  | Group_Rotary_1_5_0
+  B Freq<Vel                   | Group_Rotary_1_6_0
+
+# Group Rotary 3
+
+  A Fix Freq                   | Group_Rotary_2_0_0
+  A Fix Freq Mul               | Group_Rotary_2_1_0
+
+# Group Rotary 4
+
+  B Fix Freq                   | Group_Rotary_3_0_0
+  B Fix Freq Mul               | Group_Rotary_3_1_0
+
+# Bank 2
+
+  Osc-C On                     | Main_Button_0_0_1
+  C Fix On_                    | Main_Button_1_0_1
+  Osc-C Retrig                 | Main_Button_0_1_1
+  C Quantize                   | Main_Button_1_1_1
+
+  Osc-D On                     | Main_Button_0_4_1
+  D Fix On_                    | Main_Button_1_4_1
+  Osc-D Retrig                 | Main_Button_0_5_1
+  D Quantize                   | Main_Button_1_5_1
+
+# Main Rotary
+
+  C Coarse                     | Main_Rotary_0_0_1
+  C Fine                       | Main_Rotary_0_1_1
+  Osc-C Level                  | Main_Rotary_0_2_1
+  Osc-C Wave                   | Main_Rotary_0_3_1
+
+  Ce Attack                    | Main_Rotary_1_0_1
+  Ce Decay                     | Main_Rotary_1_1_1
+  Ce Release                   | Main_Rotary_1_2_1
+  Osc-C Phase                  | Main_Rotary_1_3_1
+
+  Ce Init                      | Main_Rotary_2_0_1
+  Ce Peak                      | Main_Rotary_2_1_1
+  Ce Sustain                   | Main_Rotary_2_2_1
+  Ce Mode                      | Main_Rotary_2_3_1
+
+  D Coarse                     | Main_Rotary_0_4_1
+  D Fine                       | Main_Rotary_0_5_1
+  Osc-D Level                  | Main_Rotary_0_6_1
+  Osc-D Wave                   | Main_Rotary_0_7_1
+
+  De Attack                    | Main_Rotary_1_4_1
+  De Decay                     | Main_Rotary_1_5_1
+  De Release                   | Main_Rotary_1_6_1
+  Osc-D Phase                  | Main_Rotary_1_7_1
+
+  De Init                      | Main_Rotary_2_4_1
+  De Peak                      | Main_Rotary_2_5_1
+  De Sustain                   | Main_Rotary_2_6_1
+  De Mode                      | Main_Rotary_2_7_1
+
+# Group Rotary 1
+
+  Ce Loop                      | Group_Rotary_0_0_1
+  Ce Retrig                    | Group_Rotary_0_1_1
+  Ce R < Vel                   | Group_Rotary_0_2_1
+  Osc-C Lev < Vel              | Group_Rotary_0_3_1
+  Osc-C Lev < Key              | Group_Rotary_0_4_1
+  Osc-C Feedb                  | Group_Rotary_0_5_1
+  C Freq<Vel                   | Group_Rotary_0_6_1
+
+# Group Rotary 2
+
+  De Loop                      | Group_Rotary_1_0_1
+  De Retrig                    | Group_Rotary_1_1_1
+  De R < Vel                   | Group_Rotary_1_2_1
+  Osc-D Lev < Vel              | Group_Rotary_1_3_1
+  Osc-D Lev < Key              | Group_Rotary_1_4_1
+  Osc-D Feedb                  | Group_Rotary_1_5_1
+  D Freq<Vel                   | Group_Rotary_1_6_1
+
+# Group Rotary 3
+
+  C Fix Freq                   | Group_Rotary_2_0_1
+  C Fix Freq Mul               | Group_Rotary_2_1_1
+
+# Group Rotary 4
+
+  D Fix Freq                   | Group_Rotary_3_0_1
+  D Fix Freq Mul               | Group_Rotary_3_1_1
+
+# Bank 3
+
+  LFO On                       | Main_Button_0_0_2
+  LFO Retrigger                | Main_Button_0_1_2
+  Filt < LFO                   | Main_Button_0_3_2
+
+  Osc-A < LFO                  | Main_Button_1_0_2
+  Osc-B < LFO                  | Main_Button_1_1_2
+  Osc-C < LFO                  | Main_Button_1_2_2
+  Osc-D < LFO                  | Main_Button_1_3_2
+
+  Filter On                    | Main_Button_0_4_2
+  Filter Slope                 | Main_Button_0_5_2
+  Filter Circuit - BP/NO/Morph | Main_Button_0_6_2
+
+# Main Rotary
+
+  LFO Type                     | Main_Rotary_0_0_2
+  LFO Range                    | Main_Rotary_0_1_2
+  LFO Rate                     | Main_Rotary_0_2_2
+  LFO Amt                      | Main_Rotary_0_3_2
+
+  Le Attack                    | Main_Rotary_1_0_2
+  Le Decay                     | Main_Rotary_1_1_2
+  Le Release                   | Main_Rotary_1_2_2
+  Le Mode                      | Main_Rotary_1_3_2
+
+  Le Init                      | Main_Rotary_2_0_2
+  Le Peak                      | Main_Rotary_2_1_2
+  Le Sustain                   | Main_Rotary_2_2_2
+  Le End                       | Main_Rotary_2_3_2
+
+  Filter Type                  | Main_Rotary_0_4_2
+  Filter Circuit - LP/HP       | Main_Rotary_0_5_2
+  Filter Freq                  | Main_Rotary_0_6_2
+  Filter Res                   | Main_Rotary_0_7_2
+
+  Fe Attack                    | Main_Rotary_1_4_2
+  Fe Decay                     | Main_Rotary_1_5_2
+  Fe Release                   | Main_Rotary_1_6_2
+  Fe Mode                      | Main_Rotary_1_7_2
+
+  Fe Init                      | Main_Rotary_2_4_2
+  Fe Peak                      | Main_Rotary_2_5_2
+  Fe Sustain                   | Main_Rotary_2_6_2
+  Fe End                       | Main_Rotary_2_7_2
+
+# Group Rotary 1
+
+  Le Loop                      | Group_Rotary_0_0_2
+  Le Retrig                    | Group_Rotary_0_1_2
+  Le R < Vel                   | Group_Rotary_0_2_2
+  LFO Amt A                    | Group_Rotary_0_3_2
+  LFO Amt B                    | Group_Rotary_0_4_2
+  LFO Dst B                    | Group_Rotary_0_5_2
+  LFO R < K                    | Group_Rotary_0_6_2
+  LFO < Vel                    | Group_Rotary_0_7_2
+
+# Group Rotary 2
+
+  Fe Loop                      | Group_Rotary_1_0_2
+  Fe Retrig                    | Group_Rotary_1_1_2
+  Fe R < Vel                   | Group_Rotary_1_2_2
+  Fe Amount                    | Group_Rotary_1_3_2
+  Fe A Slope                   | Group_Rotary_1_4_2
+  Fe D Slope                   | Group_Rotary_1_5_2
+  Fe R Slope                   | Group_Rotary_1_6_2
+
+# Group Rotary 3
+
+  LFO Sync                     | Group_Rotary_2_0_2
+
+# Group Rotary 4
+
+  Filter Morph                 | Group_Rotary_3_0_2
+  Filt < Vel                   | Group_Rotary_3_1_2
+  Filt < Key                   | Group_Rotary_3_2_2
+  Shaper Type                  | Group_Rotary_3_3_2
+  Shaper Drive                 | Group_Rotary_3_4_2
+  Shaper Mix                   | Group_Rotary_3_5_2
+  Filter Drive                 | Group_Rotary_3_6_2
+
+# Bank 4
+
+  Pe On                        | Main_Button_0_0_3
+  LFO < Pe                     | Main_Button_0_3_3
+  Osc-A < Pe                   | Main_Button_1_0_3
+  Osc-B < Pe                   | Main_Button_1_1_3
+  Osc-C < Pe                   | Main_Button_1_2_3
+  Osc-D < Pe                   | Main_Button_1_3_3
+
+  Glide On                     | Main_Button_0_4_3
+
+# Main Rotary
+
+  Pe Amount                    | Main_Rotary_0_0_3
+  Spread                       | Main_Rotary_0_1_3
+  Transpose                    | Main_Rotary_0_2_3
+  Glide Time                   | Main_Rotary_0_3_3
+
+  Pe Attack                    | Main_Rotary_1_0_3
+  Pe Decay                     | Main_Rotary_1_1_3
+  Pe Release                   | Main_Rotary_1_2_3
+  Pe Mode                      | Main_Rotary_1_3_3
+
+  Pe Init                      | Main_Rotary_2_0_3
+  Pe Peak                      | Main_Rotary_2_1_3
+  Pe Sustain                   | Main_Rotary_2_2_3
+  Pe End                       | Main_Rotary_2_3_3
+
+  Algorithm                    | Main_Rotary_0_4_3
+  Time                         | Main_Rotary_0_5_3
+  Tone                         | Main_Rotary_0_6_3
+  Volume                       | Main_Rotary_0_7_3
+
+  Time < Key                   | Main_Rotary_1_4_3
+  PB Range                     | Main_Rotary_1_5_3
+
+  Panorama                     | Main_Rotary_2_4_3
+  Pan < Key                    | Main_Rotary_2_5_3
+  Pan < Rnd                    | Main_Rotary_2_6_3
+
+# Group Rotary 1
+
+  Pe Loop                      | Group_Rotary_0_0_3
+  Pe Retrig                    | Group_Rotary_0_1_3
+  Pe R < Vel                   | Group_Rotary_0_2_3
+  Pe Amt A                     | Group_Rotary_0_3_3
+  Pe Amt B                     | Group_Rotary_0_4_3
+  Pe Dst B                     | Group_Rotary_0_5_3
+
+# Group Rotary 2
+
+  Pe A Slope                   | Group_Rotary_2_0_3
+  Pe D Slope                   | Group_Rotary_2_1_3
+  Pe R Slope                   | Group_Rotary_2_2_3

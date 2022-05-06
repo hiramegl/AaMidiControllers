@@ -1,0 +1,32 @@
+# ******************************************************************************
+# Configuration file for FilterEQ3 device
+# ******************************************************************************
+
+  Device On           | Main_Button_0_0
+  Preset Save         | Main_Button_1_0
+
+# Main rotary groups
+
+  GainHi              | Main_Rotary_0_0
+  GainMid             | Main_Rotary_1_0
+  GainLo              | Main_Rotary_2_0
+
+# Rotary / Button Group 1
+
+  FreqLo              | Group_Rotary_0_0
+  LowOn               | Group_Button_0_0
+
+# Rotary / Button Group 2
+
+  FreqHi              | Group_Rotary_1_0
+  HighOn              | Group_Button_1_0
+
+# Rotary / Button Group 3
+
+  #                   | Group_Rotary_2_0
+  MidOn               | Group_Button_2_0
+
+# Rotary / Button Group 4
+
+  #                   | Group_Rotary_3_0
+  Slope               | Group_Button_3_0

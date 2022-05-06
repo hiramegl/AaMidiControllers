@@ -1,0 +1,9 @@
+# ******************************************************************************
+# Configuration file for 'AaGrid' Ableton Live controller
+# ******************************************************************************
+
+# Controller features
+  num_tracks     | 8
+  num_scenes     | 8
+  num_sliders    | 9
+

@@ -1,0 +1,86 @@
+# ******************************************************************************
+# Configuration file for Echo device
+# ******************************************************************************
+
+  Device On      | Main_Button_0_0
+  Preset Save    | Main_Button_1_0
+  Preset Prev    | Main_Button_0_1
+  Preset Next    | Main_Button_1_1
+
+  Link           | Main_Button_0_2
+  Clip Dry       | Main_Button_0_3
+  Feedback Inv   | Main_Button_0_4
+  Filter On      | Main_Button_0_5
+
+
+# Main rotary groups
+
+  L Division     | Main_Rotary_0_0
+  L Sync Mode    | Main_Rotary_1_0
+  L Offset       | Main_Rotary_2_0
+                
+  R Division     | Main_Rotary_0_1
+  R Sync Mode    | Main_Rotary_1_1
+  R Offset       | Main_Rotary_2_1
+                
+  Input Gain     | Main_Rotary_0_2
+  Feedback       | Main_Rotary_1_2
+  Channel Mode   | Main_Rotary_2_2
+                
+  HP Freq        | Main_Rotary_0_3
+  HP Res         | Main_Rotary_1_3
+  LP Freq        | Main_Rotary_2_3
+                
+  Reverb Level   | Main_Rotary_0_4
+  Reverb Loc     | Main_Rotary_1_4
+  Reverb Decay   | Main_Rotary_2_4
+                
+  Stereo Width   | Main_Rotary_0_5
+  Output Gain    | Main_Rotary_1_5
+  Dry Wet        | Main_Rotary_2_5
+
+# Rotary / Button Group 1
+
+  L Sync         | Group_Button_0_0
+  R Sync         | Group_Button_0_1
+
+  L Time         | Group_Rotary_0_0
+  R Time         | Group_Rotary_0_1
+  L 16th         | Group_Rotary_0_2
+  R 16th         | Group_Rotary_0_3
+  LP Res         | Group_Rotary_0_4
+
+# Rotary / Button Group 2
+
+  Mod Sync       | Group_Button_1_0
+  Mod 4x         | Group_Button_1_1
+               
+  Mod Wave       | Group_Rotary_1_0
+  Mod Rate       | Group_Rotary_1_1
+  Mod Freq       | Group_Rotary_1_2
+  Mod Phase      | Group_Rotary_1_3
+  Dly < Mod      | Group_Rotary_1_4
+  Flt < Mod      | Group_Rotary_1_5
+
+# Rotary / Button Group 3
+
+  Gate On        | Group_Button_2_0
+  Duck On        | Group_Button_2_2
+  Noise On       | Group_Button_2_4
+               
+  Gate Thr       | Group_Rotary_2_0
+  Gate Release   | Group_Rotary_2_1
+  Duck Thr       | Group_Rotary_2_2
+  Duck Release   | Group_Rotary_2_3
+  Noise Amt      | Group_Rotary_2_4
+  Noise Mrph     | Group_Rotary_2_5
+
+# Rotary / Button Group 4
+
+  Wobble On      | Group_Button_3_0
+  Repitch        | Group_Button_3_2
+               
+  Wobble Amt     | Group_Rotary_3_0
+  Wobble Mrph    | Group_Rotary_3_1
+  Env Mix        | Group_Rotary_3_2
+
