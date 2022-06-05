@@ -78,7 +78,7 @@ class ModeSeqCmd(ModeSeqBase):
 
     self.m_nScale  = SEQ_SCALE_CHROMATIC
     self.m_nRoot   = SEQ_ROOT_C
-    self.m_nGrid   = 1
+    self.m_nGrid   = 1 # use first controllers
     self.m_nCmd    = COL_MUL
     self.m_nSlider = BUT_SLIDER_NONE
 
@@ -178,7 +178,7 @@ class ModeSeqCmd(ModeSeqBase):
     if self.m_nGrid == 1:
       self.m_oMatrix.get_button(COL_GRID_SEL_1, ROW_ROOT_1).turn_on()
       self.m_oMatrix.get_button(COL_GRID_SEL_2, ROW_ROOT_1).turn_off()
-    else:
+    else: # self.m_nGrid == 2
       self.m_oMatrix.get_button(COL_GRID_SEL_1, ROW_ROOT_1).turn_off()
       self.m_oMatrix.get_button(COL_GRID_SEL_2, ROW_ROOT_1).turn_on()
 

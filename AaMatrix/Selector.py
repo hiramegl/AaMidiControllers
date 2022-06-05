@@ -54,7 +54,7 @@ class Selector(CompoundComponent):
     self.m_bCtrlInit = False
 
     self.m_nTimeZoomMode = SEQ_TIME_ZOOM_BAR
-    self.m_nSectionMode  = SEQ_SECTION_MODE_1_2
+    self.m_nSectionMode  = SEQ_SECTION_MODE_1 # CHANGE HERE SECTION MODE!
 
     self.m_hCfg['oSelector'] = self
 

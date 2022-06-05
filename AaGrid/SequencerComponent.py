@@ -191,7 +191,7 @@ class SequencerComponent(CompoundComponent):
         self.m_nRootBkup     = SEQ_ROOT_C
         self.m_nSliderMode   = SEQ_SLIDER_MODE_NONE
         self.m_aSliderModes  = ['VELOCITY', 'LENGTH', 'FINE SHIFT', 'NONE']
-        self.m_nSectionMode  = SEQ_SECTION_MODE_1_2
+        self.m_nSectionMode  = SEQ_SECTION_MODE_1 # Synchronize this with the Selector's m_nSectionMode of AaMatrix
         self.m_aSectionModes = ['1/2', '1', '2', '4', '8']
         self.m_aSectionFactr = [  0.5,  1 ,  2 ,  4 ,  8 ]
         self.m_hSelectedPitx = {} # selected note pitches chromatic cache (midi value of selected notes, can contain notes outside the scale!)
