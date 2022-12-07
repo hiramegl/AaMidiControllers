@@ -1,10 +1,10 @@
 import Live
 
 from _Framework.CompoundComponent import CompoundComponent
-from _Framework.SessionComponent import SessionComponent
 from _Framework.SessionZoomingComponent import SessionZoomingComponent
 from _Framework.TransportComponent import TransportComponent
 
+from SpecialSessionComponent import SpecialSessionComponent
 from SpecialMixerComponent import SpecialMixerComponent
 
 from .ModeSession import ModeSession
@@ -58,11 +58,7 @@ class Selector(CompoundComponent):
 
     self.m_hCfg['oSelector'] = self
 
-    self.m_oSession = SessionComponent(
-      num_tracks      = self.m_nTracks,
-      num_scenes      = self.m_nScenes,
-      enable_skinning = True,
-      name            = 'Session_Control')
+    self.m_oSession = SpecialSessionComponent(self.m_nTracks, self.m_nScenes)
     self.m_hCfg['oSession'] = self.m_oSession
 
     self.m_oMixer = SpecialMixerComponent(

@@ -60,12 +60,18 @@ class ModeSession(ModeBase):
 
   def setup_group_volume_buttons(self, _bActive):
     if _bActive:
-      for nIdx in range(8):
-        #oScene  = self.m_oSession.scene(nIdx) # aTODO
+      oStrip = self.m_oMixer.channel_strip(0) # get first strip
+      for nIdx in range(7):
+        oScene  = self.m_oSession.scene(nIdx)
         oButton = self.m_lSide[nIdx]
         oButton.set_on_off_values('Session.Volume')
         oButton.turn_on()
-        #oScene.set_select_control(oButton)
+        oScene.set_vol_control(oButton, oStrip.m_aVolMap[nIdx])
+
+    else:
+      for nIdx in range(7):
+        oScene = self.m_oSession.scene(nIdx)
+        oScene.set_vol_control(None, 0.0)
 
   def setup_clip_track_buttons(self, _bActive):
     if _bActive:
@@ -170,25 +176,18 @@ class ModeSession(ModeBase):
 
   def side_cmd(self, _oButton, _nIdx, _nValue):
     if _nValue == BUTTON_OFF: return
-    self.log(">> side cmd, idx %d" % (_nIdx))
 
     if _nIdx < BUT_MODE:
       return self.handle_clip_track_cmd(_nIdx)
-
-    self.log(">> changing mode, current %d" % (self.m_nCurMode))
 
     # we are changing mode! turn off colors!
     self.setup_grid_buttons(False)
     nCurrMode       = self.m_nCurMode
     self.m_nCurMode = (nCurrMode + 1) % NUM_MODES
 
-    self.log(">> changing mode, new %d" % (self.m_nCurMode))
-
     # now turn on colors and setup side buttons
     self.setup_grid_buttons(True)
     self.setup_side_buttons(True)
-
-    self.log("Done setting up grid buttons")
 
   def handle_clip_track_cmd(self, _nIdx):
     if self.m_nCurMode == MODE_ZOOM or self.m_nCurMode == MODE_VOLUME:
