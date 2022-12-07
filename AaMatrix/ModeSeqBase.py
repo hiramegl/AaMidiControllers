@@ -118,16 +118,16 @@ class ModeSeqBase(ModeBase):
     return self.get_surface_length() / 8.0
 
   def set_time_zoom_mode(self, _nTimeZoomMode):
-    self.m_oSelector.m_nTimeZoomMode = _nTimeZoomMode
+    self.m_oSelector.set_time_zoom_mode(_nTimeZoomMode)
 
   def get_time_zoom_mode(self):
-    return self.m_oSelector.m_nTimeZoomMode
+    return self.m_oSelector.get_time_zoom_mode()
 
   def set_section_mode(self, _nSectionMode):
-    self.m_oSelector.m_nSectionMode = _nSectionMode
+    self.m_oSelector.set_section_mode(_nSectionMode)
 
   def get_section_mode(self):
-    return self.m_oSelector.m_nSectionMode
+    return self.m_oSelector.get_section_mode()
 
   # ****************************************************************************
 

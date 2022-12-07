@@ -232,6 +232,8 @@ class AaMatrix(ControlSurface):
          side_buttons[i].name    = 'Side_' + str(i)
          side_buttons[i].m_hAttr = {'sType': 'side', 'nIdx': i}
 
+      # MAIN SELECT INIT ***************************************************************************
+
       self.m_oSelector = Selector(self, self.m_hCfg, matrix, top_buttons, side_buttons)
       self.m_oSelector.name = 'Selector'
       for control in self.controls:
@@ -242,6 +244,7 @@ class AaMatrix(ControlSurface):
       self.set_highlighting_session_component(self.m_oSelector.session_component())
       self.request_rebuild_midi_map() # due to our 2 stage init, we need to rebuild midi map
       self.m_oSelector.update()       # and request update
+
       if self._lpx:
         self.xlog("AaMatrix (LPX) Loaded !")
       elif self._mk3_rgb:

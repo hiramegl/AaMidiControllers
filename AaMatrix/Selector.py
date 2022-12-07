@@ -20,14 +20,14 @@ MODE_SEQ_ZOOM = 1
 MODE_SEQ_CMD  = 2
 MODE_TOOLS    = 3
 
-BUT_UP       = 0
-BUT_DOWN     = 1
-BUT_LEFT     = 2
-BUT_RIGHT    = 3
-BUT_SESSION  = 4
-BUT_SEQ_ZOOM = 5
-BUT_SEQ_CMD  = 6
-BUT_TOOLS    = 7
+BUT_UP        = 0
+BUT_DOWN      = 1
+BUT_LEFT      = 2
+BUT_RIGHT     = 3
+BUT_SESSION   = 4
+BUT_SEQ_ZOOM  = 5
+BUT_SEQ_CMD   = 6
+BUT_TOOLS     = 7
 
 SEQ_TIME_ZOOM_BAR    = 0 #  4 beat = 1 bar             (in 2 surfaces)
 SEQ_TIME_ZOOM_PHRASE = 1 # 16 beat = 4 bars = 1 phrase (in 2 surfaces)
@@ -264,6 +264,20 @@ class Selector(CompoundComponent):
     if self.m_oFaderCtrl == None: return
     nTrackOffset = self.m_oSession.track_offset()
     self.m_oFaderCtrl.move_to_track_offset(nTrackOffset)
+
+  # ****************************************************************
+
+  def set_time_zoom_mode(self, _nTimeZoomMode):
+    self.m_nTimeZoomMode = _nTimeZoomMode
+
+  def get_time_zoom_mode(self):
+    return self.m_nTimeZoomMode
+
+  def set_section_mode(self, _nSectionMode):
+    self.m_nSectionMode = _nSectionMode
+
+  def get_section_mode(self):
+    return self.m_nSectionMode
 
   # ****************************************************************
 
