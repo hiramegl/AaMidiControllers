@@ -50,22 +50,41 @@ class Colors:
       On  = Rgb.RED
       Off = Rgb.BLACK
 
-    class ModeMixer:
-      On  = Rgb.TURQUOISE
-      Off = Rgb.GREY
-    class ModeZoom:
-      On  = Rgb.PURPLE
+    class ModeSelect:
+      On  = Rgb.BLUE
       Off = Rgb.GREY
     class ModeLaunch:
       On  = Rgb.GREEN
       Off = Rgb.GREY
-    class ModeSelect:
-      On  = Rgb.BLUE
+    class ModeZoom:
+      On  = Rgb.PURPLE
+      Off = Rgb.GREY
+    class ModeVolume:
+      On  = Rgb.AQUA
+      Off = Rgb.GREY
+    class ModeSends:
+      On  = Rgb.PINK
       Off = Rgb.GREY
 
     class Zoom:
       On  = Rgb.PURPLE
       Off = Rgb.PURPLE_THIRD
+
+    class Volume:
+      On  = Rgb.AQUA
+      Off = Rgb.BLACK
+
+    class Send:
+      On  = Rgb.RED
+      Off = Rgb.YELLOW
+    class Monitor:
+      In   = Rgb.GREEN_BLINK
+      Auto = Rgb.AMBER
+      Off  = Rgb.RED
+      Unav = Rgb.BLACK
+    class Arm:
+      On  = Rgb.RED
+      Off = Rgb.RED_THIRD
 
     class Play:
       On  = Rgb.GREEN
@@ -79,17 +98,15 @@ class Colors:
     class Solo:
       On  = Rgb.BLUE
       Off = Rgb.BLUE_THIRD
-    class Send:
-      On  = Rgb.RED
-      Off = Rgb.YELLOW
-    class Monitor:
-      In   = Rgb.GREEN_BLINK
-      Auto = Rgb.AMBER
-      Off  = Rgb.RED
-      Unav = Rgb.BLACK
-    class Arm:
-      On  = Rgb.RED
-      Off = Rgb.RED_THIRD
+    class PanReset:
+      On  = Rgb.LIME
+      Off = Rgb.BLUE_THIRD
+    class VolReset:
+      On  = Rgb.AQUA
+      Off = Rgb.BLUE_THIRD
+    class Deck:
+      On  = Rgb.ORANGE
+      Off = Rgb.BLUE_THIRD
 
   class Zooming: # session zooming
     Selected = Rgb.AMBER

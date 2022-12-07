@@ -3,21 +3,25 @@ from .ModeBase import *
 MODE_SELECT = 0
 MODE_LAUNCH = 1
 MODE_ZOOM   = 2
-MODE_SENDS  = 3
+MODE_VOLUME = 3
+MODE_SENDS  = 4
+NUM_MODES   = 5
 
 BUT_PLAY    = 0
 BUT_STOP    = 1
 BUT_MUTE    = 2
 BUT_SOLO    = 3
-BUT_SENDS   = 4
-BUT_ZOOM    = 5
-BUT_LAUNCH  = 6
-BUT_SELECT  = 7
+BUT_PAN_RST = 4
+BUT_VOL_RST = 5
+BUT_DECK    = 6
+BUT_MODE    = 7
+
+MAX_BANKS   = 7
 
 class ModeSession(ModeBase):
   def __init__(self, _oCtrlInst, _hCfg, _oMatrix, _lSide, _lNav):
     super(ModeSession, self).__init__(_oCtrlInst, _hCfg, _oMatrix, _lSide, _lNav)
-    self.m_lBank    = _lSide[:BUT_SENDS]
+    self.m_lBank    = _lSide[:MAX_BANKS] # scene bank buttons
     self.m_nCurMode = MODE_SELECT
 
   def set_active(self, _bActive):
@@ -44,45 +48,31 @@ class ModeSession(ModeBase):
 
   def setup_side_buttons(self, _bActive):
     if _bActive:
-      self.m_lSide[BUT_SENDS ].set_on_off_values('Session.ModeMixer')
-      self.m_lSide[BUT_ZOOM  ].set_on_off_values('Session.ModeZoom')
-      self.m_lSide[BUT_LAUNCH].set_on_off_values('Session.ModeLaunch')
-      self.m_lSide[BUT_SELECT].set_on_off_values('Session.ModeSelect')
+      lModeColors = ['Select', 'Launch', 'Zoom', 'Volume', 'Sends']
+      sModeColor  = 'Session.Mode%s' % (lModeColors[self.m_nCurMode])
+      self.m_lSide[BUT_MODE].set_on_off_values(sModeColor)
+      self.m_lSide[BUT_MODE].turn_on()
 
-      if self.m_nCurMode == MODE_SENDS:
+      if self.m_nCurMode == MODE_VOLUME:
+        self.setup_group_volume_buttons(_bActive)
+      elif self.m_nCurMode != MODE_ZOOM:
         self.setup_clip_track_buttons(_bActive)
-        self.m_lSide[BUT_SENDS ].turn_on()
-        self.m_lSide[BUT_ZOOM  ].turn_off()
-        self.m_lSide[BUT_LAUNCH].turn_off()
-        self.m_lSide[BUT_SELECT].turn_off()
 
-      elif self.m_nCurMode == MODE_ZOOM:
-        self.m_lSide[BUT_SENDS ].turn_off()
-        self.m_lSide[BUT_ZOOM  ].turn_on()
-        self.m_lSide[BUT_LAUNCH].turn_off()
-        self.m_lSide[BUT_SELECT].turn_off()
-
-      elif self.m_nCurMode == MODE_LAUNCH:
-        self.setup_clip_track_buttons(_bActive)
-        self.m_lSide[BUT_SENDS ].turn_off()
-        self.m_lSide[BUT_ZOOM  ].turn_off()
-        self.m_lSide[BUT_LAUNCH].turn_on()
-        self.m_lSide[BUT_SELECT].turn_off()
-
-      elif self.m_nCurMode == MODE_SELECT:
-        self.setup_clip_track_buttons(_bActive)
-        self.m_lSide[BUT_SENDS ].turn_off()
-        self.m_lSide[BUT_ZOOM  ].turn_off()
-        self.m_lSide[BUT_LAUNCH].turn_off()
-        self.m_lSide[BUT_SELECT].turn_on()
+  def setup_group_volume_buttons(self, _bActive):
+    if _bActive:
+      for nIdx in range(8):
+        #oScene  = self.m_oSession.scene(nIdx) # aTODO
+        oButton = self.m_lSide[nIdx]
+        oButton.set_on_off_values('Session.Volume')
+        oButton.turn_on()
+        #oScene.set_select_control(oButton)
 
   def setup_clip_track_buttons(self, _bActive):
     if _bActive:
-      self.m_lSide[BUT_PLAY].set_on_off_values('Session.Play')
-      self.m_lSide[BUT_STOP].set_on_off_values('Session.Stop')
-      self.m_lSide[BUT_MUTE].set_on_off_values('Session.Mute')
-      self.m_lSide[BUT_SOLO].set_on_off_values('Session.Solo')
-      for nIdx in range(BUT_PLAY, BUT_SOLO + 1):
+      lColors = ['Play', 'Stop', 'Mute', 'Solo', 'PanReset', 'VolReset', 'Deck']
+      for nIdx in range(BUT_PLAY, BUT_DECK + 1):
+        sColor = 'Session.%s' % (lColors[nIdx])
+        self.m_lSide[nIdx].set_on_off_values(sColor)
         self.m_lSide[nIdx].turn_on()
 
   def setup_grid_buttons(self, _bActive):
@@ -102,6 +92,21 @@ class ModeSession(ModeBase):
               self.m_oMatrix.get_button(nTrackIdx, 5))
           oStrip.set_monitor_button(self.m_oMatrix.get_button(nTrackIdx, 6))
           oStrip.set_arm_button    (self.m_oMatrix.get_button(nTrackIdx, 7))
+
+      elif self.m_nCurMode == MODE_VOLUME:
+        for nTrackIdx in range(self.m_nTracks):
+          for nSceneIdx in range(self.m_nScenes):
+            self.m_oMatrix.get_button(nTrackIdx, nSceneIdx).set_on_off_values("Session.Volume")
+          oStrip = self.m_oMixer.channel_strip(nTrackIdx)
+          oStrip.set_vol_controls(
+              self.m_oMatrix.get_button(nTrackIdx, 0),
+              self.m_oMatrix.get_button(nTrackIdx, 1),
+              self.m_oMatrix.get_button(nTrackIdx, 2),
+              self.m_oMatrix.get_button(nTrackIdx, 3),
+              self.m_oMatrix.get_button(nTrackIdx, 4),
+              self.m_oMatrix.get_button(nTrackIdx, 5),
+              self.m_oMatrix.get_button(nTrackIdx, 6),
+              self.m_oMatrix.get_button(nTrackIdx, 7))
 
       elif self.m_nCurMode == MODE_ZOOM:
         for nSceneIdx in range(self.m_nScenes):
@@ -139,6 +144,11 @@ class ModeSession(ModeBase):
           oStrip.set_monitor_button(None)
           oStrip.set_arm_button    (None)
 
+      elif self.m_nCurMode == MODE_VOLUME:
+        for nTrackIdx in range(self.m_nTracks):
+          oStrip = self.m_oMixer.channel_strip(nTrackIdx)
+          oStrip.set_vol_controls(None, None, None, None, None, None, None, None)
+
       elif self.m_nCurMode == MODE_ZOOM:
         self.m_oZooming.set_button_matrix(None)
         self.m_oZooming.set_scene_bank_buttons(None)
@@ -160,32 +170,57 @@ class ModeSession(ModeBase):
 
   def side_cmd(self, _oButton, _nIdx, _nValue):
     if _nValue == BUTTON_OFF: return
-    if _nIdx < BUT_SENDS:
+    self.log(">> side cmd, idx %d" % (_nIdx))
+
+    if _nIdx < BUT_MODE:
       return self.handle_clip_track_cmd(_nIdx)
-    if   _nIdx == BUT_SENDS:  nCurMode = MODE_SENDS
-    elif _nIdx == BUT_ZOOM:   nCurMode = MODE_ZOOM
-    elif _nIdx == BUT_LAUNCH: nCurMode = MODE_LAUNCH
-    elif _nIdx == BUT_SELECT: nCurMode = MODE_SELECT
-    if self.m_nCurMode == nCurMode: return
+
+    self.log(">> changing mode, current %d" % (self.m_nCurMode))
+
+    # we are changing mode! turn off colors!
     self.setup_grid_buttons(False)
-    self.m_nCurMode = nCurMode
+    nCurrMode       = self.m_nCurMode
+    self.m_nCurMode = (nCurrMode + 1) % NUM_MODES
+
+    self.log(">> changing mode, new %d" % (self.m_nCurMode))
+
+    # now turn on colors and setup side buttons
     self.setup_grid_buttons(True)
     self.setup_side_buttons(True)
 
+    self.log("Done setting up grid buttons")
+
   def handle_clip_track_cmd(self, _nIdx):
-    if self.m_nCurMode == MODE_ZOOM:
-      return False # Zoom mode handle these buttons!
+    if self.m_nCurMode == MODE_ZOOM or self.m_nCurMode == MODE_VOLUME:
+      return False # Zoom and volume mode handle these buttons!
 
     if _nIdx == BUT_PLAY:
       oClipSlot = self.m_oSession.song().view.highlighted_clip_slot
       if oClipSlot != None: oClipSlot.fire()
+
     elif _nIdx == BUT_STOP:
       oClipSlot = self.m_oSession.song().view.highlighted_clip_slot
       if oClipSlot != None: oClipSlot.stop()
+
     elif _nIdx == BUT_MUTE:
       oTrack = self.m_oSession.song().view.selected_track
       oTrack.mute = not oTrack.mute
+
     elif _nIdx == BUT_SOLO:
       oTrack = self.m_oSession.song().view.selected_track
       oTrack.solo = not oTrack.solo
+
+    elif _nIdx == BUT_PAN_RST:
+      oTrack = self.m_oSession.song().view.selected_track
+      oTrack.mixer_device.panning.value = 0
+
+    elif _nIdx == BUT_VOL_RST:
+      oTrack = self.m_oSession.song().view.selected_track
+      oTrack.mixer_device.volume.value = 0.85
+
+    elif _nIdx == BUT_DECK:
+      oTrack = self.m_oSession.song().view.selected_track
+      nCurr = oTrack.mixer_device.crossfade_assign
+      oTrack.mixer_device.crossfade_assign = (nCurr + 1) % 3
+
     return True # handled
