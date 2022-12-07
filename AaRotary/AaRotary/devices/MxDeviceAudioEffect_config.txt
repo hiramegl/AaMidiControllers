@@ -1,0 +1,21 @@
+# ******************************************************************************
+# Configuration file for MxDeviceInstrument device
+# ******************************************************************************
+
+  Device On           | Main_Button_0_0
+  Preset Save         | Main_Button_1_0
+  Preset Prev         | Main_Button_0_1
+  Preset Next         | Main_Button_1_1
+
+# Main rotary groups
+
+
+  Run                 | Main_Rotary_0_0
+  View                | Main_Rotary_0_1
+
+  SlideDw             | Main_Rotary_1_0
+  SlideUp             | Main_Rotary_1_1
+
+# Rotary / Button Group 1
+
+  Apply               | Group_Button_0_0

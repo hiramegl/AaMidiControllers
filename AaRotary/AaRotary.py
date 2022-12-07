@@ -117,6 +117,9 @@ class AaRotary(ControlSurface):
                 'OriginalSimpler' : {},
                 'StringStudio'    : {},
                 'InstrumentVector': {},
+
+                'MxDeviceInstrument' : {},
+                'MxDeviceAudioEffect': {},
             },
         }
 

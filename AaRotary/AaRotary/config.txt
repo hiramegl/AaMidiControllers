@@ -12,26 +12,27 @@
   log_loaded_dev | 1   # log loaded devices               (0 = False, 1 = True)
   log_parsed_pre | 0   # log parsed presets               (0 = False, 1 = True)
 
-  bank_0_channel | 8   # midi channel 9
-  session_left   | 5
-  session_right  | 6
-  to_selected    | 7   # move to selected track
+  bank_0_channel | 15  # midi channel 16
+  session_left   | 1
+  session_right  | 2
+  to_selected    | 3   # move to selected track
 
-  bank_1_sync    | 8
+  bank_1_sync    | 4
   bank_1_channel | 0   # midi channel 1
-  bank_2_sync    | 9
+  bank_2_sync    | 5
   bank_2_channel | 1   # midi channel 2
-  bank_3_sync    | 10
+  bank_3_sync    | 6
   bank_3_channel | 2   # midi channel 3
-  bank_4_sync    | 11
+  bank_4_sync    | 7
   bank_4_channel | 3   # midi channel 4
-  bank_5_sync    | 12
+  bank_5_sync    | 8
   bank_5_channel | 4   # midi channel 5
-  bank_6_sync    | 13
+  bank_6_sync    | 9
   bank_6_channel | 5   # midi channel 6
 
   main_button_0_offset | 65 # main panel
   main_button_1_offset | 73
+
   main_rotary_0_offset | 81
   main_rotary_1_offset | 89
   main_rotary_2_offset | 97
@@ -40,6 +41,7 @@
   group_rotary_1_offset | 9
   group_rotary_2_offset | 17
   group_rotary_3_offset | 25
+
   group_button_0_offset | 33
   group_button_1_offset | 41
   group_button_2_offset | 1

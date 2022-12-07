@@ -97,6 +97,9 @@ class SpecialChannelStripComponent(ChannelStripComponent):
                 ] },
             'StringStudio'    : { 'banks': 3, 'strips': 8 },
             'InstrumentVector': { 'banks': 3, 'strips': 8 },
+
+            'MxDeviceInstrument' : { 'banks': 1, 'strips': 3 },
+            'MxDeviceAudioEffect': { 'strips': 3 },
         }
         self.m_nNumUsedBanks = 0
         self.m_nLogNotMapped = _hCfg['LogNotMapped']
@@ -920,6 +923,24 @@ class SpecialChannelStripComponent(ChannelStripComponent):
 
     def _InstrumentVector_Preset_Next_value(self, _nValue):
         self.preset_next('InstrumentVector', _nValue)
+
+    def _MxDeviceInstrument_Preset_Save_value(self, _nValue):
+        self.preset_save('MxDeviceInstrument')
+
+    def _MxDeviceInstrument_Preset_Prev_value(self, _nValue):
+        self.preset_prev('MxDeviceInstrument')
+
+    def _MxDeviceInstrument_Preset_Next_value(self, _nValue):
+        self.preset_next('MxDeviceInstrument', _nValue)
+
+    def _MxDeviceAudioEffect_Preset_Save_value(self, _nValue):
+        self.preset_save('MxDeviceAudioEffect')
+
+    def _MxDeviceAudioEffect_Preset_Prev_value(self, _nValue):
+        self.preset_prev('MxDeviceAudioEffect')
+
+    def _MxDeviceAudioEffect_Preset_Next_value(self, _nValue):
+        self.preset_next('MxDeviceAudioEffect', _nValue)
 
     # *****************************************************************
 

@@ -31,9 +31,9 @@ Track_X => 13 controls per strip, the offsets are:
  Rotary_2     | 97
 --------------+
 
--------------+---------------+
-Track_Left   | Track_Right   | 105 | 106
-To_Selected  | Sync          | 107 | 108
+-------------+---------------+ MIDI CHANNEL 16
+Track_Left   | Track_Right   | 1 | 2
+To_Selected  | Sync          | 3 | 4,5,6,7,8,9
 -------------+---------------+
 
 # SpecialChannelStripComponent documentation
