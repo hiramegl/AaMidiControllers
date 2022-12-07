@@ -12,7 +12,7 @@ Send1_Toggle | Send2_Toggle | Pitch_Reset | Detune_Reset | 33 | 41 | 65 | 73
 Mute         |                                             1
 Solo         |                                             9
 -------------+
-Volume       |                                             17
+Volume       |                                             17 (<- Ch_1!)
 -------------+
 
 -------------+---------------+
