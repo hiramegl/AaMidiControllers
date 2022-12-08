@@ -286,6 +286,9 @@ class Colors:
       On  = Rgb.MINT
       Off = Rgb.TURQUOISE
 
+    class LpShow:
+      On  = Rgb.TURQUOISE
+      Off = Rgb.GREY
     class Transp:
       On  = Rgb.VIOLET
       Off = Rgb.BLACK

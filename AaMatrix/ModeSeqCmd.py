@@ -80,7 +80,7 @@ class ModeSeqCmd(ModeSeqBase):
     ]
     self.m_lAudioTempoSkin = [
       ['Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  ],
-      ['Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Invalid'],
+      ['Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'Tempo'  , 'LpShow' ],
       ['Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' ],
       ['Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' ],
       ['Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' , 'Transp' ],
@@ -107,6 +107,7 @@ class ModeSeqCmd(ModeSeqBase):
     self.m_lCmdNames    = ['pitx_up', 'pitx_dw', 'time_lf', 'time_rg', 'mul', 'div', 'chop_3', 'chop_2']
     self.m_lCmdNamesXtr = ['mute', 'solo', 'vel_reset', 'delete']
     self.m_bTransposing = False
+    self.m_bLpEnvToggle  = True
 
     self.m_nTempoFactor = 20
     self.m_nTempoReset  = 128
@@ -115,6 +116,15 @@ class ModeSeqCmd(ModeSeqBase):
     self.m_lBitVels     = [20, 40, 60, 80, 100, 127]
     self.m_nBitCmdMod   = BIT_CMD_MOD_ALL
     self.m_lBitCmdMod   = ['all', 'sel']
+
+    self.m_lClipPitchC  = [
+      [ -4,  -3,  -2,  -1,  1,  2,  3,  4],
+      [ -8,  -7,  -6,  -5,  5,  6,  7,  8],
+      [-12, -11, -10,  -9,  9, 10, 11, 12],
+    ]
+    self.m_lClipPitchF  = [0, -40, -25, -15, 15, 25, 40]
+    self.m_lClipGains   = [0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
+    self.m_nGainReset   = 0.85
 
     self.m_nScale  = SEQ_SCALE_CHROMATIC
     self.m_nRoot   = SEQ_ROOT_C
@@ -327,12 +337,31 @@ class ModeSeqCmd(ModeSeqBase):
     elif self.m_nClipState == SEQ_CMD_CLIP_STATE_AUDIO_READY:
       if _nIdx == ROW_TEMPO_RESET:
         self.song().tempo = self.m_nTempoReset
-      # Transpose Reset
-      # Transponse +1
-      # Transponse -1
-      # Detune Reset
-      # Gain Reset
-      return
+      elif _nIdx == ROW_SCALE_1:
+        oView = self.application().view
+        oView.show_view('Detail')
+        oView.focus_view('Detail')
+        oView.show_view('Detail/Clip')
+        oView.focus_view('Detail/Clip')
+        oClip = self.get_clip_or_none()
+        if self.m_bLpEnvToggle:
+          oClip.view.hide_envelope()
+          oClip.view.show_loop()
+        else:
+          oClip.view.show_envelope()
+        self.m_bLpEnvToggle = not self.m_bLpEnvToggle
+      elif _nIdx == ROW_ROOT_0:
+        self.m_oClip.pitch_coarse = 0
+      elif _nIdx == ROW_ROOT_1:
+        nVal = self.m_oClip.pitch_coarse
+        self.m_oClip.pitch_coarse = nVal + 1
+      elif _nIdx == ROW_CMD_ALL:
+        nVal = self.m_oClip.pitch_coarse
+        self.m_oClip.pitch_coarse = nVal - 1
+      elif _nIdx == ROW_CMD_SEL:
+        self.m_oClip.pitch_fine = 0
+      elif _nIdx == ROW_CMD_XTR:
+          self.m_oClip.gain = self.m_nGainReset
 
   def grid_cmd(self, _oButton, _nCol, _nRow, _nValue):
     if _nValue == BUTTON_OFF: return
@@ -414,7 +443,7 @@ class ModeSeqCmd(ModeSeqBase):
           sMode = self.m_lBitCmdMod[self.m_nBitCmdMod]
           self.send_grid_command('bit_cmd', {'grid': self.m_nGrid, 'subcmd': self.m_lCmdNames[_nRow], 'index' : _nCol, 'mode': sMode})
 
-    elif self.m_nClipState != SEQ_CMD_CLIP_STATE_AUDIO_READY:
+    elif self.m_nClipState == SEQ_CMD_CLIP_STATE_AUDIO_READY:
       if _nRow == ROW_SCALE_0:
         self.song().tempo = (_nCol + 1) * self.m_nTempoFactor
       elif _nRow == ROW_SCALE_1:
@@ -422,9 +451,30 @@ class ModeSeqCmd(ModeSeqBase):
         nNewTempo = nOldTempo + self.m_lTempoDeltas[_nCol]
         if nNewTempo >= 20 and nNewTempo <= 500:
           self.song().tempo  = nNewTempo
-      # TRANSPOSE
-      # DETUNE
-      # GAIN
+      elif _nRow == ROW_ROOT_0:
+        self.m_oClip.pitch_coarse = self.m_lClipPitchC[0][_nCol]
+      elif _nRow == ROW_ROOT_1:
+        self.m_oClip.pitch_coarse = self.m_lClipPitchC[1][_nCol]
+      elif _nRow == ROW_CMD_ALL:
+        self.m_oClip.pitch_coarse = self.m_lClipPitchC[2][_nCol]
+      elif _nRow == ROW_CMD_SEL:
+        if _nCol == 0:
+          nVal = self.m_oClip.pitch_fine
+          self.m_oClip.pitch_fine = nVal - 5
+        elif _nCol == 7:
+          nVal = self.m_oClip.pitch_fine
+          self.m_oClip.pitch_fine = nVal + 5
+        else:
+          self.m_oClip.pitch_fine = self.m_lClipPitchF[_nCol]
+      elif _nRow == ROW_CMD_XTR:
+        if _nCol == 0:
+          nVal = self.m_oClip.gain
+          self.m_oClip.gain = nVal - 0.01
+        elif _nCol == 7:
+          nVal = self.m_oClip.gain
+          self.m_oClip.gain = nVal + 0.01
+        else:
+          self.m_oClip.gain = self.m_lClipGains[_nCol]
 
   def select_scale(self, _nScale, _bLocal):
     self.m_nScale = SEQ_SCALE_CHROMATIC if _nScale == self.m_nScale else _nScale
@@ -502,7 +552,7 @@ class ModeSeqCmd(ModeSeqBase):
       return SEQ_CMD_CLIP_STATE_MIDI_READY # MIDI Clip and MIDI Track
 
     if self.m_oAudioSlot != None:
-      self.m_oClip  = self.get_audio_clip_or_none()
+      self.m_oClip = self.get_audio_clip_or_none()
       if self.m_oClip == None:
         return SEQ_CMD_CLIP_STATE_INVALID # No Audio track
 
@@ -511,6 +561,9 @@ class ModeSeqCmd(ModeSeqBase):
     return SEQ_CMD_CLIP_STATE_INVALID # No Audio track
 
   def disconnect_clip_listeners(self):
+    if self.m_nClipState != SEQ_CMD_CLIP_STATE_MIDI_READY:
+      return
+
     if self.m_oMidiSlot != None and self.m_oMidiSlot.has_clip_has_listener(self._on_clip_changed):
       self.m_oMidiSlot.remove_has_clip_listener(self._on_clip_changed)
     if self.m_oClip != None:
