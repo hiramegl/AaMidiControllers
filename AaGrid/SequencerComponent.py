@@ -427,6 +427,8 @@ class SequencerComponent(CompoundComponent):
             self.handle_grid_cmd(_hParams)
         elif sCmd == 'bit_cmd':
             self.handle_bit_cmd(_hParams)
+        elif sCmd == 'bit_cfg':
+            self.handle_bit_cfg(_hParams)
         else:
             if self.m_nPeerMode != SEQ_INST_MODE_PRIMARY: return
             if sCmd == 'transpose_scale':
@@ -484,6 +486,19 @@ class SequencerComponent(CompoundComponent):
             self.apply_note_cmd(SEQ_RHYTHM_NOTE_CHOP_3, nTimeMinAbs, nTimeMaxAbs, bSelMode)
         elif sSubCmd == 'chop_2':
             self.apply_note_cmd(SEQ_RHYTHM_NOTE_CHOP_2, nTimeMinAbs, nTimeMaxAbs, bSelMode)
+
+    def handle_bit_cfg(self, _hParams):
+        sType  = _hParams['type']
+        nValue = _hParams['value']
+
+        if sType == 'len':
+          self.m_nNoteLength = nValue
+          if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY:
+            self.alert('BIT CFG LENGTH: %0.3f' % (nValue))
+        else: # sType == 'vel'
+          self.m_nNoteVelocity = nValue
+          if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY:
+            self.alert('BIT CFG VELOCITY: %d' % (nValue))
 
     # **************************************************************************
 
