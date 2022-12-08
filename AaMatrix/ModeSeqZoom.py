@@ -158,9 +158,9 @@ class ModeSeqZoom(ModeSeqBase):
 
     if self.m_nCurMode == MODE_SECTION:
       if self.get_time_zoom_mode() == SEQ_TIME_ZOOM_BAR:
-        self.m_lSide[BUT_ZOOM_MODE].set_light('SeqZoom.Mode.Bar')
+        self.m_lSide[BUT_ZOOM_MODE].set_light('SeqZoom.Span.Bar')
       else:
-        self.m_lSide[BUT_ZOOM_MODE].set_light('SeqZoom.Mode.Phrase')
+        self.m_lSide[BUT_ZOOM_MODE].set_light('SeqZoom.Span.Phrase')
       self.update_section_mode_buttons()
       self.m_lSide[BUT_LP_SHOW].set_light('SeqZoom.LpShow.On')
     else:

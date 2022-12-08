@@ -132,7 +132,7 @@ class Colors:
       Active   = Rgb.GREEN
       InSpan   = Rgb.LIGHT_BLUE
       Empty    = Rgb.RED
-    class Mode:
+    class Span:
       Bar    = Rgb.BLUE
       Phrase = Rgb.LIGHT_BLUE
     class Section:
@@ -161,35 +161,26 @@ class Colors:
       Off = Rgb.BLACK
 
   class SeqCmd:
+    class Invalid:
+      On  = Rgb.BLACK
+      Off = Rgb.BLACK
+
     class Nav:
       On  = Rgb.YELLOW
       Off = Rgb.YELLOW
-    class Scale:
-      On  = Rgb.GREEN
-      Off = Rgb.RED
-    class Trnsps:
-      On  = Rgb.PINK
-      Act = Rgb.PINK_BLINK
-      Off = Rgb.PINK_THIRD
-    class Mode:
-      Bar    = Rgb.BLUE
-      Phrase = Rgb.LIGHT_BLUE
-    class Slider:
-      On  = Rgb.LIME
-      Off = Rgb.GREY
-    class Root:
-      On    = Rgb.GREEN
-      Black = Rgb.RED
-      White = Rgb.AMBER
-    class Section:
-      On  = Rgb.MINT
-      Off = Rgb.GREY
+
+    class Tempo:
+      On  = Rgb.TURQUOISE
+      Off = Rgb.BLACK
+    class BitLen:
+      On  = Rgb.RED
+      Off = Rgb.BLACK
+    class BitVel:
+      On  = Rgb.AQUA
+      Off = Rgb.BLACK
     class GridSel:
       On  = Rgb.GREEN
       Off = Rgb.GREY
-    class SelTog:
-      On  = Rgb.VIOLET
-      Off = Rgb.BLACK
     class PitxAll:
       On  = Rgb.MINT
       Off = Rgb.BLACK
@@ -205,33 +196,99 @@ class Colors:
     class LenAll:
       On  = Rgb.PURPLE
       Off = Rgb.BLACK
-    class LenBit:
+    class LenSel:
       On  = Rgb.PURPLE_THIRD
       Off = Rgb.GREY
     class ChopAll:
       On  = Rgb.YELLOW
       Off = Rgb.BLACK
-    class ChopBit:
+    class ChopSel:
       On  = Rgb.YELLOW
       Off = Rgb.GREY
+    class MuteAll:
+      On  = Rgb.AMBER
+      Off = Rgb.BLACK
+    class MuteSel:
+      On  = Rgb.AMBER_THIRD
+      Off = Rgb.BLACK
+    class SoloAll:
+      On  = Rgb.BLUE
+      Off = Rgb.BLACK
+    class SoloSel:
+      On  = Rgb.BLUE_THIRD
+      Off = Rgb.BLACK
+    class VelRAll:
+      On  = Rgb.LIGHT_BLUE
+      Off = Rgb.BLACK
+    class VelRSel:
+      On  = Rgb.LIGHT_BLUE_THIRD
+      Off = Rgb.BLACK
     class DelAll:
       On  = Rgb.RED
       Off = Rgb.BLACK
     class DelSel:
       On  = Rgb.RED_THIRD
       Off = Rgb.BLACK
-    class BitCmd:
-      On  = Rgb.TURQUOISE
-      Off = Rgb.BLACK
-    class MuteSel:
-      On  = Rgb.AMBER
-      Off = Rgb.BLACK
-    class SoloSel:
-      On  = Rgb.BLUE
-      Off = Rgb.BLACK
     class Patt:
       On  = Rgb.BROWN
       Off = Rgb.MINT
+
+    class Span:
+      On  = Rgb.BLUE
+      Off = Rgb.LIGHT_BLUE
+    class Section:
+      On  = Rgb.MINT
+      Off = Rgb.GREY
+    class Mode:
+      On  = Rgb.GREEN
+      Off = Rgb.RED
+
+    class Scale:
+      On  = Rgb.GREEN
+      Off = Rgb.RED
+    class Root:
+      On    = Rgb.GREEN
+      Black = Rgb.RED
+      White = Rgb.AMBER
+    class Trnsps:
+      On  = Rgb.PINK
+      Act = Rgb.PINK_BLINK
+      Off = Rgb.PINK_THIRD
+    class Chord:
+      On  = Rgb.BLUE
+      Off = Rgb.BLACK
+    class ChrdInv:
+      On  = Rgb.BLUE_THIRD
+      Off = Rgb.BLACK
+    class BitMul:
+      On  = Rgb.MINT
+      Off = Rgb.BLACK
+    class BitDiv:
+      On  = Rgb.MINT_THIRD
+      Off = Rgb.BLACK
+    class BitChp3:
+      On  = Rgb.YELLOW
+      Off = Rgb.BLACK
+    class BitChp2:
+      On  = Rgb.YELLOW_THIRD
+      Off = Rgb.BLACK
+
+    class SelTog:
+      On  = Rgb.VIOLET
+      Off = Rgb.BLACK
+    class Slider:
+      On  = Rgb.LIME
+      Off = Rgb.GREY
+
+    class Transp:
+      On  = Rgb.VIOLET
+      Off = Rgb.BLACK
+    class Detune:
+      On  = Rgb.WINE
+      Off = Rgb.BLACK
+    class Gain:
+      On  = Rgb.RED
+      Off = Rgb.BLACK
 
   class Tools:
     class Nav:

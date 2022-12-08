@@ -54,13 +54,21 @@ class ModeBase(CompoundComponent):
   def sel_track(self):
     return self.song().view.selected_track
 
-  def get_audio_slot_or_none(self):
+  def sel_clip_slot(self):
+    return self.song().view.highlighted_clip_slot
+
+  def get_clip_or_none(self):
     oClipSlot = self.sel_clip_slot()
     if (oClipSlot == None): return None
+    return oClipSlot.clip
+
+  # ----------------
+
+  def get_midi_track_or_none(self):
     oTrack = self.sel_track()
-    if oTrack.has_midi_input:
-      return None
-    return oClipSlot
+    if (oTrack.has_midi_input):
+      return oTrack
+    return None
 
   def get_midi_slot_or_none(self):
     oClipSlot = self.sel_clip_slot()
@@ -70,11 +78,6 @@ class ModeBase(CompoundComponent):
       return oClipSlot
     return None
 
-  def get_clip_or_none(self):
-    oClipSlot = self.sel_clip_slot()
-    if (oClipSlot == None): return None
-    return oClipSlot.clip
-
   def get_midi_clip_or_none(self):
     oClipSlot = self.sel_clip_slot()
     if (oClipSlot == None): return None
@@ -83,6 +86,22 @@ class ModeBase(CompoundComponent):
     if (not oClip.is_midi_clip): return None
     return oClip
 
+  # ----------------
+
+  def get_audio_track_or_none(self):
+    oTrack = self.sel_track()
+    if (oTrack.has_audio_input):
+      return oTrack
+    return None
+
+  def get_audio_slot_or_none(self):
+    oClipSlot = self.sel_clip_slot()
+    if (oClipSlot == None): return None
+    oTrack = self.sel_track()
+    if oTrack.has_audio_input:
+      return oClipSlot
+    return None
+
   def get_audio_clip_or_none(self):
     oClipSlot = self.sel_clip_slot()
     if (oClipSlot == None): return None
@@ -90,18 +109,6 @@ class ModeBase(CompoundComponent):
     if (oClip == None): return None
     if oClip.is_midi_clip: return None
     return oClip
-
-  def get_midi_track_or_none(self):
-    oTrack = self.sel_track()
-    if (oTrack.has_midi_input):
-      return oTrack
-    return None
-
-  def sel_clip_slot(self):
-    return self.song().view.highlighted_clip_slot
-
-  def sel_track(self):
-    return self.song().view.selected_track
 
   # ****************************************************************************
 
