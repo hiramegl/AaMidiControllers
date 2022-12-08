@@ -472,17 +472,18 @@ class SequencerComponent(CompoundComponent):
     def handle_bit_cmd(self, _hParams):
         nGridIdx = 1 if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY else 2
         if _hParams['grid'] != nGridIdx: return
-        sSubCmd = _hParams['subcmd']
-        nBitIdx = _hParams['index']
+        sSubCmd  = _hParams['subcmd']
+        nBitIdx  = _hParams['index']
+        bSelMode = (_hParams['mode'] == 'sel') # apply on selected note pitches only
         (nTimeMinAbs, nTimeMaxAbs) = self.get_bit_time_vars(nBitIdx)
         if sSubCmd == 'mul':
-            self.apply_note_cmd(SEQ_RHYTHM_NOTE_MUL, nTimeMinAbs, nTimeMaxAbs)
+            self.apply_note_cmd(SEQ_RHYTHM_NOTE_MUL, nTimeMinAbs, nTimeMaxAbs, bSelMode)
         elif sSubCmd == 'div':
-            self.apply_note_cmd(SEQ_RHYTHM_NOTE_DIV, nTimeMinAbs, nTimeMaxAbs)
+            self.apply_note_cmd(SEQ_RHYTHM_NOTE_DIV, nTimeMinAbs, nTimeMaxAbs, bSelMode)
         elif sSubCmd == 'chop_3':
-            self.apply_note_cmd(SEQ_RHYTHM_NOTE_CHOP_3, nTimeMinAbs, nTimeMaxAbs)
+            self.apply_note_cmd(SEQ_RHYTHM_NOTE_CHOP_3, nTimeMinAbs, nTimeMaxAbs, bSelMode)
         elif sSubCmd == 'chop_2':
-            self.apply_note_cmd(SEQ_RHYTHM_NOTE_CHOP_2, nTimeMinAbs, nTimeMaxAbs)
+            self.apply_note_cmd(SEQ_RHYTHM_NOTE_CHOP_2, nTimeMinAbs, nTimeMaxAbs, bSelMode)
 
     # **************************************************************************
 
