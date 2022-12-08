@@ -54,9 +54,13 @@ class ModeSession(ModeBase):
       self.m_lSide[BUT_MODE].turn_on()
 
       if self.m_nCurMode == MODE_VOLUME:
-        self.setup_group_volume_buttons(_bActive)
+        self.setup_group_volume_buttons(True)
       elif self.m_nCurMode != MODE_ZOOM:
         self.setup_clip_track_buttons(_bActive)
+
+    else:
+      if self.m_nCurMode == MODE_VOLUME:
+        self.setup_group_volume_buttons(False)
 
   def setup_group_volume_buttons(self, _bActive):
     if _bActive:
@@ -177,11 +181,12 @@ class ModeSession(ModeBase):
   def side_cmd(self, _oButton, _nIdx, _nValue):
     if _nValue == BUTTON_OFF: return
 
-    if _nIdx < BUT_MODE:
+    if _nIdx != BUT_MODE:
       return self.handle_clip_track_cmd(_nIdx)
 
     # we are changing mode! turn off colors!
     self.setup_grid_buttons(False)
+    self.setup_side_buttons(False)
     nCurrMode       = self.m_nCurMode
     self.m_nCurMode = (nCurrMode + 1) % NUM_MODES
 
