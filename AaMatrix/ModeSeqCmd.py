@@ -30,6 +30,7 @@ COL_DEL         = 3
 
 # Side buttons indeces
 
+ROW_TEMPO_RESET = 0
 ROW_SPAN        = 1
 ROW_SECTION_1_2 = 2
 ROW_SECTION_1   = 3
@@ -262,7 +263,9 @@ class ModeSeqCmd(ModeSeqBase):
         return
 
       if self.m_nCurMode == MODE_TEMPO:
-        if _nIdx == ROW_SPAN:
+        if _nIdx == ROW_TEMPO_RESET:
+          self.song().tempo = self.m_nTempoReset
+        elif _nIdx == ROW_SPAN:
           nZoomMode = SEQ_TIME_ZOOM_PHRASE if self.get_time_zoom_mode() == SEQ_TIME_ZOOM_BAR else SEQ_TIME_ZOOM_BAR
           self.toggle_zoom_mode(nZoomMode, True)
         elif _nIdx == ROW_SECTION_1_2:
@@ -302,6 +305,8 @@ class ModeSeqCmd(ModeSeqBase):
           self.send_grid_command('select_toggle')
 
     elif self.m_nClipState == SEQ_CMD_CLIP_STATE_AUDIO_READY:
+      if _nIdx == ROW_TEMPO_RESET:
+        self.song().tempo = self.m_nTempoReset
       # 128 BPM
       # Transpose Reset
       # Transponse +1
@@ -315,11 +320,18 @@ class ModeSeqCmd(ModeSeqBase):
 
     if self.m_nClipState == SEQ_CMD_CLIP_STATE_MIDI_READY:
       if self.m_nCurMode == MODE_TEMPO:
-        # TEMPO
-        # TEMPO INCR DECR
-        # BIT LEN
-        # BIT VEL
-        if _nRow == ROW_ROOT_1:
+        if _nRow == ROW_SCALE_0:
+          self.song().tempo = (_nCol + 1) * self.m_nTempoFactor
+        elif _nRow == ROW_SCALE_1:
+          nOldTempo = self.song().tempo
+          nNewTempo = nOldTempo + self.m_lTempoDeltas[_nCol]
+          if nNewTempo >= 20 and nNewTempo <= 500:
+            self.song().tempo  = nNewTempo
+        elif _nRow == ROW_ROOT_0:
+          return # BIT LEN
+        elif _nRow == ROW_ROOT_1:
+          if _nCol < COL_GRID_SEL_1:
+            return # BIT VEL
           elif _nCol == COL_GRID_SEL_1:
             if self.m_nGrid == 1: return
             self.m_nGrid = 1
@@ -382,8 +394,14 @@ class ModeSeqCmd(ModeSeqBase):
         else: # bit commands: Mul / Div / Chop3 / Chop2
           self.send_grid_command('bit_cmd', {'grid': self.m_nGrid, 'subcmd': self.m_lCmdNames[_nRow], 'index' : _nCol})
 
-    #elif self.m_nClipState != SEQ_CMD_CLIP_STATE_AUDIO_READY:
-      # TEMPO
+    elif self.m_nClipState != SEQ_CMD_CLIP_STATE_AUDIO_READY:
+      if _nRow == ROW_SCALE_0:
+        self.song().tempo = (_nCol + 1) * self.m_nTempoFactor
+      elif _nRow == ROW_SCALE_1:
+        nOldTempo = self.song().tempo
+        nNewTempo = nOldTempo + self.m_lTempoDeltas[_nCol]
+        if nNewTempo >= 20 and nNewTempo <= 500:
+          self.song().tempo  = nNewTempo
       # TRANSPOSE
       # DETUNE
       # GAIN
