@@ -1,10 +1,5 @@
 from .ModeBase import *
 
-SEQ_CLIP_STATE_UNDEFINED = 0
-SEQ_CLIP_STATE_INVALID   = 1
-SEQ_CLIP_STATE_EMPTY     = 2
-SEQ_CLIP_STATE_READY     = 3
-
 LEN_ONE_BAR    = 4
 LEN_ONE_PHRASE = 16
 LEN_ONE_OCT    = 12
@@ -53,25 +48,6 @@ class ModeSeqBase(ModeBase):
 
   # **************************************************************************
 
-  def set_active(self, _bActive):
-    if _bActive:
-      self.m_bInit   = True
-      self.m_bActive = True
-      self.setup_nav_buttons(True, self.m_sNavSkin)
-      self.m_nClipState = self.get_clip_state()
-      if self.m_nClipState == SEQ_CLIP_STATE_INVALID:
-        self.setup_invalid_clip_buttons()
-        self.setup_invalid_side_buttons()
-      elif self.m_nClipState == SEQ_CLIP_STATE_EMPTY:
-        self.setup_empty_clip_buttons()
-        self.setup_invalid_side_buttons()
-      elif self.m_nClipState == SEQ_CLIP_STATE_READY:
-        self.setup_ready_buttons()
-    else:
-      self.m_bActive = False
-      self.setup_nav_buttons(False)
-      self.disconnect_clip_listeners()
-
   def setup_invalid_clip_buttons(self):
     for nPitxIdxRel in self.m_rHeight:
       for nTimeIdxRel in self.m_rWidth:
@@ -81,9 +57,6 @@ class ModeSeqBase(ModeBase):
           oButton.turn_on()
         else:
           oButton.turn_off()
-
-  def setup_invalid_side_buttons(self):
-    return
 
   def setup_empty_clip_buttons(self):
     oTrack = self.get_midi_track_or_none()
@@ -133,59 +106,6 @@ class ModeSeqBase(ModeBase):
 
   def get_section_mode(self):
     return self.m_oSelector.get_section_mode()
-
-  # ****************************************************************************
-
-  def get_clip_state(self):
-    self.m_oMidiSlot = self.get_midi_slot_or_none()
-    if self.m_oMidiSlot != None and not self.m_oMidiSlot.has_clip_has_listener(self._on_clip_changed):
-      self.m_oMidiSlot.add_has_clip_listener(self._on_clip_changed)
-
-    self.m_oClip  = self.get_midi_clip_or_none()
-    self.m_oTrack = self.get_midi_track_or_none()
-
-    if self.m_oClip == None:
-      if self.m_oTrack == None:
-        return SEQ_CLIP_STATE_INVALID # No MIDI track
-      else:
-        return SEQ_CLIP_STATE_EMPTY # No MIDI Clip but MIDI Track
-
-    if not self.m_oClip.notes_has_listener(self._on_clip_notes_changed):
-      self.m_oClip.add_notes_listener(self._on_clip_notes_changed)
-    if not self.m_oClip.loop_start_has_listener(self._on_clip_length_changed):
-      self.m_oClip.add_loop_start_listener(self._on_clip_length_changed)
-    if not self.m_oClip.loop_end_has_listener(self._on_clip_length_changed):
-      self.m_oClip.add_loop_end_listener(self._on_clip_length_changed)
-
-    nClipLen = int(self.m_oClip.loop_end - self.m_oClip.loop_start)
-    if self.m_nTimeOffAbs >= nClipLen:
-      self.m_nTimeOffAbs = 0
-    return SEQ_CLIP_STATE_READY # MIDI Clip and MIDI Track
-
-  def disconnect_clip_listeners(self):
-    if self.m_oMidiSlot != None and self.m_oMidiSlot.has_clip_has_listener(self._on_clip_changed):
-      self.m_oMidiSlot.remove_has_clip_listener(self._on_clip_changed)
-    if self.m_oClip != None:
-      if self.m_oClip.notes_has_listener(self._on_clip_notes_changed):
-        self.m_oClip.remove_notes_listener(self._on_clip_notes_changed)
-      if self.m_oClip.loop_start_has_listener(self._on_clip_length_changed):
-        self.m_oClip.remove_loop_start_listener(self._on_clip_length_changed)
-      if self.m_oClip.loop_end_has_listener(self._on_clip_length_changed):
-        self.m_oClip.remove_loop_end_listener(self._on_clip_length_changed)
-
-  def _on_clip_changed(self):
-    self.update_stateful_controls()
-
-  def _on_clip_notes_changed(self):
-    if self.m_nClipState == SEQ_CLIP_STATE_READY:
-      self.on_clip_notes_changed()
-
-  def _on_clip_length_changed(self):
-    if self.m_nClipState == SEQ_CLIP_STATE_READY:
-      self.on_clip_notes_changed()
-
-  def on_clip_notes_changed(self):
-    return
 
   # **************************************************************************
 

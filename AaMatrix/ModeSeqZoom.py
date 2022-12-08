@@ -1,5 +1,10 @@
 from .ModeSeqBase import *
 
+SEQ_ZOOM_MIDI_CLIP_STATE_UNDEFINED = 0
+SEQ_ZOOM_MIDI_CLIP_STATE_INVALID   = 1
+SEQ_ZOOM_MIDI_CLIP_STATE_EMPTY     = 2
+SEQ_ZOOM_MIDI_CLIP_STATE_READY     = 3
+
 BUT_ZOOM_MODE = 0
 BUT_SEC_1_2   = 1
 BUT_SEC_1     = 2
@@ -26,18 +31,36 @@ class ModeSeqZoom(ModeSeqBase):
     super(ModeSeqZoom, self).__init__(_oCtrlInst, _hCfg, _oMatrix, _lSide, _lNav)
     self.m_sNavSkin      = "SeqZoom.Nav"
     self.m_nCurMode      = MODE_SECTION
-    self.m_nClipState    = SEQ_CLIP_STATE_UNDEFINED
+    self.m_nClipState    = SEQ_ZOOM_MIDI_CLIP_STATE_UNDEFINED
     self.m_nNumSect      = 0 # number of sections to show
     self.m_nCurSect      = 0 # current section
     self.m_nSpnSect      = 0 # section span (depends on the section mode)
     self.m_nPitxOffAbs   = self.get_pitx_offset_abs_for_octave(SEQ_INIT_OCTAVE) # initial octave
     self.m_nScale        = SEQ_SCALE_CHROMATIC
     self.m_nRootPitx     = SEQ_ROOT_C
-    self.m_nRootBkup     = SEQ_ROOT_C
     self.m_nNoteLength   = 0.25 # 1 BIT = 1/4 BEAT
     self.m_nNoteShift    = 0.0  # Fine time shift 0/16 .. 15/16 of a BIT (0.0625 increments)
     self.m_bNavSync      = True
     self.m_bLpEnvToggle  = True
+
+  def set_active(self, _bActive):
+    if _bActive:
+      self.m_bInit   = True
+      self.m_bActive = True
+      self.setup_nav_buttons(True, self.m_sNavSkin)
+      self.m_nClipState = self.get_clip_state()
+      if self.m_nClipState == SEQ_ZOOM_MIDI_CLIP_STATE_INVALID:
+        self.setup_invalid_clip_buttons()
+        self.setup_invalid_side_buttons()
+      elif self.m_nClipState == SEQ_ZOOM_MIDI_CLIP_STATE_EMPTY:
+        self.setup_empty_clip_buttons()
+        self.setup_invalid_side_buttons()
+      elif self.m_nClipState == SEQ_ZOOM_MIDI_CLIP_STATE_READY:
+        self.setup_ready_buttons()
+    else:
+      self.m_bActive = False
+      self.setup_nav_buttons(False)
+      self.disconnect_clip_listeners()
 
   def setup_invalid_side_buttons(self):
     for nIdx in range(8):
@@ -165,7 +188,7 @@ class ModeSeqZoom(ModeSeqBase):
 
   def side_cmd(self, _oButton, _nIdx, _nValue):
     if _nValue == BUTTON_OFF: return
-    if self.m_nClipState != SEQ_CLIP_STATE_READY:
+    if self.m_nClipState != SEQ_ZOOM_MIDI_CLIP_STATE_READY:
       return
 
     if _nIdx == BUT_TOGGLE:
@@ -248,12 +271,12 @@ class ModeSeqZoom(ModeSeqBase):
 
   def grid_cmd(self, _oButton, _nCol, _nRow, _nValue):
     if _nValue == BUTTON_OFF: return
-    if self.m_nClipState == SEQ_CLIP_STATE_INVALID:
+    if self.m_nClipState == SEQ_ZOOM_MIDI_CLIP_STATE_INVALID:
       self.alert('> SEQ ZOOM AVAILABLE ONLY IN MIDI TRACKS!')
       return # nothing to do here!
-    elif self.m_nClipState == SEQ_CLIP_STATE_EMPTY:
+    elif self.m_nClipState == SEQ_ZOOM_MIDI_CLIP_STATE_EMPTY:
       self.create_empty_midi_clip()
-    elif self.m_nClipState == SEQ_CLIP_STATE_READY:
+    elif self.m_nClipState == SEQ_ZOOM_MIDI_CLIP_STATE_READY:
       self.zoom_navigate(7 - _nRow, _nCol, True)
 
   def zoom_navigate(self, _nOctaveIdx, _nTimeIdx, _bLocal):
@@ -339,3 +362,56 @@ class ModeSeqZoom(ModeSeqBase):
     self.m_nPitxOffAbs = _nPitxAbs
     self.m_nTimeOffAbs = _nTimeAbs
     self.update_zoom_buttons()
+
+  # ****************************************************************************
+
+  def get_clip_state(self):
+    self.m_oMidiSlot = self.get_midi_slot_or_none()
+    if self.m_oMidiSlot != None and not self.m_oMidiSlot.has_clip_has_listener(self._on_clip_changed):
+      self.m_oMidiSlot.add_has_clip_listener(self._on_clip_changed)
+
+    self.m_oClip  = self.get_midi_clip_or_none()
+    self.m_oTrack = self.get_midi_track_or_none()
+
+    if self.m_oClip == None:
+      if self.m_oTrack == None:
+        return SEQ_ZOOM_MIDI_CLIP_STATE_INVALID # No MIDI track
+      else:
+        return SEQ_ZOOM_MIDI_CLIP_STATE_EMPTY # No MIDI Clip but MIDI Track
+
+    if not self.m_oClip.notes_has_listener(self._on_clip_notes_changed):
+      self.m_oClip.add_notes_listener(self._on_clip_notes_changed)
+    if not self.m_oClip.loop_start_has_listener(self._on_clip_length_changed):
+      self.m_oClip.add_loop_start_listener(self._on_clip_length_changed)
+    if not self.m_oClip.loop_end_has_listener(self._on_clip_length_changed):
+      self.m_oClip.add_loop_end_listener(self._on_clip_length_changed)
+
+    nClipLen = int(self.m_oClip.loop_end - self.m_oClip.loop_start)
+    if self.m_nTimeOffAbs >= nClipLen:
+      self.m_nTimeOffAbs = 0
+    return SEQ_ZOOM_MIDI_CLIP_STATE_READY # MIDI Clip and MIDI Track
+
+  def disconnect_clip_listeners(self):
+    if self.m_oMidiSlot != None and self.m_oMidiSlot.has_clip_has_listener(self._on_clip_changed):
+      self.m_oMidiSlot.remove_has_clip_listener(self._on_clip_changed)
+    if self.m_oClip != None:
+      if self.m_oClip.notes_has_listener(self._on_clip_notes_changed):
+        self.m_oClip.remove_notes_listener(self._on_clip_notes_changed)
+      if self.m_oClip.loop_start_has_listener(self._on_clip_length_changed):
+        self.m_oClip.remove_loop_start_listener(self._on_clip_length_changed)
+      if self.m_oClip.loop_end_has_listener(self._on_clip_length_changed):
+        self.m_oClip.remove_loop_end_listener(self._on_clip_length_changed)
+
+  def _on_clip_changed(self):
+    self.update_stateful_controls()
+
+  def _on_clip_notes_changed(self):
+    if self.m_nClipState == SEQ_ZOOM_MIDI_CLIP_STATE_READY:
+      self.on_clip_notes_changed()
+
+  def _on_clip_length_changed(self):
+    if self.m_nClipState == SEQ_ZOOM_MIDI_CLIP_STATE_READY:
+      self.on_clip_notes_changed()
+
+  def on_clip_notes_changed(self):
+    return
