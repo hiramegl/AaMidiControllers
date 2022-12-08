@@ -276,12 +276,15 @@ class Colors:
       On  = Rgb.YELLOW_THIRD
       Off = Rgb.BLACK
 
-    class SelTog:
-      On  = Rgb.VIOLET
-      Off = Rgb.BLACK
     class Slider:
       On  = Rgb.LIME
       Off = Rgb.GREY
+    class SelTog:
+      On  = Rgb.VIOLET
+      Off = Rgb.BLACK
+    class BitCmdM:
+      On  = Rgb.MINT
+      Off = Rgb.TURQUOISE
 
     class Transp:
       On  = Rgb.VIOLET

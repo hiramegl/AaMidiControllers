@@ -43,6 +43,10 @@ BUT_SLIDER_LEN  = 1
 BUT_SLIDER_SHF  = 2
 BUT_SLIDER_NONE = 3
 BUT_SEL_TOGGLE  = 3
+BUT_BIT_CMD_MOD = 4
+
+BIT_CMD_MOD_ALL = 0
+BIT_CMD_MOD_SEL = 1
 
 BUT_MODE        = 7
 MODE_TEMPO      = 0
@@ -69,7 +73,7 @@ class ModeSeqCmd(ModeSeqBase):
       ['Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Chord'  , 'ChrdInv', 'Slider' ],
       ['Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Chord'  , 'ChrdInv', 'Slider' ],
       ['Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'GridSel', 'GridSel', 'SelTog' ],
-      ['BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'Invalid'],
+      ['BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitCmdM'],
       ['BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'Invalid'],
       ['BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'Invalid'],
       ['BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'Mode'   ],
@@ -109,6 +113,8 @@ class ModeSeqCmd(ModeSeqBase):
     self.m_lTempoDeltas = [-20, -10, -5, -1, 1, 5, 10, 20]
     self.m_lBitLengths  = [0.5, 1, 2, 4, 8, 16, 32, 64]
     self.m_lBitVels     = [20, 40, 60, 80, 100, 127]
+    self.m_nBitCmdMod   = BIT_CMD_MOD_ALL
+    self.m_lBitCmdMod   = ['all', 'sel']
 
     self.m_nScale  = SEQ_SCALE_CHROMATIC
     self.m_nRoot   = SEQ_ROOT_C
@@ -181,10 +187,11 @@ class ModeSeqCmd(ModeSeqBase):
       self.update_span_mode_button()
       self.update_section_mode_buttons()
     else: # MODE_SCALE
-      self.update_slider_buttons()
       self.update_scale_buttons()
       self.update_root_buttons()
       self.update_transpose_button()
+      self.update_slider_buttons()
+      self.update_bit_cmd_mode_button()
 
   def update_grid_sel_buttons(self):
     if self.m_nGrid == 1:
@@ -205,13 +212,6 @@ class ModeSeqCmd(ModeSeqBase):
     nSectionMode = self.get_section_mode()
     for nIdx in range(ROW_SECTION_1_2, ROW_SECTION_8 + 1):
       if (nIdx - ROW_SECTION_1_2) == self.get_section_mode():
-        self.m_lSide[nIdx].turn_on()
-      else:
-        self.m_lSide[nIdx].turn_off()
-
-  def update_slider_buttons(self):
-    for nIdx in range(BUT_SLIDER_SHF + 1):
-      if nIdx == self.m_nSlider:
         self.m_lSide[nIdx].turn_on()
       else:
         self.m_lSide[nIdx].turn_off()
@@ -246,6 +246,20 @@ class ModeSeqCmd(ModeSeqBase):
       oBut.set_light('SeqCmd.Trnsps.Act')
     else:
       oBut.turn_on()
+
+  def update_slider_buttons(self):
+    for nIdx in range(BUT_SLIDER_SHF + 1):
+      if nIdx == self.m_nSlider:
+        self.m_lSide[nIdx].turn_on()
+      else:
+        self.m_lSide[nIdx].turn_off()
+
+  def update_bit_cmd_mode_button(self):
+    oBut = self.m_lSide[BUT_BIT_CMD_MOD]
+    if self.m_nBitCmdMod == BIT_CMD_MOD_ALL:
+      oBut.set_light('SeqCmd.BitCmdM.On')
+    else:
+      oBut.set_light('SeqCmd.BitCmdM.Off')
 
   # **************************************************************************
 
@@ -303,11 +317,16 @@ class ModeSeqCmd(ModeSeqBase):
           })
         elif _nIdx == BUT_SEL_TOGGLE:
           self.send_grid_command('select_toggle')
+        elif _nIdx == BUT_BIT_CMD_MOD:
+          if self.m_nBitCmdMod == BIT_CMD_MOD_ALL:
+            self.m_nBitCmdMod = BIT_CMD_MOD_SEL
+          else:
+            self.m_nBitCmdMod = BIT_CMD_MOD_ALL
+          self.update_bit_cmd_mode_button()
 
     elif self.m_nClipState == SEQ_CMD_CLIP_STATE_AUDIO_READY:
       if _nIdx == ROW_TEMPO_RESET:
         self.song().tempo = self.m_nTempoReset
-      # 128 BPM
       # Transpose Reset
       # Transponse +1
       # Transponse -1
@@ -392,7 +411,8 @@ class ModeSeqCmd(ModeSeqBase):
             self.alert('> GRID: 2')
             self.update_grid_sel_buttons()
         else: # bit commands: Mul / Div / Chop3 / Chop2
-          self.send_grid_command('bit_cmd', {'grid': self.m_nGrid, 'subcmd': self.m_lCmdNames[_nRow], 'index' : _nCol})
+          sMode = self.m_lBitCmdMod[self.m_nBitCmdMod]
+          self.send_grid_command('bit_cmd', {'grid': self.m_nGrid, 'subcmd': self.m_lCmdNames[_nRow], 'index' : _nCol, 'mode': sMode})
 
     elif self.m_nClipState != SEQ_CMD_CLIP_STATE_AUDIO_READY:
       if _nRow == ROW_SCALE_0:
