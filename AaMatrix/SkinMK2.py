@@ -150,7 +150,7 @@ class Colors:
     class End:
       On  = Rgb.RED_HALF
       Off = Rgb.BLACK
-    class ClDup:
+    class LpShow:
       On  = Rgb.TURQUOISE
       Off = Rgb.GREY
     class Toggle:

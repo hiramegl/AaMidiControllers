@@ -6,8 +6,7 @@ BUT_SEC_1     = 2
 BUT_SEC_2     = 3
 BUT_SEC_4     = 4
 BUT_SEC_8     = 5
-BUT_LP_DUP    = 6
-BUT_TOGGLE    = 7
+BUT_LP_SHOW   = 6
 
 BUT_LP_STA_MUL = 0
 BUT_LP_STA_DIV = 1
@@ -15,7 +14,9 @@ BUT_LP_MID_MUL = 2
 BUT_LP_MID_DIV = 3
 BUT_LP_END_MUL = 4
 BUT_LP_END_DIV = 5
-BUT_CL_DUP     = 6
+BUT_LP_DUP     = 6
+
+BUT_TOGGLE   = 7
 
 MODE_SECTION = 0
 MODE_TOOLS   = 1
@@ -36,6 +37,7 @@ class ModeSeqZoom(ModeSeqBase):
     self.m_nNoteLength   = 0.25 # 1 BIT = 1/4 BEAT
     self.m_nNoteShift    = 0.0  # Fine time shift 0/16 .. 15/16 of a BIT (0.0625 increments)
     self.m_bNavSync      = True
+    self.m_bLpEnvToggle  = True
 
   def on_clip_notes_changed(self):
     self.update_zoom_buttons()
@@ -133,10 +135,7 @@ class ModeSeqZoom(ModeSeqBase):
       else:
         self.m_lSide[BUT_ZOOM_MODE].set_light('SeqZoom.Mode.Phrase')
       self.update_section_mode_buttons()
-      if self.get_midi_clip_or_none() != None:
-        self.m_lSide[BUT_LP_DUP].set_light('SeqZoom.LpDup.On')
-      else:
-        self.m_lSide[BUT_LP_DUP].set_light('SeqZoom.LpDup.Off')
+      self.m_lSide[BUT_LP_SHOW].set_light('SeqZoom.LpShow.On')
     else:
       self.m_lSide[BUT_LP_STA_MUL].set_light('SeqZoom.Start.On')
       self.m_lSide[BUT_LP_STA_DIV].set_light('SeqZoom.Start.On')
@@ -144,7 +143,10 @@ class ModeSeqZoom(ModeSeqBase):
       self.m_lSide[BUT_LP_MID_DIV].set_light('SeqZoom.Middle.On')
       self.m_lSide[BUT_LP_END_MUL].set_light('SeqZoom.End.On')
       self.m_lSide[BUT_LP_END_DIV].set_light('SeqZoom.End.On')
-      self.m_lSide[BUT_CL_DUP    ].set_light('SeqZoom.ClDup.On')
+      if self.get_midi_clip_or_none() != None:
+        self.m_lSide[BUT_LP_DUP].set_light('SeqZoom.LpDup.On')
+      else:
+        self.m_lSide[BUT_LP_DUP].set_light('SeqZoom.LpDup.Off')
 
   def update_section_mode_buttons(self):
     for nIdx in range(SEQ_SECTION_MODE_8 + 1):
@@ -172,11 +174,21 @@ class ModeSeqZoom(ModeSeqBase):
       if _nIdx == BUT_ZOOM_MODE:
         nZoomMode = SEQ_TIME_ZOOM_PHRASE if self.get_time_zoom_mode() == SEQ_TIME_ZOOM_BAR else SEQ_TIME_ZOOM_BAR
         self.toggle_zoom_mode(nZoomMode, True)
-      elif _nIdx == BUT_LP_DUP:
+
+      elif _nIdx == BUT_LP_SHOW:
+        oView = self.application().view
+        oView.show_view('Detail')
+        oView.focus_view('Detail')
+        oView.show_view('Detail/Clip')
+        oView.focus_view('Detail/Clip')
         oClip = self.get_clip_or_none()
-        if oClip == None: return
-        if self.get_midi_clip_or_none() != None:
-          oClip.duplicate_loop()
+        if self.m_bLpEnvToggle:
+          oClip.view.hide_envelope()
+          oClip.view.show_loop()
+        else:
+          oClip.view.show_envelope()
+        self.m_bLpEnvToggle = not self.m_bLpEnvToggle
+
       else:
         self.set_section_mode(_nIdx - 1)
         self.alert('SECTION MODE: %s' % (self.m_aSectionModes[self.get_section_mode()]))
@@ -185,11 +197,11 @@ class ModeSeqZoom(ModeSeqBase):
         self.send_grid_command('section_mode', {'section_mode_index': self.get_section_mode()})
 
     else: # MODE_TOOLS
-      if _nIdx == BUT_CL_DUP:
-        nSelSceneIdxAbs = self.sel_scene_idx_abs()
-        oSelTrack = self.sel_track()
-        oSelTrack.duplicate_clip_slot(nSelSceneIdxAbs)
-        self.alert('> DUPLICATED CLIP at track "%s", scene: %d' % (oSelTrack.name, nSelSceneIdxAbs))
+      if _nIdx == BUT_LP_DUP:
+        oClip = self.get_clip_or_none()
+        if oClip == None: return
+        if self.get_midi_clip_or_none() != None:
+          oClip.duplicate_loop()
         return
 
       oClip = self.get_clip_or_none()
