@@ -7,24 +7,28 @@ SEQ_CMD_CLIP_STATE_MIDI_READY  = 3
 SEQ_CMD_CLIP_STATE_AUDIO_READY = 4
 
 SEQ_SCALE_CHROMATIC = 0
-
 SEQ_ROOT_C = 0
 
-ROW_SCALE_0 = 0
-ROW_SCALE_1 = 1
-ROW_ROOT_0  = 2
-ROW_ROOT_1  = 3
-ROW_CMD_ALL = 4
-ROW_CMD_SEL = 5
-ROW_BIT_CMD = 6
-ROW_RHYTHM  = 7
+# Grid buttons indeces
+
+ROW_SCALE_0     = 0
+ROW_SCALE_1     = 1
+ROW_ROOT_0      = 2
+ROW_ROOT_1      = 3
+ROW_CMD_ALL     = 4
+ROW_CMD_SEL     = 5
+ROW_CMD_XTR     = 6
+ROW_RHYTHM      = 7
 
 COL_SCALE_MAX   = 5
 COL_ROOT_MAX    = 5
 COL_TRNSPS      = 6
-COL_ZOOM_MODE   = 7
 COL_GRID_SEL_1  = 6
 COL_GRID_SEL_2  = 7
+
+COL_DEL         = 3
+
+# Side buttons indeces
 
 ROW_SPAN        = 1
 ROW_SECTION_1_2 = 2
@@ -33,30 +37,15 @@ ROW_SECTION_2   = 4
 ROW_SECTION_4   = 5
 ROW_SECTION_8   = 6
 
-COL_PITX_UP = 0
-COL_PITX_DW = 1
-COL_TIME_LF = 2
-COL_TIME_RG = 3
-COL_MUL     = 4
-COL_DIV     = 5
-COL_CH3     = 6
-COL_CH2     = 7
-
 BUT_SLIDER_VEL  = 0
 BUT_SLIDER_LEN  = 1
 BUT_SLIDER_SHF  = 2
 BUT_SLIDER_NONE = 3
+BUT_SEL_TOGGLE  = 3
 
-BUT_SEL_TOG    = 3
-BUT_DEL_ALL    = 4
-BUT_DEL_SEL    = 5
-BUT_MUTE_SEL   = 6
-BUT_SOLO_SEL   = 7
-
-BUT_MODE       = 7
-
-MODE_TEMPO     = 0
-MODE_SCALE     = 1
+BUT_MODE        = 7
+MODE_TEMPO      = 0
+MODE_SCALE      = 1
 
 class ModeSeqCmd(ModeSeqBase):
   def __init__(self, _oCtrlInst, _hCfg, _oMatrix, _lSide, _lNav):
@@ -111,7 +100,14 @@ class ModeSeqCmd(ModeSeqBase):
     ]
     self.m_lSliderModes = ['VELOCITY', 'LENGTH', 'FINE SHIFT', 'NONE']
     self.m_lCmdNames    = ['pitx_up', 'pitx_dw', 'time_lf', 'time_rg', 'mul', 'div', 'chop_3', 'chop_2']
+    self.m_lCmdNamesXtr = ['mute', 'solo', 'vel_reset', 'delete']
     self.m_bTransposing = False
+
+    self.m_nTempoFactor = 20
+    self.m_nTempoReset  = 128
+    self.m_lTempoDeltas = [-20, -10, -5, -1, 1, 5, 10, 20]
+    self.m_lBitLengths  = [0.5, 1, 2, 4, 8, 16, 32, 64]
+    self.m_lBitVels     = [20, 40, 60, 80, 100, 127]
 
     self.m_nScale  = SEQ_SCALE_CHROMATIC
     self.m_nRoot   = SEQ_ROOT_C
@@ -131,10 +127,8 @@ class ModeSeqCmd(ModeSeqBase):
         self.setup_empty_clip_buttons()
         self.setup_invalid_side_buttons()
       elif self.m_nClipState == SEQ_CMD_CLIP_STATE_MIDI_READY:
-        self.log(">> MIDI READY")
         self.setup_midi_ready_buttons()
       elif self.m_nClipState == SEQ_CMD_CLIP_STATE_AUDIO_READY:
-        self.log(">> AUDIO READY")
         self.setup_audio_ready_buttons()
     else:
       self.m_bActive = False
@@ -187,9 +181,9 @@ class ModeSeqCmd(ModeSeqBase):
       self.update_section_mode_buttons()
     else: # MODE_SCALE
       self.update_slider_buttons()
-  #  self.update_scale_buttons()
-  #  self.update_root_buttons()
-  #  self.update_transpose_button()
+      self.update_scale_buttons()
+      self.update_root_buttons()
+      self.update_transpose_button()
 
   def update_grid_sel_buttons(self):
     if self.m_nGrid == 1:
@@ -221,36 +215,36 @@ class ModeSeqCmd(ModeSeqBase):
       else:
         self.m_lSide[nIdx].turn_off()
 
-  #def update_scale_buttons(self):
-  #  for nIdx in range(12):
-  #    nRow   = nIdx / 6
-  #    nCol   = nIdx % 6
-  #    nScale = nIdx + 1
-  #    if self.m_nScale == nScale:
-  #      self.m_oMatrix.get_button(nCol, nRow).turn_on()
-  #    else:
-  #      self.m_oMatrix.get_button(nCol, nRow).turn_off()
+  def update_scale_buttons(self):
+    for nIdx in range(12):
+      nRow   = nIdx / 6
+      nCol   = nIdx % 6
+      nScale = nIdx + 1
+      if self.m_nScale == nScale:
+        self.m_oMatrix.get_button(nCol, nRow).turn_on()
+      else:
+        self.m_oMatrix.get_button(nCol, nRow).turn_off()
 
-  #def update_root_buttons(self):
-  #  lWhite = [0, 2, 4, 5, 7, 9, 11]
-  #  for nIdx in range(12):
-  #    nRow = (nIdx / 6) + 2
-  #    nCol = nIdx % 6
-  #    if self.m_nRoot == nIdx:
-  #      self.m_oMatrix.get_button(nCol, nRow).turn_on()
-  #    elif nIdx in lWhite:
-  #      self.m_oMatrix.get_button(nCol, nRow).set_light('SeqCmd.Root.White')
-  #    else:
-  #      self.m_oMatrix.get_button(nCol, nRow).set_light('SeqCmd.Root.Black')
+  def update_root_buttons(self):
+    lWhite = [0, 2, 4, 5, 7, 9, 11]
+    for nIdx in range(12):
+      nRow = (nIdx / 6) + 2
+      nCol = nIdx % 6
+      if self.m_nRoot == nIdx:
+        self.m_oMatrix.get_button(nCol, nRow).turn_on()
+      elif nIdx in lWhite:
+        self.m_oMatrix.get_button(nCol, nRow).set_light('SeqCmd.Root.White')
+      else:
+        self.m_oMatrix.get_button(nCol, nRow).set_light('SeqCmd.Root.Black')
 
-  #def update_transpose_button(self):
-  #  oBut = self.m_oMatrix.get_button(COL_TRNSPS, ROW_SCALE_0)
-  #  if self.m_nScale == SEQ_SCALE_CHROMATIC:
-  #    oBut.turn_off()
-  #  elif self.m_bTransposing:
-  #    oBut.set_light('SeqCmd.Trnsps.Act')
-  #  else:
-  #    oBut.turn_on()
+  def update_transpose_button(self):
+    oBut = self.m_oMatrix.get_button(COL_TRNSPS, ROW_SCALE_0)
+    if self.m_nScale == SEQ_SCALE_CHROMATIC:
+      oBut.turn_off()
+    elif self.m_bTransposing:
+      oBut.set_light('SeqCmd.Trnsps.Act')
+    else:
+      oBut.turn_on()
 
   # **************************************************************************
 
@@ -304,6 +298,8 @@ class ModeSeqCmd(ModeSeqBase):
           self.send_grid_command('slider_mode', {
             'slider_mode_index': self.m_nSlider
           })
+        elif _nIdx == BUT_SEL_TOGGLE:
+          self.send_grid_command('select_toggle')
 
     elif self.m_nClipState == SEQ_CMD_CLIP_STATE_AUDIO_READY:
       # 128 BPM
@@ -314,123 +310,105 @@ class ModeSeqCmd(ModeSeqBase):
       # Gain Reset
       return
 
-    #elif _nIdx == BUT_SEL_TOG:
-    #  self.send_grid_command('select_toggle')
-    #elif _nIdx == BUT_DEL_ALL:
-    #  self.send_grid_command('grid_cmd', {
-    #    'grid'  : self.m_nGrid,
-    #    'subcmd': 'delete',
-    #    'mode'  : 'all',
-    #  })
-    #elif _nIdx == BUT_DEL_SEL:
-    #  self.send_grid_command('grid_cmd', {
-    #    'grid'  : self.m_nGrid,
-    #    'subcmd': 'delete',
-    #    'mode'  : 'sel',
-    #  })
-    #elif _nIdx == BUT_MUTE_SEL:
-    #  self.send_grid_command('grid_cmd', {
-    #    'grid'  : self.m_nGrid,
-    #    'subcmd': 'mute',
-    #    'mode'  : 'sel',
-    #  })
-    #elif _nIdx == BUT_SOLO_SEL:
-    #  self.send_grid_command('grid_cmd', {
-    #    'grid'  : self.m_nGrid,
-    #    'subcmd': 'solo',
-    #    'mode'  : 'sel',
-    #  })
-
   def grid_cmd(self, _oButton, _nCol, _nRow, _nValue):
     if _nValue == BUTTON_OFF: return
 
-    #if _nRow == ROW_SCALE_0:
-    #  if _nCol <= COL_SCALE_MAX:
-    #    self.select_scale(_nCol + 1, True)
-    #  elif _nCol == COL_TRNSPS:
-    #    if self.m_nScale == SEQ_SCALE_CHROMATIC:
-    #      self.alert('TRANSPOSE UNAVAILABLE. SELECT A SCALE FIRST.')
-    #      return
-    #    elif not self.m_bTransposing: # starting transpose
-    #      self.send_grid_command('transpose_scale', {
-    #        'subcmd': 'source',
-    #      })
-    #      self.m_bTransposing = True
-    #    else:
-    #      self.send_grid_command('transpose_scale', {
-    #        'subcmd': 'cancel',
-    #      })
-    #      self.m_bTransposing = False
-    #    self.update_transpose_button()
+    if self.m_nClipState == SEQ_CMD_CLIP_STATE_MIDI_READY:
+      if self.m_nCurMode == MODE_TEMPO:
+        # TEMPO
+        # TEMPO INCR DECR
+        # BIT LEN
+        # BIT VEL
+        if _nRow == ROW_ROOT_1:
+          elif _nCol == COL_GRID_SEL_1:
+            if self.m_nGrid == 1: return
+            self.m_nGrid = 1
+            self.alert('> GRID: 1')
+            self.update_grid_sel_buttons()
+          elif _nCol == COL_GRID_SEL_2:
+            if self.m_nGrid == 2: return
+            self.m_nGrid = 2
+            self.alert('> GRID: 2')
+            self.update_grid_sel_buttons()
+        elif _nRow == ROW_CMD_ALL:
+          self.send_grid_command('grid_cmd', {'grid': self.m_nGrid, 'subcmd': self.m_lCmdNames[_nCol], 'mode': 'all'})
+        elif _nRow == ROW_CMD_SEL:
+          self.send_grid_command('grid_cmd', {'grid': self.m_nGrid, 'subcmd': self.m_lCmdNames[_nCol], 'mode': 'sel'})
+        elif _nRow == ROW_CMD_XTR:
+          if _nCol <= COL_DEL:
+            self.send_grid_command('grid_cmd', {'grid': self.m_nGrid, 'subcmd': self.m_lCmdNamesXtr[_nCol], 'mode': 'all'})
+          else:
+            self.send_grid_command('apply_rhythm', {'pattern_index': _nCol})
+        elif _nRow == ROW_RHYTHM:
+          if _nCol <= COL_DEL:
+            self.send_grid_command('grid_cmd', {'grid': self.m_nGrid, 'subcmd': self.m_lCmdNamesXtr[_nCol], 'mode': 'sel'})
+          else:
+            self.send_grid_command('apply_rhythm', {'pattern_index': _nCol - 4})
 
-    #elif _nRow == ROW_SCALE_1:
-    #  if _nCol <= COL_SCALE_MAX:
-    #    self.select_scale(_nCol + 7, True)
+      else: # self.m_nCurMode == MODE_SCALE
+        if _nRow == ROW_SCALE_0:
+          if _nCol <= COL_SCALE_MAX:
+            self.select_scale(_nCol + 1, True)
+          elif _nCol == COL_TRNSPS:
+            if self.m_nScale == SEQ_SCALE_CHROMATIC:
+              self.alert('TRANSPOSE UNAVAILABLE. SELECT A SCALE FIRST.')
+              return
+            elif not self.m_bTransposing: # starting transpose
+              self.send_grid_command('transpose_scale', {'subcmd': 'source'})
+              self.m_bTransposing = True
+            else:
+              self.send_grid_command('transpose_scale', {'subcmd': 'cancel'})
+              self.m_bTransposing = False
+            self.update_transpose_button()
+        elif _nRow == ROW_SCALE_1:
+          if _nCol <= COL_SCALE_MAX:
+            self.select_scale(_nCol + 7, True)
+        elif _nRow == ROW_ROOT_0:
+          if _nCol <= COL_ROOT_MAX:
+            self.select_root(_nCol, True)
+        elif _nRow == ROW_ROOT_1:
+          if _nCol <= COL_ROOT_MAX:
+            self.select_root(_nCol + 6, True)
+          elif _nCol == COL_GRID_SEL_1:
+            if self.m_nGrid == 1: return
+            self.m_nGrid = 1
+            self.alert('> GRID: 1')
+            self.update_grid_sel_buttons()
+          elif _nCol == COL_GRID_SEL_2:
+            if self.m_nGrid == 2: return
+            self.m_nGrid = 2
+            self.alert('> GRID: 2')
+            self.update_grid_sel_buttons()
+        else: # bit commands: Mul / Div / Chop3 / Chop2
+          self.send_grid_command('bit_cmd', {'grid': self.m_nGrid, 'subcmd': self.m_lCmdNames[_nRow], 'index' : _nCol})
 
-    #elif _nRow == ROW_ROOT_0:
-    #  if _nCol <= COL_ROOT_MAX:
-    #    self.select_root(_nCol, True)
+    #elif self.m_nClipState != SEQ_CMD_CLIP_STATE_AUDIO_READY:
+      # TEMPO
+      # TRANSPOSE
+      # DETUNE
+      # GAIN
 
-    if _nRow == ROW_ROOT_1:
-      #if _nCol <= COL_ROOT_MAX:
-      #  self.select_root(_nCol + 6, True)
-      if _nCol == COL_GRID_SEL_1:
-        if self.m_nGrid == 1: return
-        self.m_nGrid = 1
-        self.alert('> GRID: 1')
-        self.update_grid_sel_buttons()
-      elif _nCol == COL_GRID_SEL_2:
-        if self.m_nGrid == 2: return
-        self.m_nGrid = 2
-        self.alert('> GRID: 2')
-        self.update_grid_sel_buttons()
+  def select_scale(self, _nScale, _bLocal):
+    self.m_nScale = SEQ_SCALE_CHROMATIC if _nScale == self.m_nScale else _nScale
+    self.update_scale_buttons()
+    if _bLocal:
+      if not self.m_bTransposing:
+        self.send_grid_command('sel_scale', {'scale_idx': self.m_nScale})
+        self.alert('SCALE: "%s"' % (self.m_lScales[self.m_nScale]))
+      else:
+        self.send_grid_command('transpose_scale', {
+          'subcmd': 'target',
+          'scale' : self.m_nScale,
+        })
+        self.m_bTransposing = False
+    self.update_transpose_button()
 
-    #elif _nRow == ROW_CMD_ALL:
-    #  self.send_grid_command('grid_cmd', {
-    #    'grid'  : self.m_nGrid,
-    #    'subcmd': self.m_lCmdNames[_nCol],
-    #    'mode'  : 'all',
-    #  })
-
-    #elif _nRow == ROW_CMD_SEL:
-    #  if _nCol <= COL_TIME_RG:
-    #    self.send_grid_command('grid_cmd', {
-    #      'grid'  : self.m_nGrid,
-    #      'subcmd': self.m_lCmdNames[_nCol],
-    #      'mode'  : 'sel',
-    #    })
-
-    #elif _nRow == ROW_BIT_CMD:
-    #  self.send_grid_command('bit_cmd', {
-    #    'grid'  : self.m_nGrid,
-    #    'subcmd': self.m_lCmdNames[self.m_nCmd],
-    #    'index' : _nCol,
-    #  })
-
-    #elif _nRow == ROW_RHYTHM:
-    #  self.send_grid_command('apply_rhythm', {'pattern_index': _nCol})
-
-  #def select_scale(self, _nScale, _bLocal):
-  #  self.m_nScale = SEQ_SCALE_CHROMATIC if _nScale == self.m_nScale else _nScale
-  #  self.update_scale_buttons()
-  #  if _bLocal:
-  #    if not self.m_bTransposing:
-  #      self.send_grid_command('sel_scale', {'scale_idx': self.m_nScale})
-  #      self.alert('SCALE: "%s"' % (self.m_lScales[self.m_nScale]))
-  #    else:
-  #      self.send_grid_command('transpose_scale', {
-  #        'subcmd': 'target',
-  #        'scale' : self.m_nScale,
-  #      })
-  #      self.m_bTransposing = False
-  #  self.update_transpose_button()
-
-  #def select_root(self, _nRoot, _bLocal):
-  #  if self.m_nRoot == _nRoot: return
-  #  self.m_nRoot = _nRoot
-  #  self.update_root_buttons()
-  #  if _bLocal:
-  #    self.send_grid_command('sel_root', {'root_idx': self.m_nRoot})
+  def select_root(self, _nRoot, _bLocal):
+    if self.m_nRoot == _nRoot: return
+    self.m_nRoot = _nRoot
+    self.update_root_buttons()
+    if _bLocal:
+      self.send_grid_command('sel_root', {'root_idx': self.m_nRoot})
 
   def toggle_zoom_mode(self, _nZoomMode, _bLocal):
     self.set_time_zoom_mode(_nZoomMode)
