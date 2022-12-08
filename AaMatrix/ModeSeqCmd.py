@@ -111,7 +111,7 @@ class ModeSeqCmd(ModeSeqBase):
     self.m_nTempoFactor = 20
     self.m_nTempoReset  = 128
     self.m_lTempoDeltas = [-20, -10, -5, -1, 1, 5, 10, 20]
-    self.m_lBitLengths  = [0.5, 1, 2, 4, 8, 16, 32, 64]
+    self.m_lBitLengths  = [0.125, 0.25, 0.5, 1, 2, 4, 8, 16]
     self.m_lBitVels     = [20, 40, 60, 80, 100, 127]
     self.m_nBitCmdMod   = BIT_CMD_MOD_ALL
     self.m_lBitCmdMod   = ['all', 'sel']
@@ -347,10 +347,10 @@ class ModeSeqCmd(ModeSeqBase):
           if nNewTempo >= 20 and nNewTempo <= 500:
             self.song().tempo  = nNewTempo
         elif _nRow == ROW_ROOT_0:
-          return # BIT LEN
+          self.send_grid_command('bit_cfg', {'type': 'len', 'value': self.m_lBitLengths[_nCol]})
         elif _nRow == ROW_ROOT_1:
           if _nCol < COL_GRID_SEL_1:
-            return # BIT VEL
+            self.send_grid_command('bit_cfg', {'type': 'vel', 'value': self.m_lBitVels[_nCol]})
           elif _nCol == COL_GRID_SEL_1:
             if self.m_nGrid == 1: return
             self.m_nGrid = 1
