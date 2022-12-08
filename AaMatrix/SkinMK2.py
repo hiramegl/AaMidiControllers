@@ -234,8 +234,10 @@ class Colors:
       Off = Rgb.MINT
 
     class Span:
-      On  = Rgb.BLUE
-      Off = Rgb.LIGHT_BLUE
+      On     = Rgb.BLACK
+      Off    = Rgb.BLACK
+      Bar    = Rgb.BLUE
+      Phrase = Rgb.LIGHT_BLUE
     class Section:
       On  = Rgb.MINT
       Off = Rgb.GREY
@@ -250,6 +252,7 @@ class Colors:
       On    = Rgb.GREEN
       Black = Rgb.RED
       White = Rgb.AMBER
+      Off   = Rgb.BLACK
     class Trnsps:
       On  = Rgb.PINK
       Act = Rgb.PINK_BLINK

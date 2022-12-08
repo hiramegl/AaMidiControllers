@@ -23,12 +23,15 @@ COL_SCALE_MAX   = 5
 COL_ROOT_MAX    = 5
 COL_TRNSPS      = 6
 COL_ZOOM_MODE   = 7
-COL_SECTION_1_2 = 6
-COL_SECTION_1   = 7
-COL_SECTION_2   = 6
-COL_SECTION_4   = 7
 COL_GRID_SEL_1  = 6
 COL_GRID_SEL_2  = 7
+
+ROW_SPAN        = 1
+ROW_SECTION_1_2 = 2
+ROW_SECTION_1   = 3
+ROW_SECTION_2   = 4
+ROW_SECTION_4   = 5
+ROW_SECTION_8   = 6
 
 COL_PITX_UP = 0
 COL_PITX_DW = 1
@@ -39,10 +42,11 @@ COL_DIV     = 5
 COL_CH3     = 6
 COL_CH2     = 7
 
-BUT_SLIDER_NONE = 3
 BUT_SLIDER_VEL  = 0
 BUT_SLIDER_LEN  = 1
 BUT_SLIDER_SHF  = 2
+BUT_SLIDER_NONE = 3
+
 BUT_SEL_TOG    = 3
 BUT_DEL_ALL    = 4
 BUT_DEL_SEL    = 5
@@ -71,13 +75,13 @@ class ModeSeqCmd(ModeSeqBase):
       ['MuteSel', 'SoloSel', 'VelRSel', 'DelSel' , 'Patt'   , 'Patt'   , 'Patt'   , 'Patt'   , 'Mode'   ],
     ]
     self.m_lMidiScaleSkin = [
-      ['Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Trnsps' , 'ChrdInv', 'Invalid'],
-      ['Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Chord'  , 'ChrdInv', 'Invalid'],
-      ['Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Chord'  , 'ChrdInv', 'Invalid'],
+      ['Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Trnsps' , 'ChrdInv', 'Slider' ],
+      ['Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Chord'  , 'ChrdInv', 'Slider' ],
+      ['Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Chord'  , 'ChrdInv', 'Slider' ],
       ['Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'GridSel', 'GridSel', 'SelTog' ],
-      ['BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'Slider' ],
-      ['BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'Slider' ],
-      ['BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'Slider' ],
+      ['BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'Invalid'],
+      ['BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'Invalid'],
+      ['BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'BitChp3', 'Invalid'],
       ['BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'BitChp2', 'Mode'   ],
     ]
     self.m_lAudioTempoSkin = [
@@ -177,13 +181,15 @@ class ModeSeqCmd(ModeSeqBase):
 
   def update_stateful_midi_buttons(self):
     self.update_grid_sel_buttons()
+
+    if self.m_nCurMode == MODE_TEMPO:
+      self.update_span_mode_button()
+      self.update_section_mode_buttons()
+    else: # MODE_SCALE
+      self.update_slider_buttons()
   #  self.update_scale_buttons()
   #  self.update_root_buttons()
   #  self.update_transpose_button()
-  #  self.update_zoom_mode_button()
-  #  self.update_section_mode_buttons()
-  #  self.update_grid_cmd_buttons()
-  #  self.update_slider_buttons()
 
   def update_grid_sel_buttons(self):
     if self.m_nGrid == 1:
@@ -192,6 +198,28 @@ class ModeSeqCmd(ModeSeqBase):
     else: # self.m_nGrid == 2
       self.m_oMatrix.get_button(COL_GRID_SEL_1, ROW_ROOT_1).turn_off()
       self.m_oMatrix.get_button(COL_GRID_SEL_2, ROW_ROOT_1).turn_on()
+
+  def update_span_mode_button(self):
+    oBut = self.m_lSide[ROW_SPAN]
+    if self.get_time_zoom_mode() == SEQ_TIME_ZOOM_BAR:
+      oBut.set_light('SeqCmd.Span.Bar')
+    else:
+      oBut.set_light('SeqCmd.Span.Phrase')
+
+  def update_section_mode_buttons(self):
+    nSectionMode = self.get_section_mode()
+    for nIdx in range(ROW_SECTION_1_2, ROW_SECTION_8 + 1):
+      if (nIdx - ROW_SECTION_1_2) == self.get_section_mode():
+        self.m_lSide[nIdx].turn_on()
+      else:
+        self.m_lSide[nIdx].turn_off()
+
+  def update_slider_buttons(self):
+    for nIdx in range(BUT_SLIDER_SHF + 1):
+      if nIdx == self.m_nSlider:
+        self.m_lSide[nIdx].turn_on()
+      else:
+        self.m_lSide[nIdx].turn_off()
 
   #def update_scale_buttons(self):
   #  for nIdx in range(12):
@@ -224,48 +252,6 @@ class ModeSeqCmd(ModeSeqBase):
   #  else:
   #    oBut.turn_on()
 
-  #def update_zoom_mode_button(self):
-  #  oBut = self.m_oMatrix.get_button(COL_ZOOM_MODE, ROW_SCALE_0)
-  #  if self.get_time_zoom_mode() == SEQ_TIME_ZOOM_BAR:
-  #    oBut.set_light('SeqCmd.Mode.Bar')
-  #  else:
-  #    oBut.set_light('SeqCmd.Mode.Phrase')
-
-  #def update_section_mode_buttons(self):
-  #  nSectionMode = self.get_section_mode()
-  #  if nSectionMode == SEQ_SECTION_MODE_1_2:
-  #    self.m_oMatrix.get_button(COL_SECTION_1_2, ROW_SCALE_1).turn_on()
-  #    self.m_oMatrix.get_button(COL_SECTION_1  , ROW_SCALE_1).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_2  , ROW_ROOT_0 ).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_4  , ROW_ROOT_0 ).turn_off()
-  #  elif nSectionMode == SEQ_SECTION_MODE_1:
-  #    self.m_oMatrix.get_button(COL_SECTION_1_2, ROW_SCALE_1).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_1  , ROW_SCALE_1).turn_on()
-  #    self.m_oMatrix.get_button(COL_SECTION_2  , ROW_ROOT_0 ).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_4  , ROW_ROOT_0 ).turn_off()
-  #  elif nSectionMode == SEQ_SECTION_MODE_2:
-  #    self.m_oMatrix.get_button(COL_SECTION_1_2, ROW_SCALE_1).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_1  , ROW_SCALE_1).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_2  , ROW_ROOT_0 ).turn_on()
-  #    self.m_oMatrix.get_button(COL_SECTION_4  , ROW_ROOT_0 ).turn_off()
-  #  elif nSectionMode == SEQ_SECTION_MODE_4:
-  #    self.m_oMatrix.get_button(COL_SECTION_1_2, ROW_SCALE_1).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_1  , ROW_SCALE_1).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_2  , ROW_ROOT_0 ).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_4  , ROW_ROOT_0 ).turn_on()
-  #  elif nSectionMode == SEQ_SECTION_MODE_8:
-  #    self.m_oMatrix.get_button(COL_SECTION_1_2, ROW_SCALE_1).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_1  , ROW_SCALE_1).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_2  , ROW_ROOT_0 ).turn_off()
-  #    self.m_oMatrix.get_button(COL_SECTION_4  , ROW_ROOT_0 ).turn_off()
-
-  #def update_slider_buttons(self):
-  #  for nIdx in range(BUT_SLIDER_SHF + 1):
-  #    if nIdx == self.m_nSlider:
-  #      self.m_lSide[nIdx].turn_on()
-  #    else:
-  #      self.m_lSide[nIdx].turn_off()
-
   # **************************************************************************
 
   def side_cmd(self, _oButton, _nIdx, _nValue):
@@ -281,30 +267,53 @@ class ModeSeqCmd(ModeSeqBase):
         self.set_active(True)
         return
 
+      if self.m_nCurMode == MODE_TEMPO:
+        if _nIdx == ROW_SPAN:
+          nZoomMode = SEQ_TIME_ZOOM_PHRASE if self.get_time_zoom_mode() == SEQ_TIME_ZOOM_BAR else SEQ_TIME_ZOOM_BAR
+          self.toggle_zoom_mode(nZoomMode, True)
+        elif _nIdx == ROW_SECTION_1_2:
+          self.select_section_mode(SEQ_SECTION_MODE_1_2, True)
+        elif _nIdx == ROW_SECTION_1:
+          self.select_section_mode(SEQ_SECTION_MODE_1, True)
+        elif _nIdx == ROW_SECTION_2:
+          self.select_section_mode(SEQ_SECTION_MODE_2, True)
+        elif _nIdx == ROW_SECTION_4:
+          self.select_section_mode(SEQ_SECTION_MODE_4, True)
+        elif _nIdx == ROW_SECTION_8:
+          self.select_section_mode(SEQ_SECTION_MODE_8, True)
+
+      else: # self.m_nCurMode == MODE_SCALE
+        if _nIdx <= BUT_SLIDER_SHF:
+          if _nIdx == BUT_SLIDER_VEL:
+            if self.m_nSlider == BUT_SLIDER_VEL:
+              self.m_nSlider = BUT_SLIDER_NONE
+            else:
+              self.m_nSlider = BUT_SLIDER_VEL
+          elif _nIdx == BUT_SLIDER_LEN:
+            if self.m_nSlider == BUT_SLIDER_LEN:
+              self.m_nSlider = BUT_SLIDER_NONE
+            else:
+              self.m_nSlider = BUT_SLIDER_LEN
+          elif _nIdx == BUT_SLIDER_SHF:
+            if self.m_nSlider == BUT_SLIDER_SHF:
+              self.m_nSlider = BUT_SLIDER_NONE
+            else:
+              self.m_nSlider = BUT_SLIDER_SHF
+          self.alert('SLIDER MODE: %s' % (self.m_lSliderModes[self.m_nSlider]))
+          self.update_slider_buttons()
+          self.send_grid_command('slider_mode', {
+            'slider_mode_index': self.m_nSlider
+          })
+
     elif self.m_nClipState == SEQ_CMD_CLIP_STATE_AUDIO_READY:
+      # 128 BPM
+      # Transpose Reset
+      # Transponse +1
+      # Transponse -1
+      # Detune Reset
+      # Gain Reset
       return
 
-    #if _nIdx <= BUT_SLIDER_SHF:
-    #  if _nIdx == BUT_SLIDER_VEL:
-    #    if self.m_nSlider == BUT_SLIDER_VEL:
-    #      self.m_nSlider = BUT_SLIDER_NONE
-    #    else:
-    #      self.m_nSlider = BUT_SLIDER_VEL
-    #  elif _nIdx == BUT_SLIDER_LEN:
-    #    if self.m_nSlider == BUT_SLIDER_LEN:
-    #      self.m_nSlider = BUT_SLIDER_NONE
-    #    else:
-    #      self.m_nSlider = BUT_SLIDER_LEN
-    #  elif _nIdx == BUT_SLIDER_SHF:
-    #    if self.m_nSlider == BUT_SLIDER_SHF:
-    #      self.m_nSlider = BUT_SLIDER_NONE
-    #    else:
-    #      self.m_nSlider = BUT_SLIDER_SHF
-    #  self.alert('SLIDER MODE: %s' % (self.m_lSliderModes[self.m_nSlider]))
-    #  self.update_slider_buttons()
-    #  self.send_grid_command('slider_mode', {
-    #    'slider_mode_index': self.m_nSlider
-    #  })
     #elif _nIdx == BUT_SEL_TOG:
     #  self.send_grid_command('select_toggle')
     #elif _nIdx == BUT_DEL_ALL:
@@ -353,25 +362,14 @@ class ModeSeqCmd(ModeSeqBase):
     #      })
     #      self.m_bTransposing = False
     #    self.update_transpose_button()
-    #  elif _nCol == COL_ZOOM_MODE:
-    #    nZoomMode = SEQ_TIME_ZOOM_PHRASE if self.get_time_zoom_mode() == SEQ_TIME_ZOOM_BAR else SEQ_TIME_ZOOM_BAR
-    #    self.toggle_zoom_mode(nZoomMode, True)
 
     #elif _nRow == ROW_SCALE_1:
     #  if _nCol <= COL_SCALE_MAX:
     #    self.select_scale(_nCol + 7, True)
-    #  elif _nCol == COL_SECTION_1_2:
-    #    self.select_section_mode(SEQ_SECTION_MODE_1_2, True)
-    #  elif _nCol == COL_SECTION_1:
-    #    self.select_section_mode(SEQ_SECTION_MODE_1, True)
 
     #elif _nRow == ROW_ROOT_0:
     #  if _nCol <= COL_ROOT_MAX:
     #    self.select_root(_nCol, True)
-    #  elif _nCol == COL_SECTION_2:
-    #    self.select_section_mode(SEQ_SECTION_MODE_2, True)
-    #  elif _nCol == COL_SECTION_4:
-    #    self.select_section_mode(SEQ_SECTION_MODE_4, True)
 
     if _nRow == ROW_ROOT_1:
       #if _nCol <= COL_ROOT_MAX:
@@ -434,18 +432,18 @@ class ModeSeqCmd(ModeSeqBase):
   #  if _bLocal:
   #    self.send_grid_command('sel_root', {'root_idx': self.m_nRoot})
 
-  #def toggle_zoom_mode(self, _nZoomMode, _bLocal):
-  #  self.set_time_zoom_mode(_nZoomMode)
-  #  self.update_zoom_mode_button()
-  #  if _bLocal:
-  #    self.send_grid_command('zoom_mode', {'new_zoom_mode': _nZoomMode})
+  def toggle_zoom_mode(self, _nZoomMode, _bLocal):
+    self.set_time_zoom_mode(_nZoomMode)
+    self.update_span_mode_button()
+    if _bLocal:
+      self.send_grid_command('zoom_mode', {'new_zoom_mode': _nZoomMode})
 
-  #def select_section_mode(self, _nSectionMode, _bLocal):
-  #  self.set_section_mode(_nSectionMode)
-  #  self.alert('SECTION MODE: %s' % (self.m_aSectionModes[self.get_section_mode()]))
-  #  self.update_section_mode_buttons()
-  #  if _bLocal:
-  #    self.send_grid_command('section_mode', {'section_mode_index': self.get_section_mode()})
+  def select_section_mode(self, _nSectionMode, _bLocal):
+    self.set_section_mode(_nSectionMode)
+    self.alert('SECTION MODE: %s' % (self.m_aSectionModes[self.get_section_mode()]))
+    self.update_section_mode_buttons()
+    if _bLocal:
+      self.send_grid_command('section_mode', {'section_mode_index': self.get_section_mode()})
 
   # **************************************************************************
 
