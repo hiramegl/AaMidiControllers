@@ -39,6 +39,10 @@ class ModeSeqZoom(ModeSeqBase):
     self.m_bNavSync      = True
     self.m_bLpEnvToggle  = True
 
+  def setup_invalid_side_buttons(self):
+    for nIdx in range(8):
+      self.m_lSide[nIdx].set_light('SeqZoom.Invalid.Off')
+
   def on_clip_notes_changed(self):
     self.update_zoom_buttons()
 
@@ -161,6 +165,8 @@ class ModeSeqZoom(ModeSeqBase):
 
   def side_cmd(self, _oButton, _nIdx, _nValue):
     if _nValue == BUTTON_OFF: return
+    if self.m_nClipState != SEQ_CLIP_STATE_READY:
+      return
 
     if _nIdx == BUT_TOGGLE:
       if self.m_nCurMode == MODE_SECTION:

@@ -61,8 +61,10 @@ class ModeSeqBase(ModeBase):
       self.m_nClipState = self.get_clip_state()
       if self.m_nClipState == SEQ_CLIP_STATE_INVALID:
         self.setup_invalid_clip_buttons()
+        self.setup_invalid_side_buttons()
       elif self.m_nClipState == SEQ_CLIP_STATE_EMPTY:
         self.setup_empty_clip_buttons()
+        self.setup_invalid_side_buttons()
       elif self.m_nClipState == SEQ_CLIP_STATE_READY:
         self.setup_ready_buttons()
     else:
@@ -79,6 +81,9 @@ class ModeSeqBase(ModeBase):
           oButton.turn_on()
         else:
           oButton.turn_off()
+
+  def setup_invalid_side_buttons(self):
+    return
 
   def setup_empty_clip_buttons(self):
     oTrack = self.get_midi_track_or_none()
@@ -141,9 +146,9 @@ class ModeSeqBase(ModeBase):
 
     if self.m_oClip == None:
       if self.m_oTrack == None:
-        return SEQ_CLIP_STATE_INVALID
+        return SEQ_CLIP_STATE_INVALID # No MIDI track
       else:
-        return SEQ_CLIP_STATE_EMPTY
+        return SEQ_CLIP_STATE_EMPTY # No MIDI Clip but MIDI Track
 
     if not self.m_oClip.notes_has_listener(self._on_clip_notes_changed):
       self.m_oClip.add_notes_listener(self._on_clip_notes_changed)
@@ -155,7 +160,7 @@ class ModeSeqBase(ModeBase):
     nClipLen = int(self.m_oClip.loop_end - self.m_oClip.loop_start)
     if self.m_nTimeOffAbs >= nClipLen:
       self.m_nTimeOffAbs = 0
-    return SEQ_CLIP_STATE_READY
+    return SEQ_CLIP_STATE_READY # MIDI Clip and MIDI Track
 
   def disconnect_clip_listeners(self):
     if self.m_oMidiSlot != None and self.m_oMidiSlot.has_clip_has_listener(self._on_clip_changed):

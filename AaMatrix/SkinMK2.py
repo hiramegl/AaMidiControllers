@@ -156,6 +156,9 @@ class Colors:
     class Toggle:
       Section = Rgb.BLUE
       Tools   = Rgb.LIGHT_BLUE
+    class Invalid:
+      On  = Rgb.BLACK
+      Off = Rgb.BLACK
 
   class SeqCmd:
     class Nav:
