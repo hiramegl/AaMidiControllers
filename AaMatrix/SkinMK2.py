@@ -259,10 +259,10 @@ class Colors:
       Off = Rgb.PINK_THIRD
     class Chord:
       On  = Rgb.BLUE
-      Off = Rgb.BLACK
+      Off = Rgb.BLUE_THIRD
     class ChrdInv:
-      On  = Rgb.BLUE_THIRD
-      Off = Rgb.BLACK
+      On  = Rgb.LIGHT_BLUE
+      Off = Rgb.LIGHT_BLUE_THIRD
     class BitMul:
       On  = Rgb.MINT
       Off = Rgb.BLACK

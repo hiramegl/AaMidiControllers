@@ -23,6 +23,7 @@ ROW_RHYTHM      = 7
 COL_SCALE_MAX   = 5
 COL_ROOT_MAX    = 5
 COL_TRNSPS      = 6
+COL_CHORD       = 7
 COL_GRID_SEL_1  = 6
 COL_GRID_SEL_2  = 7
 
@@ -48,6 +49,13 @@ BUT_BIT_CMD_MOD = 4
 BIT_CMD_MOD_ALL = 0
 BIT_CMD_MOD_SEL = 1
 
+BIT_CHORD_NONE  = 0
+BIT_CHORD_TRIAD = 1
+BIT_CHORD_AUGM  = 2
+BIT_CHORD_INV_0 = 0
+BIT_CHORD_INV_1 = 1
+BIT_CHORD_INV_2 = 2
+
 BUT_MODE        = 7
 MODE_TEMPO      = 0
 MODE_SCALE      = 1
@@ -69,9 +77,9 @@ class ModeSeqCmd(ModeSeqBase):
       ['MuteSel', 'SoloSel', 'VelRSel', 'DelSel' , 'Patt'   , 'Patt'   , 'Patt'   , 'Patt'   , 'Mode'   ],
     ]
     self.m_lMidiScaleSkin = [
-      ['Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Trnsps' , 'ChrdInv', 'Slider' ],
-      ['Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Chord'  , 'ChrdInv', 'Slider' ],
-      ['Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Chord'  , 'ChrdInv', 'Slider' ],
+      ['Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Trnsps' , 'Chord'  , 'Slider' ],
+      ['Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'Scale'  , 'ChrdInv', 'Chord'  , 'Slider' ],
+      ['Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'ChrdInv', 'Chord'  , 'Slider' ],
       ['Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'Root'   , 'GridSel', 'GridSel', 'SelTog' ],
       ['BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitMul' , 'BitCmdM'],
       ['BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'BitDiv' , 'Invalid'],
@@ -125,6 +133,9 @@ class ModeSeqCmd(ModeSeqBase):
     self.m_lClipPitchF  = [0, -40, -25, -15, 15, 25, 40]
     self.m_lClipGains   = [0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
     self.m_nGainReset   = 0.85
+
+    self.m_nChordType   = BIT_CHORD_NONE
+    self.m_nChordInv    = BIT_CHORD_INV_0
 
     self.m_nScale  = SEQ_SCALE_CHROMATIC
     self.m_nRoot   = SEQ_ROOT_C
@@ -200,6 +211,8 @@ class ModeSeqCmd(ModeSeqBase):
       self.update_scale_buttons()
       self.update_root_buttons()
       self.update_transpose_button()
+      self.update_chord_buttons()
+      self.update_chord_inv_buttons()
       self.update_slider_buttons()
       self.update_bit_cmd_mode_button()
 
@@ -256,6 +269,22 @@ class ModeSeqCmd(ModeSeqBase):
       oBut.set_light('SeqCmd.Trnsps.Act')
     else:
       oBut.turn_on()
+
+  def update_chord_buttons(self):
+    for nRow in range(3):
+      oBut = self.m_oMatrix.get_button(COL_CHORD, nRow)
+      if nRow == self.m_nChordType:
+        oBut.turn_on()
+      else:
+        oBut.turn_off()
+
+  def update_chord_inv_buttons(self):
+    for nRow in range(1,3):
+      oBut = self.m_oMatrix.get_button(COL_TRNSPS, nRow)
+      if nRow == self.m_nChordInv:
+        oBut.turn_on()
+      else:
+        oBut.turn_off()
 
   def update_slider_buttons(self):
     for nIdx in range(BUT_SLIDER_SHF + 1):
@@ -420,12 +449,32 @@ class ModeSeqCmd(ModeSeqBase):
               self.send_grid_command('transpose_scale', {'subcmd': 'cancel'})
               self.m_bTransposing = False
             self.update_transpose_button()
+          elif _nCol == COL_CHORD:
+            self.m_nChordType = BIT_CHORD_NONE
+            self.update_chord_buttons()
+            self.send_grid_command('bit_cfg', {'type': 'chord', 'value': self.m_nChordType})
         elif _nRow == ROW_SCALE_1:
           if _nCol <= COL_SCALE_MAX:
             self.select_scale(_nCol + 7, True)
+          elif _nCol == COL_TRNSPS:
+            self.m_nChordInv = BIT_CHORD_INV_1 if self.m_nChordInv != BIT_CHORD_INV_1 else BIT_CHORD_INV_0
+            self.update_chord_inv_buttons()
+            self.send_grid_command('bit_cfg', {'type': 'chord_inv', 'value': self.m_nChordInv})
+          elif _nCol == COL_CHORD:
+            self.m_nChordType = BIT_CHORD_TRIAD
+            self.update_chord_buttons()
+            self.send_grid_command('bit_cfg', {'type': 'chord', 'value': self.m_nChordType})
         elif _nRow == ROW_ROOT_0:
           if _nCol <= COL_ROOT_MAX:
             self.select_root(_nCol, True)
+          elif _nCol == COL_TRNSPS:
+            self.m_nChordInv = BIT_CHORD_INV_2 if self.m_nChordInv != BIT_CHORD_INV_2 else BIT_CHORD_INV_0
+            self.update_chord_inv_buttons()
+            self.send_grid_command('bit_cfg', {'type': 'chord_inv', 'value': self.m_nChordInv})
+          elif _nCol == COL_CHORD:
+            self.m_nChordType = BIT_CHORD_AUGM
+            self.update_chord_buttons()
+            self.send_grid_command('bit_cfg', {'type': 'chord', 'value': self.m_nChordType})
         elif _nRow == ROW_ROOT_1:
           if _nCol <= COL_ROOT_MAX:
             self.select_root(_nCol + 6, True)

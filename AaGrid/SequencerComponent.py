@@ -104,6 +104,13 @@ SEQ_RHYTHM_NOTE_CLEAR   = 6
 SEQ_RHYTHM_LOOP_SHOW    = 7
 SEQ_RHYTHM_NOTE_CHOP_3  = 8
 
+BIT_CHORD_NONE  = 0
+BIT_CHORD_TRIAD = 1
+BIT_CHORD_AUGM  = 2
+BIT_CHORD_INV_0 = 0
+BIT_CHORD_INV_1 = 1
+BIT_CHORD_INV_2 = 2
+
 class SequencerComponent(CompoundComponent):
 
     def __init__(self, _oCtrlInst, _oMatrix, _lSceneButtons, _lNavButtons, _lTrackSliders):
@@ -183,6 +190,8 @@ class SequencerComponent(CompoundComponent):
         self.m_nNoteVelocity = 127  # Full velocity
         self.m_nNoteLength   = 0.25 # 1 BIT = 1/4 BEAT
         self.m_nNoteShift    = 0.0  # Fine time shift 0/16 .. 15/16 of a BIT (0.0625 increments)
+        self.m_nChordType    = BIT_CHORD_NONE
+        self.m_nChordInv     = BIT_CHORD_INV_0
         self.m_nTimeZoomMode = SEQ_TIME_ZOOM_BAR
         self.m_nPitxOffAbs   = self.get_pitx_offset_abs_for_octave(SEQ_INIT_OCTAVE) # initial octave
         self.m_nTimeOffAbs   = 0 # Beat mode: 0, 2, 4, 6, 8, 10, 12, 14 / Bar mode: 0, 8
@@ -492,13 +501,23 @@ class SequencerComponent(CompoundComponent):
         nValue = _hParams['value']
 
         if sType == 'len':
-          self.m_nNoteLength = nValue
-          if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY:
-            self.alert('BIT CFG LENGTH: %0.3f' % (nValue))
-        else: # sType == 'vel'
-          self.m_nNoteVelocity = nValue
-          if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY:
-            self.alert('BIT CFG VELOCITY: %d' % (nValue))
+            self.m_nNoteLength = nValue
+            if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY:
+                self.alert('BIT CFG LENGTH: %0.3f' % (nValue))
+        elif sType == 'vel':
+            self.m_nNoteVelocity = nValue
+            if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY:
+                self.alert('BIT CFG VELOCITY: %d' % (nValue))
+        elif sType == 'chord':
+            self.m_nChordType = nValue
+            if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY:
+                lNames = ['NONE', 'TRIAD', 'AUGMENTED']
+                self.alert('BIT CFG CHORD: %s' % (lNames[nValue]))
+        elif sType == 'chord_inv':
+            self.m_nChordInv = nValue
+            if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY:
+                lNames = ['NONE', '1 FIRST', '2 SECOND']
+                self.alert('BIT CFG CHORD INVERSION: %s' % (lNames[nValue]))
 
     # **************************************************************************
 
@@ -869,18 +888,64 @@ class SequencerComponent(CompoundComponent):
         sKey = '%d_%d' % (nPitxIdxRel, nTimeIdxRel)
 
         if (sKey in self.m_hActiveButtons):
+            # NOTE! in triad or augmented mode the user should remove bit by bit from the chord!
             # bit button is active! remove the key from the hash and remove the note from the clip
             # signature: (from_time [double], from_pitch [int], time_span [double], pitch_span [int])
             self.m_oClip.remove_notes(nTimeIdxAbs, nPitxIdxAbs, nLen, 1)
             del self.m_hActiveButtons[sKey]
         else:
+            # NOTE! in triad or augmented mode the user adds only the chord's root note and we add the
+            # rest of the notes
             # bit button is inactive! add the key to the hash and add the note to the clip
             # signature: (pitch [int], time [float], length [float], velocity [int], muted [boolean])
             aNotes = list([])
-            aNotes.append([nPitxIdxAbs, nTimeIdxAbs, nLen, nVel, False])
+            aNotes.append([nPitxIdxAbs, nTimeIdxAbs, nLen, nVel, False]) # the root note
+            if self.m_nScale != SEQ_SCALE_CHROMATIC and self.m_nChordType != BIT_CHORD_NONE: # chord mode on!
+                # third
+                nPitxIdxRel3rd = nPitxIdxRel + 2
+                nPitxIdxAbs3rd = self.note_pitx_abs_chord(nPitxIdxRel3rd, self.m_nChordInv == BIT_CHORD_INV_2)
+                aNotes.append([nPitxIdxAbs3rd, nTimeIdxAbs, nLen, nVel, False]) # the root note
+                if self.is_note_visible(nPitxIdxAbs3rd, nTimeIdxAbs):
+                    nPitxRel = self.note_pitx_rel(nPitxIdxAbs3rd)
+                    sKey3    = '%d_%d' % (nPitxRel, nTimeIdxRel)
+                    self.m_hActiveButtons[sKey3] = True
+
+                # fifth
+                nPitxIdxRel5th = nPitxIdxRel + 4
+                nPitxIdxAbs5th = self.note_pitx_abs_chord(nPitxIdxRel5th, self.m_nChordInv != BIT_CHORD_INV_0)
+                aNotes.append([nPitxIdxAbs5th, nTimeIdxAbs, nLen, nVel, False]) # the root note
+                if self.is_note_visible(nPitxIdxAbs5th, nTimeIdxAbs):
+                    nPitxRel = self.note_pitx_rel(nPitxIdxAbs5th)
+                    sKey5    = '%d_%d' % (nPitxRel, nTimeIdxRel)
+                    self.m_hActiveButtons[sKey5] = True
+
+                # seventh
+                if self.m_nChordType == BIT_CHORD_AUGM:
+                    nPitxIdxRel7th = nPitxIdxRel + 6
+                    nPitxIdxAbs7th = self.note_pitx_abs_chord(nPitxIdxRel7th, self.m_nChordInv != BIT_CHORD_INV_0)
+                    aNotes.append([nPitxIdxAbs7th, nTimeIdxAbs, nLen, nVel, False]) # the root note
+                    if self.is_note_visible(nPitxIdxAbs7th, nTimeIdxAbs):
+                        nPitxRel = self.note_pitx_rel(nPitxIdxAbs7th)
+                        sKey7    = '%d_%d' % (nPitxRel, nTimeIdxRel)
+                        self.m_hActiveButtons[sKey7] = True
             self.m_oClip.replace_selected_notes(tuple(aNotes))
             self.m_hActiveButtons[sKey] = True
         self.m_oClip.deselect_all_notes()
+
+    def note_pitx_abs_chord(self, _nNotePitxRel, _bUseNeg):
+        nNotePitxRel = _nNotePitxRel + 7  # use neutral (or positive) scale
+        if _bUseNeg: # for notes in first and second inversion
+          nNotePitxRel = nNotePitxRel - 7 # use the negative scale
+        lScale0  = self.m_aScales[self.m_nScale][1][0:7] # neutral scale (0 based) (use only first 7 offsets!)
+        lScaleN  = [p - 12 for p in lScale0]   # negative scale (-12 based)
+        lScaleP  = [p + 12 for p in lScale0]   # positive scale (+12 based)
+        lScale   = lScaleN + lScale0 + lScaleP # negative, 0 and positive scale offsets
+        nPitxAbs = lScale[nNotePitxRel] + self.m_nPitxOffAbs + self.m_nRootPitx
+        if nPitxAbs < 0:
+            nPitxAbs = nPitxAbs + 12
+        if nPitxAbs > 127:
+            nPitxAbs = nPitxAbs - 12
+        return nPitxAbs
 
     # **************************************************************************
 
