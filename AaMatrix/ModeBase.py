@@ -38,6 +38,9 @@ class ModeBase(CompoundComponent):
       self.m_oSession.set_select_buttons(None, None)
       self.m_oMixer.set_select_buttons(None, None)
 
+  def change_prev_mode(self):
+    return
+
   # **************************************************************************
 
   def sel_scene_idx_abs(self):

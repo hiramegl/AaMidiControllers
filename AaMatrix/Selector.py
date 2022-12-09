@@ -170,7 +170,9 @@ class Selector(CompoundComponent):
     if _nValue == 0: return
 
     if self.m_nCurMode == _nNewMode:
-      return # re-selecting mode has no effect
+      if self.m_nCurMode == MODE_SESSION:
+        self.m_oModeSession.change_prev_mode()
+      return # re-selecting has no effect for other modes (they have few sub-modes)
 
     # disconnect old mode
     if self.m_nCurMode == MODE_SESSION:

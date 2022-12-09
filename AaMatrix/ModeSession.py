@@ -228,3 +228,14 @@ class ModeSession(ModeBase):
       oTrack.mixer_device.crossfade_assign = (nCurr + 1) % 3
 
     return True # handled
+
+  def change_prev_mode(self):
+    # we are changing mode! turn off colors!
+    self.setup_grid_buttons(False)
+    self.setup_side_buttons(False)
+    nCurrMode       = self.m_nCurMode
+    self.m_nCurMode = (nCurrMode - 1 + NUM_MODES) % NUM_MODES
+
+    # now turn on colors and setup side buttons
+    self.setup_grid_buttons(True)
+    self.setup_side_buttons(True)
