@@ -104,9 +104,11 @@ SEQ_RHYTHM_NOTE_CLEAR   = 6
 SEQ_RHYTHM_LOOP_SHOW    = 7
 SEQ_RHYTHM_NOTE_CHOP_3  = 8
 
-BIT_CHORD_NONE  = 0
-BIT_CHORD_TRIAD = 1
-BIT_CHORD_AUGM  = 2
+BIT_CHORD_TRIAD = 0
+BIT_CHORD_AUGM  = 1
+BIT_CHORD_POW_5 = 2
+BIT_CHORD_NONE  = 3
+
 BIT_CHORD_INV_0 = 0
 BIT_CHORD_INV_1 = 1
 BIT_CHORD_INV_2 = 2
@@ -511,7 +513,7 @@ class SequencerComponent(CompoundComponent):
         elif sType == 'chord':
             self.m_nChordType = nValue
             if self.m_nPeerMode == SEQ_INST_MODE_PRIMARY:
-                lNames = ['NONE', 'TRIAD', 'AUGMENTED']
+                lNames = ['TRIAD', 'AUGMENTED', 'POWER 5TH', 'NONE']
                 self.alert('BIT CFG CHORD: %s' % (lNames[nValue]))
         elif sType == 'chord_inv':
             self.m_nChordInv = nValue
@@ -901,18 +903,31 @@ class SequencerComponent(CompoundComponent):
             aNotes = list([])
             aNotes.append([nPitxIdxAbs, nTimeIdxAbs, nLen, nVel, False]) # the root note
             if self.m_nScale != SEQ_SCALE_CHROMATIC and self.m_nChordType != BIT_CHORD_NONE: # chord mode on!
-                # third
-                nPitxIdxRel3rd = nPitxIdxRel + 2
-                nPitxIdxAbs3rd = self.note_pitx_abs_chord(nPitxIdxRel3rd, self.m_nChordInv == BIT_CHORD_INV_2)
-                aNotes.append([nPitxIdxAbs3rd, nTimeIdxAbs, nLen, nVel, False]) # the root note
-                if self.is_note_visible(nPitxIdxAbs3rd, nTimeIdxAbs):
-                    nPitxRel = self.note_pitx_rel(nPitxIdxAbs3rd)
-                    sKey3    = '%d_%d' % (nPitxRel, nTimeIdxRel)
-                    self.m_hActiveButtons[sKey3] = True
+                if self.m_nChordType == BIT_CHORD_POW_5:
+                    # eighth (1 octave up)
+                    nPitxIdxRel8th = nPitxIdxRel + 7
+                    nPitxIdxAbs8th = self.note_pitx_abs_chord(nPitxIdxRel8th, False) # never use inversions for power-5th
+                    aNotes.append([nPitxIdxAbs8th, nTimeIdxAbs, nLen, nVel, False]) # the root note
+                    if self.is_note_visible(nPitxIdxAbs8th, nTimeIdxAbs):
+                        nPitxRel = self.note_pitx_rel(nPitxIdxAbs8th)
+                        sKey8    = '%d_%d' % (nPitxRel, nTimeIdxRel)
+                        self.m_hActiveButtons[sKey8] = True
+                else:
+                    # third
+                    nPitxIdxRel3rd = nPitxIdxRel + 2
+                    nPitxIdxAbs3rd = self.note_pitx_abs_chord(nPitxIdxRel3rd, self.m_nChordInv == BIT_CHORD_INV_2)
+                    aNotes.append([nPitxIdxAbs3rd, nTimeIdxAbs, nLen, nVel, False]) # the root note
+                    if self.is_note_visible(nPitxIdxAbs3rd, nTimeIdxAbs):
+                        nPitxRel = self.note_pitx_rel(nPitxIdxAbs3rd)
+                        sKey3    = '%d_%d' % (nPitxRel, nTimeIdxRel)
+                        self.m_hActiveButtons[sKey3] = True
 
                 # fifth
                 nPitxIdxRel5th = nPitxIdxRel + 4
-                nPitxIdxAbs5th = self.note_pitx_abs_chord(nPitxIdxRel5th, self.m_nChordInv != BIT_CHORD_INV_0)
+                bUseNeg = self.m_nChordInv != BIT_CHORD_INV_0
+                if self.m_nChordType == BIT_CHORD_POW_5:
+                    bUseNeg = False # never use inversions for power-5th
+                nPitxIdxAbs5th = self.note_pitx_abs_chord(nPitxIdxRel5th, bUseNeg)
                 aNotes.append([nPitxIdxAbs5th, nTimeIdxAbs, nLen, nVel, False]) # the root note
                 if self.is_note_visible(nPitxIdxAbs5th, nTimeIdxAbs):
                     nPitxRel = self.note_pitx_rel(nPitxIdxAbs5th)
@@ -938,8 +953,9 @@ class SequencerComponent(CompoundComponent):
           nNotePitxRel = nNotePitxRel - 7 # use the negative scale
         lScale0  = self.m_aScales[self.m_nScale][1][0:7] # neutral scale (0 based) (use only first 7 offsets!)
         lScaleN  = [p - 12 for p in lScale0]   # negative scale (-12 based)
-        lScaleP  = [p + 12 for p in lScale0]   # positive scale (+12 based)
-        lScale   = lScaleN + lScale0 + lScaleP # negative, 0 and positive scale offsets
+        lScaleP1 = [p + 12 for p in lScale0]   # positive scale (+12 based)
+        lScaleP2 = [p + 24 for p in lScale0]   # positive scale (+24 based) (Power 5th uses this for highest pitch)
+        lScale   = lScaleN + lScale0 + lScaleP1 + lScaleP2 # negative, 0 and positive scale offsets
         nPitxAbs = lScale[nNotePitxRel] + self.m_nPitxOffAbs + self.m_nRootPitx
         if nPitxAbs < 0:
             nPitxAbs = nPitxAbs + 12

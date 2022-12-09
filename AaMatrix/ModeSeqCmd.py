@@ -49,9 +49,11 @@ BUT_BIT_CMD_MOD = 4
 BIT_CMD_MOD_ALL = 0
 BIT_CMD_MOD_SEL = 1
 
-BIT_CHORD_NONE  = 0
-BIT_CHORD_TRIAD = 1
-BIT_CHORD_AUGM  = 2
+BIT_CHORD_TRIAD = 0
+BIT_CHORD_AUGM  = 1
+BIT_CHORD_POW_5 = 2
+BIT_CHORD_NONE  = 3
+
 BIT_CHORD_INV_0 = 0
 BIT_CHORD_INV_1 = 1
 BIT_CHORD_INV_2 = 2
@@ -132,7 +134,7 @@ class ModeSeqCmd(ModeSeqBase):
     ]
     self.m_lClipPitchF  = [0, -40, -25, -15, 15, 25, 40]
     self.m_lClipGains   = [0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
-    self.m_nGainReset   = 0.85
+    self.m_nGainReset   = 0.40
 
     self.m_nChordType   = BIT_CHORD_NONE
     self.m_nChordInv    = BIT_CHORD_INV_0
@@ -450,7 +452,7 @@ class ModeSeqCmd(ModeSeqBase):
               self.m_bTransposing = False
             self.update_transpose_button()
           elif _nCol == COL_CHORD:
-            self.m_nChordType = BIT_CHORD_NONE
+            self.m_nChordType = BIT_CHORD_TRIAD if self.m_nChordType != BIT_CHORD_TRIAD else BIT_CHORD_NONE
             self.update_chord_buttons()
             self.send_grid_command('bit_cfg', {'type': 'chord', 'value': self.m_nChordType})
         elif _nRow == ROW_SCALE_1:
@@ -461,7 +463,7 @@ class ModeSeqCmd(ModeSeqBase):
             self.update_chord_inv_buttons()
             self.send_grid_command('bit_cfg', {'type': 'chord_inv', 'value': self.m_nChordInv})
           elif _nCol == COL_CHORD:
-            self.m_nChordType = BIT_CHORD_TRIAD
+            self.m_nChordType = BIT_CHORD_AUGM if self.m_nChordType != BIT_CHORD_AUGM else BIT_CHORD_NONE
             self.update_chord_buttons()
             self.send_grid_command('bit_cfg', {'type': 'chord', 'value': self.m_nChordType})
         elif _nRow == ROW_ROOT_0:
@@ -472,7 +474,7 @@ class ModeSeqCmd(ModeSeqBase):
             self.update_chord_inv_buttons()
             self.send_grid_command('bit_cfg', {'type': 'chord_inv', 'value': self.m_nChordInv})
           elif _nCol == COL_CHORD:
-            self.m_nChordType = BIT_CHORD_AUGM
+            self.m_nChordType = BIT_CHORD_POW_5 if self.m_nChordType != BIT_CHORD_POW_5 else BIT_CHORD_NONE
             self.update_chord_buttons()
             self.send_grid_command('bit_cfg', {'type': 'chord', 'value': self.m_nChordType})
         elif _nRow == ROW_ROOT_1:

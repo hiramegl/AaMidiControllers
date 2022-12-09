@@ -287,16 +287,16 @@ class Colors:
       Off = Rgb.TURQUOISE
 
     class LpShow:
-      On  = Rgb.TURQUOISE
+      On  = Rgb.MINT
       Off = Rgb.GREY
     class Transp:
-      On  = Rgb.VIOLET
+      On  = Rgb.PURPLE
       Off = Rgb.BLACK
     class Detune:
-      On  = Rgb.WINE
+      On  = Rgb.VIOLET
       Off = Rgb.BLACK
     class Gain:
-      On  = Rgb.RED
+      On  = Rgb.ORANGE
       Off = Rgb.BLACK
 
   class Tools:
