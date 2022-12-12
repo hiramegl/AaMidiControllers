@@ -67,6 +67,7 @@ SEQ_NOTE_CMD_SHIFT_UP = 4
 SEQ_NOTE_CMD_SHIFT_LF = 5
 SEQ_NOTE_CMD_SHIFT_RG = 6
 SEQ_NOTE_CMD_LP_DUPL  = 7
+SEQ_NOTE_CMD_VEL_RST  = 8
 
 SEQ_TRANS_UNAV    = 0
 SEQ_TRANS_STANDBY = 1
@@ -474,6 +475,8 @@ class SequencerComponent(CompoundComponent):
             self.operate_notes(SEQ_NOTE_CMD_MUTE, bAllMode)
         elif sSubCmd == 'solo':
             self.operate_notes(SEQ_NOTE_CMD_SOLO, bAllMode)
+        elif sSubCmd == 'vel_reset':
+            self.operate_notes(SEQ_NOTE_CMD_VEL_RST, bAllMode)
         elif sSubCmd == 'delete':
             if bAllMode: # clear midi clip totally
                 oClip = self.get_midi_clip_or_none()
@@ -1545,6 +1548,9 @@ class SequencerComponent(CompoundComponent):
                 bExec = True
             elif _nNoteCmdIdx == SEQ_NOTE_CMD_SOLO:
                 aNewNotes.append([nPitxIdxAbs, nTimeIdxAbs, nNoteLen, nNoteVel, not bNoteMute])
+                bExec = True
+            elif _nNoteCmdIdx == SEQ_NOTE_CMD_VEL_RST:
+                aNewNotes.append([nPitxIdxAbs, nTimeIdxAbs, nNoteLen, 127, bNoteMute])
                 bExec = True
             elif _nNoteCmdIdx == SEQ_NOTE_CMD_SHIFT_DW:
                 if nPitxIdxAbs - 1 >= 0:
