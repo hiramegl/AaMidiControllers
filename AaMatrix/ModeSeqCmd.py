@@ -114,7 +114,7 @@ class ModeSeqCmd(ModeSeqBase):
       'LOCRIAN'   ,
     ]
     self.m_lSliderModes = ['VELOCITY', 'LENGTH', 'FINE SHIFT', 'NONE']
-    self.m_lCmdNames    = ['pitx_up', 'pitx_dw', 'time_lf', 'time_rg', 'mul', 'div', 'chop_3', 'chop_2']
+    self.m_lCmdNames    = ['pitx_dw', 'pitx_up', 'time_lf', 'time_rg', 'mul', 'div', 'chop_3', 'chop_2']
     self.m_lCmdNamesXtr = ['mute', 'solo', 'vel_reset', 'delete']
     self.m_bTransposing = False
     self.m_bLpEnvToggle  = True
@@ -124,10 +124,10 @@ class ModeSeqCmd(ModeSeqBase):
     self.m_lTempoDeltas = [-20, -10, -5, -1, 1, 5, 10, 20]
     self.m_lBitLengths  = [0.125, 0.25, 0.5, 1, 2, 4, 8, 16]
     self.m_lBitVels     = [20, 40, 60, 80, 100, 127]
-    self.m_nBitCmdMod   = BIT_CMD_MOD_ALL
+    self.m_nBitCmdMod   = BIT_CMD_MOD_SEL
     self.m_lBitCmdMod   = ['all', 'sel']
 
-    self.m_lClipPitchC  = [
+    self.m_lClipPitchC  = [ # Pitch Coarse, steps
       [ -4,  -3,  -2,  -1,  1,  2,  3,  4],
       [ -8,  -7,  -6,  -5,  5,  6,  7,  8],
       [-12, -11, -10,  -9,  9, 10, 11, 12],
