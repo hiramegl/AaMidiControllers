@@ -20,7 +20,7 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     def __init__(self, _hCfg):
         ChannelStripComponent.__init__(self)
         self.m_hCfg      = _hCfg
-        self.m_nBanks    = _hCfg['NumBanks']
+        self.m_nMaxBanks = _hCfg['NumBanks']
         self.m_nStrips   = 8 # 8 strips in a BCR-2000
         self.m_oCtrlInst = _hCfg['oCtrlInst']
         self.m_oSong     = _hCfg['oCtrlInst'].song()
@@ -53,7 +53,7 @@ class SpecialChannelStripComponent(ChannelStripComponent):
 
             'AudioEffectGroupDevice': { 'strips': 2, 'extra_functions': ['Fade Out'] },
             'InstrumentGroupDevice' : { 'strips': 4, 'use_orig': True },
-            'DrumGroupDevice'       : { 'strips': 2, 'drum_map': True },
+            'DrumGroupDevice'       : { 'strips': 4, 'drum_map': True },
 
             # instruments
             'UltraAnalog'     : { 'banks': 3, 'strips': 8 },
@@ -138,7 +138,7 @@ class SpecialChannelStripComponent(ChannelStripComponent):
         nMidiType    = MIDI_CC_TYPE
 
         # create midi controls map
-        for nBankIdx in range(self.m_nBanks):
+        for nBankIdx in range(self.m_nMaxBanks):
             hBank    = {}
             nChannel = self.m_hCfg['Bank%dChannel' % (nBankIdx + 1)]
             self.m_hMidiCtls[nBankIdx] = hBank
@@ -161,7 +161,7 @@ class SpecialChannelStripComponent(ChannelStripComponent):
                             }
 
     def disconnect_ctls(self, _bClear):
-        nBanks = self.m_nBanks if _bClear else self.m_nNumUsedBanks
+        nBanks = self.m_nMaxBanks if _bClear else self.m_nNumUsedBanks
         for nBankIdx in range(nBanks):
             hBank = self.m_hMidiCtls[nBankIdx]
             for nStripIdx in range (self.m_nStrips):
@@ -228,104 +228,172 @@ class SpecialChannelStripComponent(ChannelStripComponent):
         aDevices = oTrack.devices
         for nDeviceIdx in range(len(aDevices)):
             oDevice = aDevices[nDeviceIdx]
-            sClass  = self.to_ascii(oDevice.class_name)
-            if (not sClass in self.m_hDevCfgs):
-                self.dump_device(oDevice)
-                continue
-
-            # register device in device registry
-            if (not sClass in self.m_hDevReg[nCurrTrackIdxAbs]):
-                self.m_hDevReg[nCurrTrackIdxAbs][sClass] = {
-                    'device'      : oDevice,
-                    'track'       : sTrack,
-                    'preset_index': 0,
-                    'preset_saved': False,
-                    'dev_params'  : {},
-                    'panel_params': {},
-                }
-            hDevReg = self.m_hDevReg[nCurrTrackIdxAbs][sClass]
-
-            sDevice  = self.to_ascii(oDevice.name)
-            sDisplay = self.to_ascii(oDevice.class_display_name)
-            if self.m_nLogLoadedDev == 1:
-                self.log('> -----------------------------------------------------------------------------------')
-                self.log('> LOADING => Class: "%s", Device: "%s", Display: "%s"' % (sClass, sDevice, sDisplay))
-
-            # check if there are enough strips for this device,
-            # otherwise start in the next bank!
-            nStrips = self.m_hDevCfgs[sClass]['strips']
-            if (self.m_nCurrStrip > (8 - nStrips)):
-                self.m_nCurrStrip = 0
-                self.m_nCurrBank += 1
-                if (self.m_nCurrBank == self.m_nBanks):
-                    self.log('> DONE Reconnecting midi controls to parameters, used banks: %d (MAX REACHED!)' % (self.m_nNumUsedBanks))
-                    return # Maximum number of banks reached! we cannot map more controls!
-
-            # connect midi controls to device parameters
-            if 'drum_map' in self.m_hDevCfgs[sClass]:
-                for oDrumPad in oDevice.drum_pads:
-                    if len(oDrumPad.chains) == 0: continue
-                    nNote  = oDrumPad.note
-                    oChain = oDrumPad.chains[0] # check the first chain only
-                    for oChainDev in oChain.devices:
-                        if oChainDev.class_name != 'OriginalSimpler': continue
-                        for oParam in oChainDev.parameters:
-                            if oParam.name != 'Volume': continue
-                            sParam = 'Volume_%d' % nNote
-                            nBank  = nNote / 24
-                            nStrip = nNote % 4 + ((nNote / 12) % 2) * 4
-                            nRow   = 2 - ((nNote % 12) / 4)
-                            #self.log('>>> %d %d %d - %s' % (nBank, nStrip, nRow, oChainDev.name))
-                            oCtrl  = self.m_hMidiCtls[nBank][nStrip]['Main']['Rotary'][nRow]['control']
-                            oCtrl.connect_to(oParam)
-                            hDevReg['dev_params'][sParam] = {
-                                'param'  : sParam,
-                                'control': oCtrl,
-                            }
-                            self.m_nCurrBank = nBank
-            else:
-                bUseOrig = 'use_orig' in self.m_hDevCfgs[sClass]
-                aParams  = oDevice.parameters
-                for nParamIdx in range(len(aParams)):
-                    oParam = aParams[nParamIdx]
-                    if bUseOrig:
-                        sParam = self.to_ascii(oParam.original_name)
-                    else:
-                        sParam = self.to_ascii(oParam.name)
-                    oCtrl = self.get_control(sClass, sParam)
-                    if (oCtrl == None): continue
-                    oCtrl.connect_to(oParam)
-                    hDevReg['dev_params'][sParam] = {
-                        'param'  : oParam,
-                        'control': oCtrl,
-                    }
-
-            # add main panel functions: preset save, preset prev, preset next
-            self.add_panel_functions(sClass, hDevReg)
-            # add extra device functions
-            self.add_extra_functions(sClass, hDevReg)
-
-            if self.m_nLogLoadedDev == 1:
-                self.log('> Loaded "%s", bank: %d, first strip: %d' % (sClass, self.m_nCurrBank, self.m_nCurrStrip))
-
-            # finished adding device, update offsets for the next device
-            if 'banks' in self.m_hDevCfgs[sClass]:
-                nBanks = self.m_hDevCfgs[sClass]['banks']
-                self.m_nCurrBank     = self.m_nCurrBank + nBanks
-                self.m_nNumUsedBanks = self.m_nCurrBank
-                self.m_nCurrStrip    = 0
-            else:
-                self.m_nNumUsedBanks = self.m_nCurrBank + 1
-                self.m_nCurrStrip += nStrips
-                if (self.m_nCurrStrip >= 8):
-                    self.m_nCurrBank += 1
-                    self.m_nCurrStrip = 0
+            self._map_device(oDevice, nCurrTrackIdxAbs, sTrack, True)
 
         self.log('> DONE Reconnecting midi controls to parameters, used banks: %d' % (self.m_nNumUsedBanks))
 
+    def _map_device(self, _oDevice, _nCurrTrackIdxAbs, _sTrack, _bCheckChains):
+        sClass = self.to_ascii(_oDevice.class_name)
+
+        # check if we can manage this device class
+        if (not sClass in self.m_hDevCfgs):
+            self.dump_device(_oDevice)
+            return
+
+        # register device in device registry for the current track
+        if (not sClass in self.m_hDevReg[_nCurrTrackIdxAbs]):
+            self.m_hDevReg[_nCurrTrackIdxAbs][sClass] = {
+                'device'      : _oDevice,
+                'track'       : _sTrack,
+                'preset_index': 0,
+                'preset_saved': False,
+                'dev_params'  : {},
+                'panel_params': {},
+            }
+        hDevReg  = self.m_hDevReg[_nCurrTrackIdxAbs][sClass]
+        sDevice  = self.to_ascii(_oDevice.name)
+        sDisplay = self.to_ascii(_oDevice.class_display_name)
+        if self.m_nLogLoadedDev == 1:
+            self.log('> -----------------------------------------------------------------------------------')
+            self.log('> LOADING => Class: "%s", Device: "%s", Display: "%s"' % (sClass, sDevice, sDisplay))
+
+        # check if there are enough strips for this device,
+        # otherwise start in the next bank!
+        nStrips = self.m_hDevCfgs[sClass]['strips']
+        if (self.m_nCurrStrip > (8 - nStrips)):
+            self.m_nCurrStrip = 0
+            self.m_nCurrBank += 1
+            if (self.m_nCurrBank == self.m_nMaxBanks):
+                self.log('> DONE Reconnecting midi controls to parameters, used banks: %d (MAX REACHED!)' % (self.m_nNumUsedBanks))
+                return # Maximum number of banks reached! we cannot map more controls!
+
+        # connect midi controls to device parameters
+        if 'drum_map' in self.m_hDevCfgs[sClass]:
+            # use the special drum mapping function
+            self.map_drum_notes(_oDevice, hDevReg)
+            if _bCheckChains == False:
+                return
+        else:
+            # use the normal mapping function where each device
+            # has a map for the parameters
+
+            # check if the device is configured to use the
+            # original name of the parameters, for intance:
+            # for InstrumentGroupDevice use 'Macro 1', 'Macro 2', etc.
+            bUseOrig = 'use_orig' in self.m_hDevCfgs[sClass]
+
+            # MAIN LOOP to map the parameters to MIDI-controls *****************
+            aParams = _oDevice.parameters
+            for nParamIdx in range(len(aParams)):
+                oParam = aParams[nParamIdx]
+                if bUseOrig:
+                    sParam = self.to_ascii(oParam.original_name)
+                else:
+                    sParam = self.to_ascii(oParam.name)
+                oCtrl = self.get_control(sClass, sParam)
+                if (oCtrl == None): continue
+                oCtrl.connect_to(oParam)
+                hDevReg['dev_params'][sParam] = {
+                    'param'  : oParam,
+                    'control': oCtrl,
+                }
+
+            # used for devices that can have nested device-chains
+            if _bCheckChains and _oDevice.can_have_chains:
+                self.m_nCurrStrip += nStrips
+                oChain = _oDevice.chains[0] # check the first chain only
+                for oChainDev in oChain.devices:
+                    sChainDevClass = self.to_ascii(oChainDev.class_name)
+                    #self.log('>>> chain device: %s' % (sChainDevClass))
+                    if 'drum_map' in self.m_hDevCfgs[sChainDevClass]:
+                        self._map_device(oChainDev, _nCurrTrackIdxAbs, _sTrack, False)
+
+        # add main panel functions: preset save, preset prev, preset next
+        self.add_panel_functions(sClass, hDevReg)
+        # add extra device functions
+        self.add_extra_functions(sClass, hDevReg)
+
+        if self.m_nLogLoadedDev == 1:
+            self.log('> Loaded "%s", curr bank: %d, first strip: %d' % (sClass, self.m_nCurrBank, self.m_nCurrStrip))
+
+        # finished adding device, update offsets for the next device
+        if 'banks' in self.m_hDevCfgs[sClass]:
+            nBanks = self.m_hDevCfgs[sClass]['banks']
+            self.m_nCurrBank     = self.m_nCurrBank + nBanks
+            self.m_nNumUsedBanks = self.m_nCurrBank
+            self.m_nCurrStrip    = 0
+        else:
+            self.m_nNumUsedBanks = self.m_nCurrBank + 1
+            self.m_nCurrStrip += nStrips
+            if (self.m_nCurrStrip >= 8):
+                self.m_nCurrBank += 1
+                self.m_nCurrStrip = 0
+
+    def map_drum_notes(self, _oDevice, _hDevReg):
+        nIdx = 0
+        # MAIN LOOP, every drum-pad is a sound in the drum set
+        for oDrumPad in _oDevice.drum_pads:
+            if len(oDrumPad.chains) == 0: continue
+            nNote  = oDrumPad.note
+            oChain = oDrumPad.chains[0] # check the first chain only
+
+            # we manage only original simpler sounds!
+            for oChainDev in oChain.devices:
+                # if is not an OriginalSimpler then ignore this device
+                if oChainDev.class_name != 'OriginalSimpler': continue
+
+                # allocate on chunks of 4 stripes x 3 rows = 12 notes
+                if (self.m_nCurrStrip > 4):
+                    self.m_nCurrStrip = 0
+                    self.m_nCurrBank += 1
+                    if (self.m_nCurrBank == self.m_nMaxBanks):
+                        self.log('> DONE Reconnecting midi controls to parameters, used banks: %d (MAX REACHED!)' % (self.m_nNumUsedBanks))
+                        return # Maximum number of banks reached! we cannot map more controls!
+
+                # compute the bank, strip and row according to the
+                # current sound index
+                # Example 1:
+                # Bank 1                  | Bank 2
+                # 8  9 10 11  20 21 22 23 | 31 33 34 35  44 45 46 47
+                # 4  5  6  7  16 17 18 19 | 28 29 30 31  40 41 42 43
+                # 0  1  2  3  12 13 14 15 | 24 25 26 27  36 37 38 39
+                # Example 2:
+                # Bank 1                  | Bank 2
+                # X  X  X  X   8  9 10 11 | 20 21 22 23  31 33 34 35
+                # X  X  X  X   4  5  6  7 | 16 17 18 19  28 29 30 31
+                # X  X  X  X   0  1  2  3 | 12 13 14 15  24 25 26 27
+                nBank  = self.m_nCurrBank
+                nStrip = self.m_nCurrStrip + nIdx % 4
+                nRow   = 2 - ((nIdx % 12) / 4)
+
+                for oParam in oChainDev.parameters:
+                    if oParam.name != 'Volume': continue
+
+                    # we found the Volume parameter to map!
+                    # find the MIDI control and connect the parameter
+                    #self.log('>>> b: %d, s: %d r: %d (n: %d -> i: %d): %s' % (nBank, nStrip, nRow, nNote, nIdx, oChainDev.name))
+                    oCtrl = self.m_hMidiCtls[nBank][nStrip]['Main']['Rotary'][nRow]['control']
+                    oCtrl.connect_to(oParam)
+
+                    # update device register
+                    sParam = 'Volume_%d' % nNote
+                    _hDevReg['dev_params'][sParam] = {
+                        'param'  : sParam,
+                        'control': oCtrl,
+                    }
+
+                    nIdx += 1 # increment index only if we managed to map the volume parameter!
+
+            # we are done trying to map the volume of this
+            # drum-pad (sound) to a MIDI-control.
+            # increment the strips index if necessary
+            if (nIdx == 12):
+                self.m_nCurrStrip += 4
+
     def add_panel_functions(self, _sClass, _hDevReg):
         self.add_panel_function(_sClass, 'Preset Save', BUTTON_ON, _hDevReg)
-        if (self.m_hDevCfgs[_sClass]['strips'] == 1): return # not possible to add the rest of the panel functions
+        if (self.m_hDevCfgs[_sClass]['strips'] == 1):
+            return # not possible to add the rest of the panel functions
         self.add_panel_function(_sClass, 'Preset Prev' , BUTTON_ON, _hDevReg)
         self.add_panel_function(_sClass, 'Preset Next'     , BUTTON_ON, _hDevReg)
 
