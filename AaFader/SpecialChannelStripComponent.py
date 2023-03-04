@@ -94,11 +94,7 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     if not self.is_enabled(): return
 
     # here we know for sure that the track is valid!
-    self._on_pitch_changed()   # depends on clip
     self._on_av_vel_changed()  # depends on track
-    self._on_deck_changed()    # depends on track
-    self._on_clip_changed()    # depends on clip
-    self._on_detune_changed()  # depends on clip
     self._on_av_incr_changed() # depends on track
     self._on_av_decr_changed() # depends on track
 
@@ -179,35 +175,19 @@ class SpecialChannelStripComponent(ChannelStripComponent):
   def send_bank_values(self, _nBank):
     oTrack = self.get_track_or_none()
     if (_nBank == 1): # FX_1, Mute, Solo, Vol
-      nSend0, nSend1, nSend2, nSend3, nMute, nSolo, nVol = (0, 0, 0, 0, 0, 0, 0)
+      nMute, nSolo, nVol = (0, 0, 0)
       if (oTrack != None and len(oTrack.mixer_device.sends) == 6):
-        nSend0 = int(oTrack.mixer_device.sends[0].value * 127.0)
-        nSend1 = int(oTrack.mixer_device.sends[1].value * 127.0)
-        nSend2 = int(oTrack.mixer_device.sends[2].value * 127.0)
-        nSend3 = int(oTrack.mixer_device.sends[3].value * 127.0)
-        nMute  = 0   if oTrack.mute else 12
+        nMute  = 0   if oTrack.mute else 127
         nSolo  = 127 if oTrack.solo else 0
         nVol   = int(oTrack.mixer_device.volume.value * 127.0)
-      self._send_controls[0].send_value(nSend0, True)
-      self._send_controls[1].send_value(nSend1, True)
-      self._send_controls[2].send_value(nSend2, True)
-      self._send_controls[3].send_value(nSend3, True)
       self._mute_button.send_value(nMute, True)
       self._solo_button.send_value(nSolo, True)
       self._volume_control.send_value(nVol, True)
     elif (_nBank == 2): # FX_2, Pan, Pitch, Arm, Vol
-      nSend4, nSend5, nPan, nArm, nVol = 0, 0, 64, 0, 0
+      nArm, nVol = (0, 0)
       if (oTrack != None and len(oTrack.mixer_device.sends) == 6):
-        nSend4 = int(oTrack.mixer_device.sends[4].value * 127.0)
-        nSend5 = int(oTrack.mixer_device.sends[5].value * 127.0)
-        nPan   = int(oTrack.mixer_device.panning.value * 64.0) + 64
-        nPan   = 127 if nPan > 127 else nPan
         nArm   = 127 if oTrack.arm else 0
         nVol   = int(oTrack.mixer_device.volume.value * 127.0)
-      self._send_controls[4].send_value(nSend4, True)
-      self._send_controls[5].send_value(nSend5, True)
-      self._pan_control.send_value(nPan, True)
-      self._on_pitch_changed()
       self._arm_button.send_value(nArm, True)
       self._volume_control.send_value(nVol, True)
     elif (_nBank == 3):
@@ -215,9 +195,6 @@ class SpecialChannelStripComponent(ChannelStripComponent):
       if (oTrack != None):
         nVol = int(oTrack.mixer_device.volume.value * 127.0)
       self._on_av_vel_changed()
-      self._on_deck_changed()
-      self._on_clip_changed()
-      self._on_detune_changed()
       self._on_av_incr_changed()
       self._on_av_decr_changed()
       self._volume_control.send_value(nVol, True)
