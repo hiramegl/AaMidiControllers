@@ -5,53 +5,61 @@
 # Controller features
   num_scenes    | 2
 
-# fixed config
+# fixed controls available in all banks
   bank_0_channel| 0
-  session_left  | 25
-  session_right | 26
-  stop_total    | 27
-  vol_offset    | 17
 
-# bank 1: fx 1
-  bank_1_sync   | 28
+  vol_offset    | 17  # volume faders offset in all banks
+
+  session_left  | 25  # session page left
+  session_right | 26  # session page right
+  stop_total    | 27  # session stop
+
+# bank 1: mute & solo
+  bank_1_sync   | 28  # midi channel 1
   bank_1_channel| 0   # midi channel 1
 
-  send_1_offset | 33
-  send_2_offset | 41
-  pitch_offset  | 49
-  detune_offset | 57
-  pit_res_offset| 65  # pitch reset
-  det_res_offset| 73  # detune reset
+  # rotator & rotator-button (first group)
+  tempo_1       | 33  # midi channel 1
+  tempo_2       | 34  # midi channel 1
+  track_sel     | 35  # midi channel 1
+  scene_sel     | 36  # midi channel 1
+  track_pan     | 37  # midi channel 1
+  clip_gain     | 38  # midi channel 1
+  clip_pit      | 39  # midi channel 1
+  clip_det      | 40  # midi channel 1
 
+  tempo_1_rst   | 41  # midi channel 1
+  tempo_2_rst   | 42  # midi channel 1
+  track_sel_rst | 43  # midi channel 1
+  scene_sel_rst | 44  # midi channel 1
+  track_pan_rst | 45  # midi channel 1
+  clip_gain_rst | 46  # midi channel 1
+  clip_pit_rst  | 47  # midi channel 1
+  clip_det_rst  | 48  # midi channel 1
+
+  # buttons
   mute_offset   | 1
   solo_offset   | 9
 
-# bank 2: fx 2, pan & pitch
-  bank_2_sync   | 29
+# bank 2: input & arm
+  bank_2_sync   | 29  # midi channel 1
   bank_2_channel| 1   # midi channel 2
 
-  send_3_offset | 33
-  send_4_offset | 41
-  pan_offset    | 49
-  sel_clp_offset| 57
+  # buttons
+  input_offset  | 1   # midi channel 2
+  arm_offset    | 9   # midi channel 2
 
-  stop_offset   | 1
-  arm_offset    | 9
-
-# bank 3: auto-volume, deck, select
-  bank_3_sync   | 30
+# bank 3: auto-volume
+  bank_3_sync   | 30  # midi channel 1
   bank_3_channel| 2   # midi channel 3
 
-  send_5_offset | 33
-  send_6_offset | 41  # in channel 1!
-  av_vel_offset | 49
-  deck_offset   | 57
-  vol_res_offset| 65
-  vel_tog_offset| 73
+  # rotator (first group)
+  av_vel_offset | 33  # midi channel 3
 
-  av_incr_offset| 1
-  av_decr_offset| 9
+  # buttons
+  av_incr_offset| 1   # midi channel 3
+  av_decr_offset| 9   # midi channel 3
 
-# bank 4: auto-volume, deck, select
-  bank_4_sync   | 31
+# bank 4:
+  bank_4_sync   | 31  # midi channel 1
   bank_4_channel| 3   # midi channel 4

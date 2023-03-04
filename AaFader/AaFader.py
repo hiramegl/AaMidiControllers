@@ -58,28 +58,43 @@ class AaFader(ControlSurface):
 
       # fixed config
       'Bank0Channel': 0,
+      'VolOffset'   : 17,
       'SessionLeft' : 25, 'SessionRight': 26,
-      'StopTotal'   : 27, 'VolOffset'   : 17,
+      'StopTotal'   : 27,
 
       # bank 1
-      'Bank1Sync'   : 28, 'Bank1Channel': 0,  # MIDI-CHANNEL 1
-      'Send1Offset' : 33, 'Send2Offset' : 41, # Rotary Bank 1 & 2
-      'PitchOffset' : 49, 'PitResOffset': 65, # Rotary Bank 3
-      'DetuneOffset': 57, 'DetResOffset': 73, # Rotary Bank 4
+      'Bank1Channel': 0,  'Bank1Sync'   : 28, # MIDI-CHANNEL 1
+
+      'Tempo1'      : 33, # Rotary Group 1
+      'Tempo2'      : 34,
+      'TrackSel'    : 35,
+      'SceneSel'    : 36,
+      'TrackPan'    : 37,
+      'ClipGain'    : 38,
+      'ClipPit'     : 39,
+      'ClipDet'     : 40,
+
+      'Tempo1Rst'   : 41, # Rotary Buttons Group 1
+      'Tempo2Rst'   : 42,
+      'TrackSelRst' : 43,
+      'SceneSelRst' : 44,
+      'TrackPanRst' : 45,
+      'ClipGainRst' : 46,
+      'ClipPitRst'  : 47,
+      'ClipDetRst'  : 48,
+
       'MuteOffset'  : 1,  'SoloOffset'  : 9,  # Buttons
 
       # bank 2
-      'Bank2Sync'   : 29, 'Bank2Channel': 1,  # MIDI-CHANNEL 2
-      'Send3Offset' : 33, 'Send4Offset' : 41, # Rotary Bank 1 & 2
-      'PanOffset'   : 49,                     # Rotary Bank 3
-      'SelClpOffset': 57,                     # Rotary Bank 4
-      'StopOffset'  : 1,  'ArmOffset'   : 9,  # Buttons
+      'Bank2Channel': 1,  'Bank2Sync'   : 29, # MIDI-CHANNEL 2
+
+      'InputOffset' : 1,  'ArmOffset'   : 9,  # Buttons
 
       # bank 3
-      'Bank3Sync'   : 30, 'Bank3Channel': 2,  # MIDI-CHANNEL 3
-      'Send5Offset' : 33, 'Send6Offset' : 41, # Rotary Bank 1 & 2
-      'AvVelOffset' : 49, 'VolResOffset': 65, # Rotary Bank 3
-      'DeckOffset'  : 57, 'VelTogOffset': 73, # Rotary Bank 4
+      'Bank3Channel': 2,  'Bank3Sync'   : 30, # MIDI-CHANNEL 3
+
+      'AvVelOffset' : 33, # Rotary Group 1
+
       'AvIncrOffset': 1,  'AvDecrOffset': 9,  # Buttons
 
       # bank 4
@@ -122,8 +137,6 @@ class AaFader(ControlSurface):
 
     oSession.set_page_left_button (self.create_toggle('SessionLeft' , 0))
     oSession.set_page_right_button(self.create_toggle('SessionRight', 0))
-    aButStopTrack = [self.create_button('StopOffset', 2, nTrackIdx) for nTrackIdx in range(self.m_nNumTracks)]
-    oSession.set_stop_track_clip_buttons(tuple(aButStopTrack))
 
     self.m_oButStopTotal = self.create_button('StopTotal', 0)
     self._on_stop_total.subject = self.m_oButStopTotal
@@ -145,16 +158,6 @@ class AaFader(ControlSurface):
       oStrip = oMixer.channel_strip(nTrackIdx)
       oStrip.name = 'Channel_Strip_' + str(nTrackIdx)
       oStrip.set_index(nTrackIdx)
-      oStrip.set_send_controls((
-        # bank 1
-        self.create_encoder('Send1Offset', 1, nTrackIdx),
-        self.create_encoder('Send2Offset', 1, nTrackIdx),
-        # bank 2
-        self.create_encoder('Send3Offset', 2, nTrackIdx),
-        self.create_encoder('Send4Offset', 2, nTrackIdx),
-        # bank 3
-        self.create_encoder('Send5Offset', 3, nTrackIdx),
-        self.create_encoder('Send6Offset', 3, nTrackIdx)))
 
       # bank 1, 2 & 3
       oStrip.set_volume_control(self.create_slider ('VolOffset'   , 0, nTrackIdx))
@@ -162,23 +165,16 @@ class AaFader(ControlSurface):
       # bank 1
       oStrip.set_mute_button   (self.create_toggle ('MuteOffset'  , 1, nTrackIdx))
       oStrip.set_solo_button   (self.create_toggle ('SoloOffset'  , 1, nTrackIdx))
-      oStrip.set_pitch_control (self.create_encoder('PitchOffset' , 1, nTrackIdx))
-      oStrip.set_pitch_reset   (self.create_toggle ('PitResOffset', 1, nTrackIdx))
-      oStrip.set_detune_control(self.create_encoder('DetuneOffset', 1, nTrackIdx))
-      oStrip.set_detune_reset  (self.create_toggle ('DetResOffset', 1, nTrackIdx))
 
       # bank 2
+     #oStrip.set_input_button  (self.create_toggle ('InputOffset' , 2, nTrackIdx))
       oStrip.set_arm_button    (self.create_toggle ('ArmOffset'   , 2, nTrackIdx))
-      oStrip.set_pan_control   (self.create_encoder('PanOffset'   , 2, nTrackIdx))
-      oStrip.set_clip_control  (self.create_button ('SelClpOffset', 2, nTrackIdx))
 
       # bank 3
+      oStrip.set_av_vel_control(self.create_encoder('AvVelOffset' , 3, nTrackIdx))
       oStrip.set_av_incr_toggle(self.create_toggle ('AvIncrOffset', 3, nTrackIdx))
       oStrip.set_av_decr_toggle(self.create_toggle ('AvDecrOffset', 3, nTrackIdx))
-      oStrip.set_av_vel_control(self.create_encoder('AvVelOffset' , 3, nTrackIdx))
-      oStrip.set_volume_reset  (self.create_toggle ('VolResOffset', 3, nTrackIdx))
-      oStrip.set_deck_control  (self.create_encoder('DeckOffset'  , 3, nTrackIdx))
-      oStrip.set_vel_toggle    (self.create_button ('VelTogOffset', 3, nTrackIdx))
+
       oStrip.set_invert_mute_feedback(True)
 
   def setup_device(self):
