@@ -117,7 +117,7 @@ class ModeSeqCmd(ModeSeqBase):
     self.m_lCmdNames    = ['pitx_dw', 'pitx_up', 'time_lf', 'time_rg', 'mul', 'div', 'chop_3', 'chop_2']
     self.m_lCmdNamesXtr = ['mute', 'solo', 'vel_reset', 'delete']
     self.m_bTransposing = False
-    self.m_bLpEnvToggle  = True
+    self.m_bLpEnvToggle = True
 
     self.m_nTempoFactor = 20
     self.m_nTempoReset  = 128

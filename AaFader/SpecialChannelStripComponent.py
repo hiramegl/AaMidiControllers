@@ -436,7 +436,7 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     oTrack = self.get_track_or_none()
     if (oTrack == None):
       return
-    # edit the velocity for the current track
+    # edit the auto-volume velocity for the current track
     nTrackIdxAbs = self.m_oSession.track_offset() + self.m_nIndex
     nAvVel       = _nValue / 2 # 0 ... 63
     hAutoVol     = self.get_autovol(nTrackIdxAbs)
