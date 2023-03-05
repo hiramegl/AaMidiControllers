@@ -134,6 +134,7 @@ class AaFader(ControlSurface):
     self.m_oSession.name = 'Session'
     oSession = self.m_oSession
     self.m_hCfg['oSession'] = oSession
+    self.m_oSession.set_tempo_1(self.create_encoder('Tempo1', 0))
 
     oSession.set_page_left_button (self.create_toggle('SessionLeft' , 0))
     oSession.set_page_right_button(self.create_toggle('SessionRight', 0))

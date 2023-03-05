@@ -9,7 +9,6 @@ def release_control(control):
   if control != None:
     control.release_parameter()
 
-
 class SpecialChannelStripComponent(ChannelStripComponent):
   ' Subclass of channel strip component using select button for (un)folding tracks '
   __module__ = __name__
@@ -406,7 +405,6 @@ class SpecialChannelStripComponent(ChannelStripComponent):
       self._av_vel_control_slot.subject = _oControl
       self.update()
 
-
   def _av_vel_value(self, _nValue):
     assert self.m_oAvVelControl != None
     assert isinstance(_nValue, int)
@@ -421,7 +419,6 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     hAutoVol['vel'] = nAvVel
     self.alert('> Track: "%s", AV-VEL: %f' % (oTrack.name, nAvVel))
     self.compute_av_delta(oTrack, nTrackIdxAbs)
-
 
   def _on_av_vel_changed(self):
     oTrack = self.get_track_or_none(self.m_oAvVelControl, 0)

@@ -3,13 +3,24 @@ import Live
 from _Framework.SessionComponent import SessionComponent
 from _Framework.ButtonElement import ButtonElement
 
+def release_control(control):
+  if control != None:
+    control.release_parameter()
+
 class SpecialSessionComponent(SessionComponent):
-  "Special SessionComponent"
+  "Special Session Component"
   __module__ = __name__
 
   def __init__(self, _nNumTracks, _nNumScenes):
     SessionComponent.__init__(self, _nNumTracks, _nNumScenes)
     self._slot_launch_button = None
+
+    self.m_oTempo1Control  = None
+
+    def make_control_slot(name):
+      return self.register_slot(None, getattr(self, u'_%s_value' % name), u'value')
+
+    self._tempo_1_control_slot = make_control_slot(u'tempo_1')
 
   def disconnect(self):
     SessionComponent.disconnect(self)
@@ -61,3 +72,16 @@ class SpecialSessionComponent(SessionComponent):
     self._page_left_button.send_value(nLeftValue, True)
     self._page_right_button.send_value(nRightValue, True)
 
+  # TEMPO 1 ******************************************************************
+
+  def set_tempo_1(self, _oControl):
+    if _oControl != self.m_oTempo1Control:
+      release_control(self.m_oTempo1Control)
+      self.m_oTempo1Control = _oControl
+      self._tempo_1_control_slot.subject = _oControl
+      self.update()
+
+  def _tempo_1_value(self, _nValue):
+    assert self.m_oTempo1Control != None
+    assert isinstance(_nValue, int)
+    self.song().tempo = _nValue + 20
