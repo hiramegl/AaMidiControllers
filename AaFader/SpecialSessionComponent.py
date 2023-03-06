@@ -83,7 +83,7 @@ class SpecialSessionComponent(SessionComponent):
     # update all clip controls
     return
 
-  def __on_sel_track_change(self):
+  def on_sel_track_change(self):
     # update all clip controls
     return
 

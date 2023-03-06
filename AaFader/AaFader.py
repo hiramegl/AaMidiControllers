@@ -171,8 +171,8 @@ class AaFader(ControlSurface):
       oStrip.set_sel_button    (self.create_toggle ('SelOffset'   , 2, nTrackIdx))
 
       # bank 3
-     #oStrip.set_input_button  (self.create_toggle ('InputOffset' , 3, nTrackIdx))
-      oStrip.set_arm_button    (self.create_toggle ('ArmOffset'   , 3, nTrackIdx))
+      oStrip.set_input_control (self.create_toggle ('InputOffset' , 3, nTrackIdx))
+      oStrip.set_arm_control   (self.create_toggle ('ArmOffset'   , 3, nTrackIdx))
 
       # bank 4
       oStrip.set_av_vel_control(self.create_encoder('AvVelOffset' , 4, nTrackIdx))
@@ -279,8 +279,8 @@ class AaFader(ControlSurface):
     self.__update_track_values()
 
   def __update_track_values(self):
-    self.m_oSession.__on_sel_track_change()
-    self.m_oMixer.__on_sel_track_change()
+    self.m_oSession.on_sel_track_change()
+    self.m_oMixer.on_sel_track_change()
 
   def __on_scenes_change(self):
     self.__add_listeners()
@@ -290,7 +290,7 @@ class AaFader(ControlSurface):
     self.__update_scene_values()
 
   def __update_scene_values(self):
-    self.m_oMixer.__on_sel_scene_change()
+    self.m_oMixer.on_sel_scene_change()
 
   # ****************************************************************
 

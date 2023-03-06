@@ -28,6 +28,8 @@ class SpecialChannelStripComponent(ChannelStripComponent):
 
     self.m_oStopControl   = None
     self.m_oSelControl    = None
+    self.m_oInputControl  = None
+    self.m_oArmControl    = None
 
     self.m_oPitchControl  = None
     self.m_oPitchReset    = None
@@ -46,6 +48,8 @@ class SpecialChannelStripComponent(ChannelStripComponent):
 
     self._stop_button_slot    = make_control_slot(u'stop')
     self._sel_button_slot     = make_control_slot(u'sel')
+    self._input_button_slot   = make_control_slot(u'input')
+    self._arm_button_slot     = make_control_slot(u'arm')
 
     self._pitch_control_slot  = make_control_slot(u'pitch')
     self._pitch_reset_slot    = make_control_slot(u'pitch_reset')
@@ -64,6 +68,8 @@ class SpecialChannelStripComponent(ChannelStripComponent):
 
     self.m_oStopControl   = None
     self.m_oSelControl    = None
+    self.m_oInputControl  = None
+    self.m_oArmControl    = None
 
     self.m_oPitchControl  = None
     self.m_oPitchReset    = None
@@ -178,8 +184,10 @@ class SpecialChannelStripComponent(ChannelStripComponent):
   # LISTENERS ****************************************************************
 
   def __on_sel_track_change(self):
-    self._on_stop_changed() # depends on track
-    self._on_sel_changed()  # depends on track
+    self._on_stop_changed()  # depends on track
+    self._on_sel_changed()   # depends on track
+    self._on_input_changed() # depends on track
+    self._on_arm_changed()   # depends on track
 
   def __on_sel_scene_change(self):
     self._on_pitch_changed()  # depends on clip
@@ -244,7 +252,7 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     if (self.m_oStopControl == None):
       return
     oTrack = self.get_track_or_none(self.m_oStopControl, 0)
-    if (oTrack == None or self.m_oStopControl == None or self.m_oSession == None):
+    if (oTrack == None or self.m_oSession == None):
       self.m_oStopControl.send_value(0, True)
       return None
     self.m_oStopControl.send_value(127, True)
@@ -271,10 +279,69 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     if (self.m_oSelControl == None):
       return
     oTrack = self.get_track_or_none(self.m_oSelControl, 0)
-    if (oTrack == None or self.m_oSelControl == None or self.m_oSession == None):
+    if (oTrack == None or self.m_oSession == None):
       self.m_oSelControl.send_value(0, True)
       return None
     self.m_oSelControl.send_value(127, True)
+
+  # INPUT SELECT *************************************************************
+
+  def set_input_control(self, _oControl):
+    if _oControl != self.m_oInputControl:
+      release_control(self.m_oInputControl)
+      self.m_oInputControl = _oControl
+      self._input_button_slot.subject = _oControl
+      self.update()
+
+  def _input_value(self, _nValue):
+    assert self.m_oInputControl != None
+    assert isinstance(_nValue, int)
+    oTrack = self.get_track_or_none(self.m_oInputControl, 0)
+    if (oTrack == None):
+      self.m_oInputControl.send_value(0, True)
+      return None
+    nMonitor = (oTrack.current_monitoring_state - 1) % 3
+    oTrack.current_monitoring_state = nMonitor
+    self.m_oInputControl.send_value(127, True)
+
+  def _on_input_changed(self):
+    if (self.m_oInputControl == None):
+      return
+    oTrack = self.get_track_or_none(self.m_oInputControl, 0)
+    if (oTrack == None or self.m_oSession == None):
+      self.m_oInputControl.send_value(0, True)
+      return None
+    self.m_oInputControl.send_value(127, True)
+
+  # ARM **********************************************************************
+
+  def set_arm_control(self, _oControl):
+    if _oControl != self.m_oArmControl:
+      release_control(self.m_oArmControl)
+      self.m_oArmControl = _oControl
+      self._arm_button_slot.subject = _oControl
+      self.update()
+
+  def _arm_value(self, _nValue):
+    assert self.m_oArmControl != None
+    assert isinstance(_nValue, int)
+    oTrack = self.get_track_or_none(self.m_oArmControl, 0)
+    if (oTrack == None):
+      self.m_oArmControl.send_value(0, True)
+      return None
+    bArm = oTrack.arm
+    oTrack.arm = False if bArm else True
+    self.m_hCfg['Mixer'].update_arm_buttons()
+
+  def _on_arm_changed(self):
+    if (self.m_oArmControl == None):
+      return
+    oTrack = self.get_track_or_none(self.m_oArmControl, 0)
+    if (oTrack == None or self.m_oSession == None):
+      self.m_oArmControl.send_value(0, True)
+      return None
+    nArm = 127 if oTrack.arm else 0
+    self.m_oArmControl.send_value(nArm, True)
 
   # PITCH ********************************************************************
 
