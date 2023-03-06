@@ -137,8 +137,6 @@ class AaFader(ControlSurface):
 
     oSession.set_page_left_button (self.create_toggle('SessionLeft' , 0))
     oSession.set_page_right_button(self.create_toggle('SessionRight', 0))
-    aButStopTrack = [self.create_button('StopOffset', 2, nTrackIdx) for nTrackIdx in range(self.m_nNumTracks)]
-    oSession.set_stop_track_clip_buttons(tuple(aButStopTrack))
 
     self.m_oButStopTotal = self.create_button('StopTotal', 0)
     self._on_stop_total.subject = self.m_oButStopTotal
@@ -155,8 +153,6 @@ class AaFader(ControlSurface):
     self.m_oMixer = SpecialMixerComponent(self.m_nNumTracks, self.m_hCfg)
     self.m_oMixer.name = 'Mixer'
     oMixer = self.m_oMixer
-    aButSelTrack = [self.create_button('SelOffset', 2, nTrackIdx) for nTrackIdx in range(self.m_nNumTracks)]
-    oMixer.set_track_select_buttons(tuple(aButSelTrack))
 
     for nTrackIdx in range(self.m_nNumTracks):
       oStrip = oMixer.channel_strip(nTrackIdx)
@@ -171,8 +167,8 @@ class AaFader(ControlSurface):
       oStrip.set_solo_button   (self.create_toggle ('SoloOffset'  , 1, nTrackIdx))
 
       # bank 2
-      # stop: managed by session
-      # sel:  managed by mixer
+      oStrip.set_stop_button   (self.create_toggle ('StopOffset'  , 2, nTrackIdx))
+      oStrip.set_sel_button    (self.create_toggle ('SelOffset'   , 2, nTrackIdx))
 
       # bank 3
      #oStrip.set_input_button  (self.create_toggle ('InputOffset' , 3, nTrackIdx))
@@ -256,16 +252,35 @@ class AaFader(ControlSurface):
 
   def __add_listeners(self):
     self.__remove_listeners()
+    if (not self.song().tracks_has_listener(self.__on_tracks_change)):
+      self.song().add_tracks_listener(self.__on_tracks_change)
+    if (not self.song().view.selected_track_has_listener(self.__on_sel_track_change)):
+      self.song().view.add_selected_track_listener(self.__on_sel_track_change)
     if (not self.song().scenes_has_listener(self.__on_scenes_change)):
       self.song().add_scenes_listener(self.__on_scenes_change)
     if (not self.song().view.selected_scene_has_listener(self.__on_sel_scene_change)):
       self.song().view.add_selected_scene_listener(self.__on_sel_scene_change)
 
   def __remove_listeners(self):
+    if (self.song().tracks_has_listener(self.__on_tracks_change)):
+      self.song().remove_tracks_listener(self.__on_tracks_change)
+    if (self.song().view.selected_track_has_listener(self.__on_sel_track_change)):
+      self.song().view.remove_selected_track_listener(self.__on_sel_track_change)
     if (self.song().scenes_has_listener(self.__on_scenes_change)):
       self.song().remove_scenes_listener(self.__on_scenes_change)
     if (self.song().view.selected_scene_has_listener(self.__on_sel_scene_change)):
       self.song().view.remove_selected_scene_listener(self.__on_sel_scene_change)
+
+  def __on_tracks_change(self):
+    self.__add_listeners()
+    self.__update_track_values()
+
+  def __on_sel_track_change(self):
+    self.__update_track_values()
+
+  def __update_track_values(self):
+    self.m_oSession.__on_sel_track_change()
+    self.m_oMixer.__on_sel_track_change()
 
   def __on_scenes_change(self):
     self.__add_listeners()
@@ -275,7 +290,7 @@ class AaFader(ControlSurface):
     self.__update_scene_values()
 
   def __update_scene_values(self):
-    self.m_oMixer._on_sel_scene_changed()
+    self.m_oMixer.__on_sel_scene_change()
 
   # ****************************************************************
 

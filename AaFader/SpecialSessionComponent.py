@@ -79,6 +79,14 @@ class SpecialSessionComponent(SessionComponent):
     self._page_left_button.send_value(nLeftValue, True)
     self._page_right_button.send_value(nRightValue, True)
 
+  def __update_track_values(self):
+    # update all clip controls
+    return
+
+  def __on_sel_track_change(self):
+    # update all clip controls
+    return
+
   # TEMPO 1 ******************************************************************
 
   def set_tempo_1(self, _oControl):
@@ -126,3 +134,4 @@ class SpecialSessionComponent(SessionComponent):
     assert isinstance(_nValue, int)
     self.m_nTempo2 = _nValue
     self.song().tempo = 20 + self.m_nTempo1 + _nValue
+

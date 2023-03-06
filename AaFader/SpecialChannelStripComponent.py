@@ -26,6 +26,9 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     self._toggle_fold_ticks_delay = -1
     self._register_timer_callback(self._on_timer)
 
+    self.m_oStopControl   = None
+    self.m_oSelControl    = None
+
     self.m_oPitchControl  = None
     self.m_oPitchReset    = None
     self.m_oAvVelControl  = None
@@ -41,6 +44,9 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     def make_control_slot(name):
       return self.register_slot(None, getattr(self, u'_%s_value' % name), u'value')
 
+    self._stop_button_slot    = make_control_slot(u'stop')
+    self._sel_button_slot     = make_control_slot(u'sel')
+
     self._pitch_control_slot  = make_control_slot(u'pitch')
     self._pitch_reset_slot    = make_control_slot(u'pitch_reset')
     self._av_vel_control_slot = make_control_slot(u'av_vel')
@@ -55,6 +61,10 @@ class SpecialChannelStripComponent(ChannelStripComponent):
 
   def disconnect(self):
     self._unregister_timer_callback(self._on_timer)
+
+    self.m_oStopControl   = None
+    self.m_oSelControl    = None
+
     self.m_oPitchControl  = None
     self.m_oPitchReset    = None
     self.m_oAvVelControl  = None
@@ -66,6 +76,7 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     self.m_oDetuneReset   = None
     self.m_oAvIncrToggle  = None
     self.m_oAvDecrToggle  = None
+
     ChannelStripComponent.disconnect(self)
 
   def set_index(self, _nIndex):
@@ -166,39 +177,104 @@ class SpecialChannelStripComponent(ChannelStripComponent):
 
   # LISTENERS ****************************************************************
 
-  def _on_sel_scene_changed(self):
+  def __on_sel_track_change(self):
+    self._on_stop_changed() # depends on track
+    self._on_sel_changed()  # depends on track
+
+  def __on_sel_scene_change(self):
     self._on_pitch_changed()  # depends on clip
     self._on_clip_changed()   # depends on clip
     self._on_detune_changed() # depends on clip
 
   def send_bank_values(self, _nBank):
     oTrack = self.get_track_or_none()
-    if (_nBank == 1): # FX_1, Mute, Solo, Vol
+    if (_nBank == 1):
       nMute, nSolo, nVol = (0, 0, 0)
-      if (oTrack != None and len(oTrack.mixer_device.sends) == 6):
+      if (oTrack != None):
         nMute  = 0   if oTrack.mute else 127
         nSolo  = 127 if oTrack.solo else 0
         nVol   = int(oTrack.mixer_device.volume.value * 127.0)
       self._mute_button.send_value(nMute, True)
       self._solo_button.send_value(nSolo, True)
       self._volume_control.send_value(nVol, True)
-    elif (_nBank == 2): # FX_2, Pan, Pitch, Arm, Vol
-      nArm, nVol = (0, 0)
-      if (oTrack != None and len(oTrack.mixer_device.sends) == 6):
-        nArm   = 127 if oTrack.arm else 0
-        nVol   = int(oTrack.mixer_device.volume.value * 127.0)
-      self._arm_button.send_value(nArm, True)
-      self._volume_control.send_value(nVol, True)
+    elif (_nBank == 2):
+      nStop, nSel, nVol = (0, 0, 0)
+      if (oTrack != None):
+        nStop = 127
+        nSel  = 127
+        nVol  = int(oTrack.mixer_device.volume.value * 127.0)
+      self._volume_control.send_value(nVol,  True)
+      self.m_oStopControl.send_value (nStop, True)
+      self.m_oSelControl.send_value  (nSel,  True)
     elif (_nBank == 3):
-      nVol = 0
+      nInput, nArm, nVol = (0, 0, 0)
+      if (oTrack != None):
+        nInput = 127
+        nArm = 127 if oTrack.arm else 0
+        nVol = int(oTrack.mixer_device.volume.value * 127.0)
+      self._volume_control.send_value(nVol, True)
+    elif (_nBank == 4):
       if (oTrack != None):
         nVol = int(oTrack.mixer_device.volume.value * 127.0)
+      self._volume_control.send_value(nVol, True)
       self._on_av_vel_changed()
       self._on_av_incr_changed()
       self._on_av_decr_changed()
-      self._volume_control.send_value(nVol, True)
-    elif (_nBank == 4):
-      Live.Base.log('> sync bank 4!')
+
+  # TRACK STOP ***************************************************************
+
+  def set_stop_button(self, _oControl):
+    if _oControl != self.m_oStopControl:
+      release_control(self.m_oStopControl)
+      self.m_oStopControl = _oControl
+      self._stop_button_slot.subject = _oControl
+      self.update()
+
+  def _stop_value(self, _nValue):
+    assert self.m_oStopControl != None
+    assert isinstance(_nValue, int)
+    oTrack = self.get_track_or_none(self.m_oStopControl, 0)
+    if (oTrack == None):
+      self.m_oStopControl.send_value(0, True)
+      return None
+    oTrack.stop_all_clips()
+    self.m_oStopControl.send_value(127, True)
+
+  def _on_stop_changed(self):
+    if (self.m_oStopControl == None):
+      return
+    oTrack = self.get_track_or_none(self.m_oStopControl, 0)
+    if (oTrack == None or self.m_oStopControl == None or self.m_oSession == None):
+      self.m_oStopControl.send_value(0, True)
+      return None
+    self.m_oStopControl.send_value(127, True)
+
+  # TRACK SELECT *************************************************************
+
+  def set_sel_button(self, _oControl):
+    if _oControl != self.m_oSelControl:
+      release_control(self.m_oSelControl)
+      self.m_oSelControl = _oControl
+      self._sel_button_slot.subject = _oControl
+      self.update()
+
+  def _sel_value(self, _nValue):
+    assert self.m_oSelControl != None
+    assert isinstance(_nValue, int)
+    oTrack = self.get_track_or_none(self.m_oSelControl, 0)
+    if (oTrack == None):
+      return None
+    self.song().view.selected_track = oTrack
+    self.m_oSelControl.send_value(127, True)
+
+  def _on_sel_changed(self):
+    if (self.m_oSelControl == None):
+      return
+    oTrack = self.get_track_or_none(self.m_oSelControl, 0)
+    if (oTrack == None or self.m_oSelControl == None or self.m_oSession == None):
+      self.m_oSelControl.send_value(0, True)
+      return None
+    self.m_oSelControl.send_value(127, True)
 
   # PITCH ********************************************************************
 
