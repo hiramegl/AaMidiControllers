@@ -183,13 +183,13 @@ class SpecialChannelStripComponent(ChannelStripComponent):
 
   # LISTENERS ****************************************************************
 
-  def __on_sel_track_change(self):
+  def on_sel_track_change(self):
     self._on_stop_changed()  # depends on track
     self._on_sel_changed()   # depends on track
     self._on_input_changed() # depends on track
     self._on_arm_changed()   # depends on track
 
-  def __on_sel_scene_change(self):
+  def on_sel_scene_change(self):
     self._on_pitch_changed()  # depends on clip
     self._on_clip_changed()   # depends on clip
     self._on_detune_changed() # depends on clip
