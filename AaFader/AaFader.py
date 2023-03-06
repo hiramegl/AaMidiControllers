@@ -136,6 +136,10 @@ class AaFader(ControlSurface):
     self.m_oSession.set_tempo_2  (self.create_encoder('Tempo2',   0))
     self.m_oSession.set_track_sel(self.create_encoder('TrackSel', 0))
     self.m_oSession.set_scene_sel(self.create_encoder('SceneSel', 0))
+    self.m_oSession.set_tempo_1_rst  (self.create_button('Tempo1Rst',   0))
+    self.m_oSession.set_tempo_2_rst  (self.create_button('Tempo2Rst',   0))
+    self.m_oSession.set_track_sel_rst(self.create_button('TrackSelRst', 0))
+    self.m_oSession.set_scene_sel_rst(self.create_button('SceneSelRst', 0))
 
     oSession.set_page_left_button (self.create_toggle('SessionLeft' , 0))
     oSession.set_page_right_button(self.create_toggle('SessionRight', 0))

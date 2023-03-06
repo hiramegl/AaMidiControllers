@@ -21,6 +21,10 @@ class SpecialSessionComponent(SessionComponent):
     self.m_oTempo2Control   = None
     self.m_oTrackSelControl = None
     self.m_oSceneSelControl = None
+    self.m_oTempo1RstControl   = None
+    self.m_oTempo2RstControl   = None
+    self.m_oTrackSelRstControl = None
+    self.m_oSceneSelRstControl = None
 
     def make_control_slot(name):
       return self.register_slot(None, getattr(self, u'_%s_value' % name), u'value')
@@ -29,6 +33,10 @@ class SpecialSessionComponent(SessionComponent):
     self._tempo_2_control_slot   = make_control_slot(u'tempo_2')
     self._track_sel_control_slot = make_control_slot(u'track_sel')
     self._scene_sel_control_slot = make_control_slot(u'scene_sel')
+    self._tempo_1_rst_control_slot   = make_control_slot(u'tempo_1_rst')
+    self._tempo_2_rst_control_slot   = make_control_slot(u'tempo_2_rst')
+    self._track_sel_rst_control_slot = make_control_slot(u'track_sel_rst')
+    self._scene_sel_rst_control_slot = make_control_slot(u'scene_sel_rst')
 
   def disconnect(self):
     SessionComponent.disconnect(self)
@@ -40,6 +48,10 @@ class SpecialSessionComponent(SessionComponent):
     self.m_oTempo2Control   = None
     self.m_oTrackSelControl = None
     self.m_oSceneSelControl = None
+    self.m_oTempo1RstControl   = None
+    self.m_oTempo2RstControl   = None
+    self.m_oTrackSelRstControl = None
+    self.m_oSceneSelRstControl = None
 
   def link_with_track_offset(self, track_offset, scene_offset):
     assert (track_offset >= 0)
@@ -184,6 +196,80 @@ class SpecialSessionComponent(SessionComponent):
     oScene = self.get_scene(_nValue)
     if oScene != None:
       self.sel_scene(oScene)
+
+  # TEMPO 1 RESET ************************************************************
+
+  def set_tempo_1_rst(self, _oControl):
+    if _oControl != self.m_oTempo1RstControl:
+      release_control(self.m_oTempo1RstControl)
+      self.m_oTempo1RstControl = _oControl
+      self._tempo_1_rst_control_slot.subject = _oControl
+
+      # update all components
+      self.update()
+
+  def _tempo_1_rst_value(self, _nValue):
+    assert self.m_oTempo1RstControl != None
+    assert isinstance(_nValue, int)
+    self.m_nTempo1Rst = 108
+    self.song().tempo = 20 + self.m_nTempo2 + 108
+    self.m_oTempo1Control.send_value(108, True)
+
+  # TEMPO 2 RESET ************************************************************
+
+  def set_tempo_2_rst(self, _oControl):
+    if _oControl != self.m_oTempo2RstControl:
+      release_control(self.m_oTempo2RstControl)
+      self.m_oTempo2RstControl = _oControl
+      self._tempo_2_rst_control_slot.subject = _oControl
+
+      # update all components
+      self.update()
+
+  def _tempo_2_rst_value(self, _nValue):
+    assert self.m_oTempo2RstControl != None
+    assert isinstance(_nValue, int)
+    self.m_nTempo2Rst = 0
+    self.song().tempo = 20 + self.m_nTempo1 + 0
+    self.m_oTempo2Control.send_value(0, True)
+
+  # TRACK SEL RESET **********************************************************
+
+  def set_track_sel_rst(self, _oControl):
+    if _oControl != self.m_oTrackSelRstControl:
+      release_control(self.m_oTrackSelRstControl)
+      self.m_oTrackSelRstControl = _oControl
+      self._track_sel_rst_control_slot.subject = _oControl
+
+      # update all components
+      self.update()
+
+  def _track_sel_rst_value(self, _nValue):
+    assert self.m_oTrackSelRstControl != None
+    assert isinstance(_nValue, int)
+    oTrack = self.get_track(0)
+    if oTrack != None:
+      self.sel_track(oTrack)
+      self.m_oTrackSelControl.send_value(0, True)
+
+  # SCENE SEL RESET **********************************************************
+
+  def set_scene_sel_rst(self, _oControl):
+    if _oControl != self.m_oSceneSelRstControl:
+      release_control(self.m_oSceneSelRstControl)
+      self.m_oSceneSelRstControl = _oControl
+      self._scene_sel_rst_control_slot.subject = _oControl
+
+      # update all components
+      self.update()
+
+  def _scene_sel_rst_value(self, _nValue):
+    assert self.m_oSceneSelRstControl != None
+    assert isinstance(_nValue, int)
+    oScene = self.get_scene(0)
+    if oScene != None:
+      self.sel_scene(oScene)
+      self.m_oSceneSelControl.send_value(0, True)
 
   # ****************************************************************
 
