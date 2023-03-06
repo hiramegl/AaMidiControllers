@@ -41,25 +41,29 @@
   mute_offset   | 1
   solo_offset   | 9
 
-# bank 2: input & arm
+# bank 2: stop & select
   bank_2_sync   | 29  # midi channel 1
   bank_2_channel| 1   # midi channel 2
 
   # buttons
-  input_offset  | 1   # midi channel 2
-  arm_offset    | 9   # midi channel 2
+  stop_offset   | 1   # midi channel 2
+  sel_offset    | 9   # midi channel 2
 
-# bank 3: auto-volume
+# bank 3: input & arm
   bank_3_sync   | 30  # midi channel 1
   bank_3_channel| 2   # midi channel 3
 
-  # rotator (first group)
-  av_vel_offset | 33  # midi channel 3
-
   # buttons
-  av_incr_offset| 1   # midi channel 3
-  av_decr_offset| 9   # midi channel 3
+  input_offset  | 1   # midi channel 3
+  arm_offset    | 9   # midi channel 3
 
 # bank 4:
   bank_4_sync   | 31  # midi channel 1
   bank_4_channel| 3   # midi channel 4
+
+  # rotator (first group)
+  av_vel_offset | 33  # midi channel 4
+
+  # buttons
+  av_incr_offset| 1   # midi channel 4
+  av_decr_offset| 9   # midi channel 4

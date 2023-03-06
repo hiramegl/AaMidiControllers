@@ -87,18 +87,16 @@ class AaFader(ControlSurface):
 
       # bank 2
       'Bank2Channel': 1,  'Bank2Sync'   : 29, # MIDI-CHANNEL 2
-
-      'InputOffset' : 1,  'ArmOffset'   : 9,  # Buttons
+      'StopOffset'  : 1,  'SelOffset'   : 9,  # Buttons
 
       # bank 3
       'Bank3Channel': 2,  'Bank3Sync'   : 30, # MIDI-CHANNEL 3
-
-      'AvVelOffset' : 33, # Rotary Group 1
-
-      'AvIncrOffset': 1,  'AvDecrOffset': 9,  # Buttons
+      'InputOffset' : 1,  'ArmOffset'   : 9,  # Buttons
 
       # bank 4
-      'Bank4Sync'   : 31, 'Bank4Channel': 3,  # MIDI-CHANNEL 4
+      'Bank4Channel': 3,  'Bank4Sync'   : 31, # MIDI-CHANNEL 4
+      'AvVelOffset' : 33,                     # Rotary Group 1
+      'AvIncrOffset': 1,  'AvDecrOffset': 9,  # Buttons
     }
 
     #self.xlog('loading config ...')
@@ -135,9 +133,12 @@ class AaFader(ControlSurface):
     oSession = self.m_oSession
     self.m_hCfg['oSession'] = oSession
     self.m_oSession.set_tempo_1(self.create_encoder('Tempo1', 0))
+    self.m_oSession.set_tempo_2(self.create_encoder('Tempo2', 0))
 
     oSession.set_page_left_button (self.create_toggle('SessionLeft' , 0))
     oSession.set_page_right_button(self.create_toggle('SessionRight', 0))
+    aButStopTrack = [self.create_button('StopOffset', 2, nTrackIdx) for nTrackIdx in range(self.m_nNumTracks)]
+    oSession.set_stop_track_clip_buttons(tuple(aButStopTrack))
 
     self.m_oButStopTotal = self.create_button('StopTotal', 0)
     self._on_stop_total.subject = self.m_oButStopTotal
@@ -154,13 +155,15 @@ class AaFader(ControlSurface):
     self.m_oMixer = SpecialMixerComponent(self.m_nNumTracks, self.m_hCfg)
     self.m_oMixer.name = 'Mixer'
     oMixer = self.m_oMixer
+    aButSelTrack = [self.create_button('SelOffset', 2, nTrackIdx) for nTrackIdx in range(self.m_nNumTracks)]
+    oMixer.set_track_select_buttons(tuple(aButSelTrack))
 
     for nTrackIdx in range(self.m_nNumTracks):
       oStrip = oMixer.channel_strip(nTrackIdx)
       oStrip.name = 'Channel_Strip_' + str(nTrackIdx)
       oStrip.set_index(nTrackIdx)
 
-      # bank 1, 2 & 3
+      # bank 1, 2, 3 & 4
       oStrip.set_volume_control(self.create_slider ('VolOffset'   , 0, nTrackIdx))
 
       # bank 1
@@ -168,13 +171,18 @@ class AaFader(ControlSurface):
       oStrip.set_solo_button   (self.create_toggle ('SoloOffset'  , 1, nTrackIdx))
 
       # bank 2
-     #oStrip.set_input_button  (self.create_toggle ('InputOffset' , 2, nTrackIdx))
-      oStrip.set_arm_button    (self.create_toggle ('ArmOffset'   , 2, nTrackIdx))
+      # stop: managed by session
+      # sel:  managed by mixer
 
       # bank 3
-      oStrip.set_av_vel_control(self.create_encoder('AvVelOffset' , 3, nTrackIdx))
-      oStrip.set_av_incr_toggle(self.create_toggle ('AvIncrOffset', 3, nTrackIdx))
-      oStrip.set_av_decr_toggle(self.create_toggle ('AvDecrOffset', 3, nTrackIdx))
+     #oStrip.set_input_button  (self.create_toggle ('InputOffset' , 3, nTrackIdx))
+      oStrip.set_arm_button    (self.create_toggle ('ArmOffset'   , 3, nTrackIdx))
+
+      # bank 4
+      oStrip.set_av_vel_control(self.create_encoder('AvVelOffset' , 4, nTrackIdx))
+
+      oStrip.set_av_incr_toggle(self.create_toggle ('AvIncrOffset', 4, nTrackIdx))
+      oStrip.set_av_decr_toggle(self.create_toggle ('AvDecrOffset', 4, nTrackIdx))
 
       oStrip.set_invert_mute_feedback(True)
 
