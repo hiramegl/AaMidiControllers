@@ -132,14 +132,22 @@ class AaFader(ControlSurface):
     self.m_oSession.name = 'Session'
     oSession = self.m_oSession
     self.m_hCfg['oSession'] = oSession
-    self.m_oSession.set_tempo_1  (self.create_encoder('Tempo1',   0))
-    self.m_oSession.set_tempo_2  (self.create_encoder('Tempo2',   0))
-    self.m_oSession.set_track_sel(self.create_encoder('TrackSel', 0))
-    self.m_oSession.set_scene_sel(self.create_encoder('SceneSel', 0))
-    self.m_oSession.set_tempo_1_rst  (self.create_button('Tempo1Rst',   0))
-    self.m_oSession.set_tempo_2_rst  (self.create_button('Tempo2Rst',   0))
-    self.m_oSession.set_track_sel_rst(self.create_button('TrackSelRst', 0))
-    self.m_oSession.set_scene_sel_rst(self.create_button('SceneSelRst', 0))
+    self.m_oSession.set_tempo_1      (self.create_encoder('Tempo1',      0))
+    self.m_oSession.set_tempo_1_rst  (self.create_button ('Tempo1Rst',   0))
+    self.m_oSession.set_tempo_2      (self.create_encoder('Tempo2',      0))
+    self.m_oSession.set_tempo_2_rst  (self.create_button ('Tempo2Rst',   0))
+    self.m_oSession.set_track_sel    (self.create_encoder('TrackSel',    0))
+    self.m_oSession.set_track_sel_rst(self.create_button ('TrackSelRst', 0))
+    self.m_oSession.set_scene_sel    (self.create_encoder('SceneSel',    0))
+    self.m_oSession.set_scene_sel_rst(self.create_button ('SceneSelRst', 0))
+    self.m_oSession.set_track_pan    (self.create_encoder('TrackPan',    0))
+    self.m_oSession.set_track_pan_rst(self.create_button ('TrackPanRst', 0))
+    self.m_oSession.set_clip_gain    (self.create_encoder('ClipGain',    0))
+    self.m_oSession.set_clip_gain_rst(self.create_button ('ClipGainRst', 0))
+    self.m_oSession.set_clip_pit     (self.create_encoder('ClipPit',     0))
+    self.m_oSession.set_clip_pit_rst (self.create_button ('ClipPitRst',  0))
+    self.m_oSession.set_clip_det     (self.create_encoder('ClipDet',     0))
+    self.m_oSession.set_clip_det_rst (self.create_button ('ClipDetRst',  0))
 
     oSession.set_page_left_button (self.create_toggle('SessionLeft' , 0))
     oSession.set_page_right_button(self.create_toggle('SessionRight', 0))
@@ -251,6 +259,7 @@ class AaFader(ControlSurface):
     self.m_oSession._page_right_button.send_value(nRightValue, True)
 
     # update track balues
+    self.m_oSession.send_bank_values(_nIdx)
     self.m_oMixer.send_bank_values(_nIdx)
     self.alert('> Synced Bank %d' % (_nIdx))
 
@@ -296,7 +305,7 @@ class AaFader(ControlSurface):
     self.__update_scene_values()
 
   def __update_scene_values(self):
-    self.m_oMixer.on_sel_scene_change()
+    self.m_oSession.on_sel_scene_change()
 
   # ****************************************************************
 

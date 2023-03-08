@@ -23,11 +23,6 @@ class SpecialMixerComponent(MixerComponent):
       oStrip = self._channel_strips[nIdx]
       oStrip.on_sel_track_change()
 
-  def on_sel_scene_change(self):
-    for nIdx in range(len(self._channel_strips)):
-      oStrip = self._channel_strips[nIdx]
-      oStrip.on_sel_scene_change()
-
   def send_bank_values(self, _nBank):
     for nIdx in range(len(self._channel_strips)):
       oStrip = self._channel_strips[nIdx]

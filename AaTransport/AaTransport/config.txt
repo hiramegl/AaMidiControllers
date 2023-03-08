@@ -8,26 +8,22 @@
 # Controller features
   num_scenes    | 20
   channel       | 4
-  tempo_max     | 144
-  tempo_min     | 80
 
 # Fixed config:
 
-  session_left  | 67
-  session_right | 64
-  crossfader    | 9
+  page_left     | 67
+  page_right    | 64
 
   pan_offset    | 1
+  crossfader    | 9
   vol_offset    | 10
 
-  tempo         | 8
   cue_vol       | 17
-
-  master_pan    | 57
   master_vol    | 58
   view_toggle   | 59
 
-# Bank 1 & 2: Session control
+  device_left   | 60 # scroll device list to the left
+  device_right  | 61 # scroll device list to the right
 
   loop          | 26
   rewind        | 27
@@ -36,52 +32,18 @@
   play          | 30
   record        | 31
 
-# Bank 3 & 4: Clip control
+# Bank 1: SELECT
 
-  clip_loop     | 76
-  warp          | 77
-  follow_song   | 78
-  stop_clip     | 79
-  play_clip     | 80
-  dup_clip      | 81
-
-# Bank 1: SELECT functions
-
-  track_sel_abs | 7
-  scene_sel_abs | 16
-  scene_sel_up  | 24
-  scene_sel_dw  | 25
   sel_offset    | 18
-  device_left   | 60 # scroll device list to the left
-  device_right  | 61 # scroll device list to the right
 
-# Bank 2: TEMPO functions
+# Bank 2: RESET
 
-  tempo_target  | 62
-  tempo_vel     | 63
-  tempo_auto    | 39
-  tempo_reset   | 40
-  solo_offset   | 33
-  tempo_win_dec | 65
-  tempo_win_inc | 66
+  reset_offset  | 33
 
-# Bank 3: DEVICE SEL / CLIP START functions
+# Bank 3: MUTE
 
-  clip_gain     | 68
-  start_size    | 69
-  start_dec     | 47
-  start_inc     | 48
   mute_offset   | 41
-  track_sel_lf  | 70
-  track_sel_rg  | 71
 
 # Bank 4: LOOP functions
 
-  loop_size     | 72
-  shift_size    | 73
-  reset_offset  | 49
-  shift_dec     | 55
-  shift_inc     | 56
-  loop_div      | 74
-  loop_mul      | 75
-
+  solo_offset   | 49

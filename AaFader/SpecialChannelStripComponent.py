@@ -31,17 +31,10 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     self.m_oInputControl  = None
     self.m_oArmControl    = None
 
-    self.m_oPitchControl  = None
-    self.m_oPitchReset    = None
     self.m_oAvVelControl  = None
-    self.m_oVolumeReset   = None
-    self.m_oDeckControl   = None # "A", "None", "B"
-    self.m_oClipControl   = None
-    self.m_oVelToggle     = None
-    self.m_oDetuneControl = None
-    self.m_oDetuneReset   = None
     self.m_oAvIncrToggle  = None
     self.m_oAvDecrToggle  = None
+    self.m_oVolumeReset   = None
 
     def make_control_slot(name):
       return self.register_slot(None, getattr(self, u'_%s_value' % name), u'value')
@@ -51,17 +44,10 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     self._input_button_slot   = make_control_slot(u'input')
     self._arm_button_slot     = make_control_slot(u'arm')
 
-    self._pitch_control_slot  = make_control_slot(u'pitch')
-    self._pitch_reset_slot    = make_control_slot(u'pitch_reset')
     self._av_vel_control_slot = make_control_slot(u'av_vel')
-    self._volume_reset_slot   = make_control_slot(u'volume_reset')
-    self._deck_control_slot   = make_control_slot(u'deck')
-    self._clip_control_slot   = make_control_slot(u'clip')
-    self._vel_toggle_slot     = make_control_slot(u'vel_toggle')
-    self._detune_control_slot = make_control_slot(u'detune')
-    self._detune_reset_slot   = make_control_slot(u'detune_reset')
     self._av_incr_toggle_slot = make_control_slot(u'av_incr')
     self._av_decr_toggle_slot = make_control_slot(u'av_decr')
+    self._volume_reset_slot   = make_control_slot(u'volume_reset')
 
   def disconnect(self):
     self._unregister_timer_callback(self._on_timer)
@@ -71,17 +57,10 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     self.m_oInputControl  = None
     self.m_oArmControl    = None
 
-    self.m_oPitchControl  = None
-    self.m_oPitchReset    = None
     self.m_oAvVelControl  = None
-    self.m_oVolumeReset   = None
-    self.m_oDeckControl   = None
-    self.m_oClipControl   = None
-    self.m_oVelToggle     = None
-    self.m_oDetuneControl = None
-    self.m_oDetuneReset   = None
     self.m_oAvIncrToggle  = None
     self.m_oAvDecrToggle  = None
+    self.m_oVolumeReset   = None
 
     ChannelStripComponent.disconnect(self)
 
@@ -188,11 +167,6 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     self._on_sel_changed()   # depends on track
     self._on_input_changed() # depends on track
     self._on_arm_changed()   # depends on track
-
-  def on_sel_scene_change(self):
-    self._on_pitch_changed()  # depends on clip
-    self._on_clip_changed()   # depends on clip
-    self._on_detune_changed() # depends on clip
 
   def send_bank_values(self, _nBank):
     oTrack = self.get_track_or_none()
@@ -343,202 +317,6 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     nArm = 127 if oTrack.arm else 0
     self.m_oArmControl.send_value(nArm, True)
 
-  # PITCH ********************************************************************
-
-  def set_pitch_control(self, _oControl):
-    if _oControl != self.m_oPitchControl:
-      release_control(self.m_oPitchControl)
-      self.m_oPitchControl = _oControl
-      self._pitch_control_slot.subject = _oControl
-      self.update()
-
-  def _pitch_value(self, _nValue):
-    assert self.m_oPitchControl != None
-    assert isinstance(_nValue, int)
-    oClip = self.get_clip_or_none()
-    if (oClip == None):
-      return
-    if (oClip.is_audio_clip):
-      fValue = float(_nValue) - 64.0
-      fPitch = fValue / 1.3 # coarse pitch, 128 / 97 ~= 1.3
-      nPitch = int(fPitch)
-      nPitch = -48 if nPitch < -48 else nPitch
-      oClip.pitch_coarse = nPitch
-    else:
-      aDevices = self._track.devices
-      for nDevIdx in range(len(aDevices)):
-        oDevice = aDevices[nDevIdx]
-        sClass  = oDevice.class_name
-        if (sClass != 'MidiPitcher'):
-          continue
-        aParams = oDevice.parameters
-        for nPrmIdx  in range(len(aParams)):
-          oParam = aParams[nPrmIdx]
-          if (oParam.name != 'Pitch'):
-            continue
-          nPitch = _nValue - 64
-          nPitch = -64 if nPitch < -64 else nPitch
-          nPitch = 63  if nPitch > 63  else nPitch
-          oParam.value = nPitch
-
-  def _on_pitch_changed(self):
-    oClip = self.get_clip_or_none(self.m_oPitchControl, 64)
-    if (oClip == None or self.m_oPitchControl == None):
-      return
-    nValue = 64
-    if (oClip.is_audio_clip):
-      nPitch = oClip.pitch_coarse
-      fValue = float(nPitch) * 1.3 + 64.0
-      nValue = int(fValue)
-    else:
-      aDevices = self._track.devices
-      for nDevIdx in range(len(aDevices)):
-        oDevice = aDevices[nDevIdx]
-        sClass  = oDevice.class_name
-        if (sClass != 'MidiPitcher'):
-          continue
-        aParams = oDevice.parameters
-        for nPrmIdx  in range(len(aParams)):
-          oParam = aParams[nPrmIdx]
-          if (oParam.name != 'Pitch'):
-            continue
-          nValue = oParam.value + 64
-
-    nValue = 0   if nValue < 0   else nValue
-    nValue = 127 if nValue > 127 else nValue
-    self.m_oPitchControl.send_value(nValue, True)
-
-  # PITCH RESET **************************************************************
-
-  def set_pitch_reset(self, _oReset):
-    if _oReset != self.m_oPitchReset:
-      release_control(self.m_oPitchReset)
-      self.m_oPitchReset = _oReset
-      self._pitch_reset_slot.subject = _oReset
-      self.update()
-
-  def _pitch_reset_value(self, _nValue):
-    # this method process both "on" and "off" values since
-    # the pitch reset is assigned to a toggle. (Problem with BFC2000)
-    assert self.m_oPitchReset != None
-    assert isinstance(_nValue, int)
-    oClip = self.get_clip_or_none()
-    if (oClip == None):
-      return
-    if (oClip.is_audio_clip):
-      oClip.pitch_coarse = 0
-    else:
-      aDevices = self._track.devices
-      for nDevIdx in range(len(aDevices)):
-        oDevice = aDevices[nDevIdx]
-        sClass  = oDevice.class_name
-        if (sClass != 'MidiPitcher'):
-          continue
-        aParams = oDevice.parameters
-        for nPrmIdx  in range(len(aParams)):
-          oParam = aParams[nPrmIdx]
-          if (oParam.name == 'Pitch'):
-            oParam.value = 0
-
-    # update rotary controller value
-    self.m_oPitchControl.send_value(64, True)
-
-  # no need to update the pitch reset toggle!
-
-  # DETUNE *******************************************************************
-
-  def set_detune_control(self, _oControl):
-    if _oControl != self.m_oDetuneControl:
-      release_control(self.m_oDetuneControl)
-      self.m_oDetuneControl = _oControl
-      self._detune_control_slot.subject = _oControl
-      self.update()
-
-  def _detune_value(self, _nValue):
-    assert self.m_oDetuneControl != None
-    assert isinstance(_nValue, int)
-    oClip = self.get_clip_or_none()
-    if (oClip == None):
-      return
-    if (oClip.is_audio_clip):
-      fValue  = float(_nValue) - 64.0
-      fDetune = fValue / 1.28 # fine pitch, 128 / 100
-      nDetune = int(fDetune)
-      nDetune = -49 if nDetune < -49 else nDetune
-      nDetune =  49 if nDetune >  49 else nDetune
-      oClip.pitch_fine = nDetune
-
-  def _on_detune_changed(self):
-    oClip = self.get_clip_or_none(self.m_oDetuneControl, 64)
-    if (oClip == None or self.m_oDetuneControl == None):
-      return
-    nValue = 64
-    if (oClip.is_audio_clip):
-      nDetune = oClip.pitch_fine # -49 ... 49
-      fValue  = float(nDetune) * 1.28 + 64.0
-      nValue  = int(fValue)
-
-    nValue = 1   if nValue < 1   else nValue
-    nValue = 127 if nValue > 127 else nValue
-    self.m_oDetuneControl.send_value(nValue, True)
-
-  # DETUNE RESET *************************************************************
-
-  def set_detune_reset(self, _oReset):
-    if _oReset != self.m_oDetuneReset:
-      release_control(self.m_oDetuneReset)
-      self.m_oDetuneReset = _oReset
-      self._detune_reset_slot.subject = _oReset
-      self.update()
-
-  def _detune_reset_value(self, _nValue):
-    # this method process both "on" and "off" values since
-    # the detune reset is assigned to a toggle. (Problem with BFC2000)
-    assert self.m_oDetuneReset != None
-    assert isinstance(_nValue, int)
-    oClip = self.get_clip_or_none()
-    if (oClip == None):
-      return
-    if (oClip.is_audio_clip):
-      oClip.pitch_fine = 0
-
-    # update rotary controller value
-    self.m_oDetuneControl.send_value(64, True)
-
-  # no need to update the detune reset toggle!
-
-  # CLIP SELECT **************************************************************
-
-  def set_clip_control(self, _oControl):
-    if _oControl != self.m_oClipControl:
-      release_control(self.m_oClipControl)
-      self.m_oClipControl = _oControl
-      self._clip_control_slot.subject = _oControl
-      self.update()
-
-  def _clip_value(self, _nValue):
-    assert self.m_oClipControl != None
-    assert isinstance(_nValue, int)
-    oTrack = self.get_track_or_none(self.m_oClipControl, 0)
-    if (oTrack == None):
-      return None
-    self.song().view.selected_track = oTrack
-    aScenes = list(self.scenes())
-    if (_nValue >= len(aScenes)):
-      _nValue = len(aScenes) - 1
-    oScene = aScenes[_nValue]
-    self.sel_scene(oScene)
-
-  def _on_clip_changed(self):
-    if (self.m_oClipControl == None):
-      return
-    oTrack = self.get_track_or_none(self.m_oClipControl, 0)
-    if (oTrack == None or self.m_oClipControl == None or self.m_oSession == None):
-      return None
-    nSelSceneIdxAbs = self.sel_scene_idx_abs()
-    nValue          = 127 if nSelSceneIdxAbs > 127 else nSelSceneIdxAbs
-    self.m_oClipControl.send_value(nValue, True)
-
   # AUTO-VOLUME VELOCITY *****************************************************
 
   def set_av_vel_control(self, _oControl):
@@ -609,64 +387,6 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     self.m_bBusy = False
 
   # no need to update the volume reset toggle!
-
-  # DECK *********************************************************************
-
-  def set_deck_control(self, _oControl):
-    if _oControl != self.m_oDeckControl:
-      release_control(self.m_oDeckControl)
-      self.m_oDeckControl = _oControl
-      self._deck_control_slot.subject = _oControl
-      self.update()
-
-  def _deck_value(self, _nValue):
-    assert self.m_oDeckControl != None
-    assert isinstance(_nValue, int)
-    oTrack = self.get_track_or_none(self.m_oDeckControl, 64)
-    if (oTrack == None):
-      return
-    oMixDev = oTrack.mixer_device
-    fValue  = float(_nValue)
-    nCross  = int(fValue / 43.0)
-    oMixDev.crossfade_assign = nCross # 0 = A, 1 = None, 2 = B
-
-  def _on_deck_changed(self):
-    oTrack = self.get_track_or_none(self.m_oDeckControl, 64)
-    if (oTrack == None or self.m_oDeckControl == None):
-      return
-    nCross = oTrack.mixer_device.crossfade_assign
-    nValue = (nCross * 43) + 21
-    self.m_oDeckControl.send_value(nValue, True)
-
-  # VELOLCITY TOGGLE *********************************************************
-
-  def set_vel_toggle(self, _oToggle):
-    if _oToggle != self.m_oVelToggle:
-      release_control(self.m_oVelToggle)
-      self.m_oVelToggle = _oToggle
-      self._vel_toggle_slot.subject = _oToggle
-      self.update()
-
-  def _vel_toggle_value(self, _nValue):
-    assert self.m_oVelToggle != None
-    assert isinstance(_nValue, int)
-    if _nValue != 127: return
-    oClip = self.get_clip_or_none()
-    if (oClip == None): return
-    if (oClip.is_audio_clip): return
-    aDevices = self._track.devices
-    for nDevIdx in range(len(aDevices)):
-      oDevice = aDevices[nDevIdx]
-      sClass  = oDevice.class_name
-      if (sClass != 'MidiVelocity'): continue
-      aParams = oDevice.parameters
-      for nPrmIdx in range(len(aParams)):
-        oParam = aParams[nPrmIdx]
-        if (oParam.name != 'Device On'): continue
-        nValue = oParam.value
-        oParam.value = not nValue
-
-  # no need to update the velocity toggle!
 
   # AUTO-VOLUME INCREASE *****************************************************
 
