@@ -157,7 +157,7 @@ class AaTransport(ControlSurface):
     self.register_el('but', 'DeviceLeft' , self._on_device_left)
     self.register_el('but', 'DeviceRight', self._on_device_right)
 
-    oTransp.set_loop_button  (self.create_button('Loop'))
+    self.register_el('but', 'Loop'  , self._on_clip_loop)
     oTransp.set_seek_buttons (self.create_toggle('Forward'), self.create_toggle('Rewind'))
     oTransp.set_record_button(self.create_button('Record'))
     #oTransp.set_play_button  (self.create_button('Play'))
@@ -180,6 +180,16 @@ class AaTransport(ControlSurface):
     else:
       oView.show_view('Detail/Clip')
       oView.focus_view('Detail/Clip')
+
+  @subject_slot(u'value')
+  def _on_clip_loop(self, _nValue):
+    if (_nValue < 64): return # do not process "toggle off"
+    oClipSlot = self.sel_clip_slot()
+    if (oClipSlot == None): return
+    oClip = oClipSlot.clip
+    if (oClip == None): return
+    bLooping      = oClip.looping
+    oClip.looping = not bLooping
 
   @subject_slot(u'value')
   def _on_device_left(self, _nValue):
