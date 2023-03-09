@@ -10,25 +10,26 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     ChannelStripComponent.__init__(self)
     self.m_oPanResetButton = None
     self.m_oVolResetButton = None
-    self.m_oDeckButton   = None
-    self.m_oSend1Button  = None
-    self.m_oSend2Button  = None
-    self.m_oSend3Button  = None
-    self.m_oSend4Button  = None
-    self.m_oSend5Button  = None
-    self.m_oSend6Button  = None
-    self.m_oMonitorButton  = None
+    self.m_oDeckButton     = None
+    self.m_oSend1Button    = None
+    self.m_oSend2Button    = None
+    self.m_oSend3Button    = None
+    self.m_oSend4Button    = None
+    self.m_oSend5Button    = None
+    self.m_oSend6Button    = None
+    self.m_oSend7Button    = None
+    self.m_oSend8Button    = None
     self.m_oViewClipButton = None
     self.m_oViewDevButton  = None
-    self.m_oVol1Button   = None
-    self.m_oVol2Button   = None
-    self.m_oVol3Button   = None
-    self.m_oVol4Button   = None
-    self.m_oVol5Button   = None
-    self.m_oVol6Button   = None
-    self.m_oVol7Button   = None
-    self.m_oVol8Button   = None
-    self.m_aVolMap     = [1.0, 0.92, 0.85, 0.7, 0.6, 0.5, 0.4, 0.2]
+    self.m_oVol1Button     = None
+    self.m_oVol2Button     = None
+    self.m_oVol3Button     = None
+    self.m_oVol4Button     = None
+    self.m_oVol5Button     = None
+    self.m_oVol6Button     = None
+    self.m_oVol7Button     = None
+    self.m_oVol8Button     = None
+    self.m_aVolMap         = [1.0, 0.92, 0.85, 0.7, 0.6, 0.5, 0.4, 0.2]
 
   def disconnect(self):
     oTrack = self.get_track_or_none()
@@ -36,8 +37,8 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     # remove track parameters listeners
     if oTrack != None:
       oMixDev = oTrack.mixer_device
-      oPan  = oMixDev.panning
-      oVol  = oMixDev.volume
+      oPan    = oMixDev.panning
+      oVol    = oMixDev.volume
       aSends  = oMixDev.sends
       if oPan.value_has_listener(self._on_pan_reset_changed):
         oPan.remove_value_listener(self._on_pan_reset_changed)
@@ -57,6 +58,10 @@ class SpecialChannelStripComponent(ChannelStripComponent):
         aSends[4].remove_value_listener(self._on_send5_changed)
       if len(aSends) > 5 and aSends[5].value_has_listener(self._on_send6_changed):
         aSends[5].remove_value_listener(self._on_send6_changed)
+      if len(aSends) > 6 and aSends[6].value_has_listener(self._on_send7_changed):
+        aSends[6].remove_value_listener(self._on_send6_changed)
+      if len(aSends) > 7 and aSends[7].value_has_listener(self._on_send8_changed):
+        aSends[7].remove_value_listener(self._on_send6_changed)
 
     # remove buttons listeners
     if self.m_oPanResetButton != None:
@@ -86,9 +91,12 @@ class SpecialChannelStripComponent(ChannelStripComponent):
     if self.m_oSend6Button != None:
       self.m_oSend6Button.remove_value_listener(self._on_send6_value)
       self.m_oSend6Button = None
-    if self.m_oMonitorButton != None:
-      self.m_oMonitorButton.remove_value_listener(self._on_monitor_value)
-      self.m_oMonitorButton = None
+    if self.m_oSend7Button != None:
+      self.m_oSend7Button.remove_value_listener(self._on_send7_value)
+      self.m_oSend7Button = None
+    if self.m_oSend8Button != None:
+      self.m_oSend8Button.remove_value_listener(self._on_send8_value)
+      self.m_oSend8Button = None
     if self.m_oViewClipButton != None:
       self.m_oViewClipButton.remove_value_listener(self._on_view_clip_value)
       self.m_oViewClipButton = None
@@ -127,8 +135,8 @@ class SpecialChannelStripComponent(ChannelStripComponent):
       oTrack = self.get_track_or_none()
       if oTrack != None: # it has to be a track not a return!
         oMixDev = self._track.mixer_device
-        oPan  = oMixDev.panning
-        oVol  = oMixDev.volume
+        oPan    = oMixDev.panning
+        oVol    = oMixDev.volume
         aSends  = oMixDev.sends
         if oPan.value_has_listener(self._on_pan_reset_changed):
           oPan.remove_value_listener(self._on_pan_reset_changed)
@@ -148,6 +156,10 @@ class SpecialChannelStripComponent(ChannelStripComponent):
           aSends[4].remove_value_listener(self._on_send5_changed)
         if len(aSends) > 5 and aSends[5].value_has_listener(self._on_send6_changed):
           aSends[5].remove_value_listener(self._on_send6_changed)
+        if len(aSends) > 6 and aSends[6].value_has_listener(self._on_send7_changed):
+          aSends[6].remove_value_listener(self._on_send7_changed)
+        if len(aSends) > 7 and aSends[7].value_has_listener(self._on_send8_changed):
+          aSends[7].remove_value_listener(self._on_send8_changed)
       ChannelStripComponent.set_track(self, _oTrack)
     else:
       self.update()
@@ -176,13 +188,15 @@ class SpecialChannelStripComponent(ChannelStripComponent):
         self.m_oDeckButton.add_value_listener(self._on_deck_value)
     self.update()
 
-  def set_send_controls(self, _oSend1Control, _oSend2Control, _oSend3Control, _oSend4Control, _oSend5Control, _oSend6Control):
+  def set_send_controls(self, _oSend1Control, _oSend2Control, _oSend3Control, _oSend4Control, _oSend5Control, _oSend6Control, _oSend7Control, _oSend8Control):
     assert ((_oSend1Control == None) or isinstance(_oSend1Control, ConfigurableButtonElement))
     assert ((_oSend2Control == None) or isinstance(_oSend2Control, ConfigurableButtonElement))
     assert ((_oSend3Control == None) or isinstance(_oSend3Control, ConfigurableButtonElement))
     assert ((_oSend4Control == None) or isinstance(_oSend4Control, ConfigurableButtonElement))
     assert ((_oSend5Control == None) or isinstance(_oSend5Control, ConfigurableButtonElement))
     assert ((_oSend6Control == None) or isinstance(_oSend6Control, ConfigurableButtonElement))
+    assert ((_oSend7Control == None) or isinstance(_oSend7Control, ConfigurableButtonElement))
+    assert ((_oSend8Control == None) or isinstance(_oSend8Control, ConfigurableButtonElement))
     if _oSend1Control != self.m_oSend1Button:
       if self.m_oSend1Button != None:
         self.m_oSend1Button.remove_value_listener(self._on_send1_value)
@@ -219,16 +233,18 @@ class SpecialChannelStripComponent(ChannelStripComponent):
       self.m_oSend6Button = _oSend6Control
       if self.m_oSend6Button != None:
         self.m_oSend6Button.add_value_listener(self._on_send6_value)
-    self.update()
-
-  def set_monitor_button(self, _oMonitorButton):
-    assert ((_oMonitorButton == None) or isinstance(_oMonitorButton, ConfigurableButtonElement))
-    if _oMonitorButton != self.m_oMonitorButton:
-      if self.m_oMonitorButton != None:
-        self.m_oMonitorButton.remove_value_listener(self._on_monitor_value)
-      self.m_oMonitorButton = _oMonitorButton
-      if self.m_oMonitorButton != None:
-        self.m_oMonitorButton.add_value_listener(self._on_monitor_value)
+    if _oSend7Control != self.m_oSend7Button:
+      if self.m_oSend7Button != None:
+        self.m_oSend7Button.remove_value_listener(self._on_send7_value)
+      self.m_oSend7Button = _oSend7Control
+      if self.m_oSend7Button != None:
+        self.m_oSend7Button.add_value_listener(self._on_send7_value)
+    if _oSend8Control != self.m_oSend8Button:
+      if self.m_oSend8Button != None:
+        self.m_oSend8Button.remove_value_listener(self._on_send8_value)
+      self.m_oSend8Button = _oSend8Control
+      if self.m_oSend8Button != None:
+        self.m_oSend8Button.add_value_listener(self._on_send8_value)
     self.update()
 
   def set_view_controls(self, _oViewClipButton, _oViewDevButton):
@@ -314,8 +330,8 @@ class SpecialChannelStripComponent(ChannelStripComponent):
         oTrack = self.get_track_or_none()
         if oTrack != None:
           oMixDev = self._track.mixer_device
-          oPan  = oMixDev.panning
-          oVol  = oMixDev.volume
+          oPan    = oMixDev.panning
+          oVol    = oMixDev.volume
           aSends  = oMixDev.sends
           if not oPan.value_has_listener(self._on_pan_reset_changed):
             oPan.add_value_listener(self._on_pan_reset_changed)
@@ -359,6 +375,18 @@ class SpecialChannelStripComponent(ChannelStripComponent):
             self._on_send6_changed()
           elif self.m_oSend6Button != None:
             self.m_oSend6Button.turn_off()
+          if len(aSends) > 6:
+            if not aSends[6].value_has_listener(self._on_send7_changed):
+              aSends[6].add_value_listener(self._on_send7_changed)
+            self._on_send7_changed()
+          elif self.m_oSend7Button != None:
+            self.m_oSend7Button.turn_off()
+          if len(aSends) > 7:
+            if not aSends[7].value_has_listener(self._on_send8_changed):
+              aSends[7].add_value_listener(self._on_send8_changed)
+            self._on_send8_changed()
+          elif self.m_oSend8Button != None:
+            self.m_oSend8Button.turn_off()
         else:
           if self.m_oPanResetButton != None:
             self.m_oPanResetButton.reset()
@@ -368,8 +396,6 @@ class SpecialChannelStripComponent(ChannelStripComponent):
             self.m_oDeckButton.reset()
           if self._solo_button != None:
             self._solo_button.reset()
-          if self._arm_button != None:
-            self._arm_button.reset()
           if self.m_oSend1Button != None:
             self.m_oSend1Button.reset()
           if self.m_oSend2Button != None:
@@ -382,8 +408,10 @@ class SpecialChannelStripComponent(ChannelStripComponent):
             self.m_oSend5Button.reset()
           if self.m_oSend6Button != None:
             self.m_oSend6Button.reset()
-          if self.m_oMonitorButton != None:
-            self.m_oMonitorButton.reset()
+          if self.m_oSend7Button != None:
+            self.m_oSend7Button.reset()
+          if self.m_oSend8Button != None:
+            self.m_oSend8Button.reset()
           if self.m_oViewClipButton != None:
             self.m_oViewClipButton.reset()
           if self.m_oViewDevButton != None:
@@ -414,7 +442,8 @@ class SpecialChannelStripComponent(ChannelStripComponent):
         self._on_send4_changed()
         self._on_send5_changed()
         self._on_send6_changed()
-        self._on_monitor_changed()
+        self._on_send7_changed()
+        self._on_send8_changed()
         self._on_view_clip_changed()
         self._on_view_dev_changed()
 
@@ -565,6 +594,12 @@ class SpecialChannelStripComponent(ChannelStripComponent):
   def _on_send6_value(self, _nValue):
     self._handle_send_value(_nValue, 5)
 
+  def _on_send7_value(self, _nValue):
+    self._handle_send_value(_nValue, 6)
+
+  def _on_send8_value(self, _nValue):
+    self._handle_send_value(_nValue, 7)
+
   def _handle_send_value(self, _nValue, _nIdx):
     assert (_nValue in range(128))
     if (self.is_enabled() and (self._track != None) and (_nValue == 127)):
@@ -593,6 +628,12 @@ class SpecialChannelStripComponent(ChannelStripComponent):
   def _on_send6_changed(self):
     self._handle_send_changed(5, self.m_oSend6Button)
 
+  def _on_send7_changed(self):
+    self._handle_send_changed(6, self.m_oSend7Button)
+
+  def _on_send8_changed(self):
+    self._handle_send_changed(7, self.m_oSend8Button)
+
   def _handle_send_changed(self, _nIdx, _oButton):
     if (self._track != None):
       aSends = self._track.mixer_device.sends
@@ -606,30 +647,6 @@ class SpecialChannelStripComponent(ChannelStripComponent):
         _oButton.set_light('Mixer.Send.Unava')
 
   # **************************************************************************
-
-  def _on_monitor_value(self, _nValue):
-    assert (self.m_oMonitorButton != None)
-    assert (_nValue in range(128))
-    if (self.is_enabled() and (self._track != None) and (_nValue == 127)):
-      oTrack = self.get_track_or_none()
-      if oTrack == None: return
-      nMonitor = (oTrack.current_monitoring_state - 1) % 3
-      oTrack.current_monitoring_state = nMonitor
-      self._on_monitor_changed()
-
-  def _on_monitor_changed(self):
-    if (self.is_enabled() and (self.m_oMonitorButton != None)):
-      oTrack = self.get_track_or_none()
-      if oTrack != None:
-        nMonitor = oTrack.current_monitoring_state
-        if nMonitor == 0: # In
-          self.m_oMonitorButton.set_light('Session.Monitor.In')
-        elif nMonitor == 1: # Auto
-          self.m_oMonitorButton.set_light('Session.Monitor.Auto')
-        else: # nMonitor == 2: # Off
-          self.m_oMonitorButton.set_light('Session.Monitor.Off')
-      else:
-        self.m_oMonitorButton.set_light('Session.Monitor.Unav')
 
   def _on_view_clip_value(self, _nValue):
     assert (self.m_oViewClipButton != None)

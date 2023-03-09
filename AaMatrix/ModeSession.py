@@ -88,7 +88,7 @@ class ModeSession(ModeBase):
   def setup_grid_buttons(self, _bActive):
     if _bActive:
       if self.m_nCurMode == MODE_SENDS:
-        aNames = ['Send', 'Send', 'Send', 'Send', 'Send', 'Send', 'Monitor', 'Arm']
+        aNames = ['Send', 'Send', 'Send', 'Send', 'Send', 'Send', 'Send', 'Send']
         for nTrackIdx in range(self.m_nTracks):
           for nSceneIdx in range(self.m_nScenes):
             self.m_oMatrix.get_button(nTrackIdx, nSceneIdx).set_on_off_values("Session.%s" % (aNames[nSceneIdx]))
@@ -99,9 +99,9 @@ class ModeSession(ModeBase):
               self.m_oMatrix.get_button(nTrackIdx, 2),
               self.m_oMatrix.get_button(nTrackIdx, 3),
               self.m_oMatrix.get_button(nTrackIdx, 4),
-              self.m_oMatrix.get_button(nTrackIdx, 5))
-          oStrip.set_monitor_button(self.m_oMatrix.get_button(nTrackIdx, 6))
-          oStrip.set_arm_button    (self.m_oMatrix.get_button(nTrackIdx, 7))
+              self.m_oMatrix.get_button(nTrackIdx, 5),
+              self.m_oMatrix.get_button(nTrackIdx, 6),
+              self.m_oMatrix.get_button(nTrackIdx, 7))
 
       elif self.m_nCurMode == MODE_VOLUME:
         for nTrackIdx in range(self.m_nTracks):
@@ -150,9 +150,7 @@ class ModeSession(ModeBase):
       if self.m_nCurMode == MODE_SENDS:
         for nTrackIdx in range(self.m_nTracks):
           oStrip = self.m_oMixer.channel_strip(nTrackIdx)
-          oStrip.set_send_controls (None, None, None, None, None, None)
-          oStrip.set_monitor_button(None)
-          oStrip.set_arm_button    (None)
+          oStrip.set_send_controls (None, None, None, None, None, None, None, None)
 
       elif self.m_nCurMode == MODE_VOLUME:
         for nTrackIdx in range(self.m_nTracks):

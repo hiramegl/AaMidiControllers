@@ -332,7 +332,7 @@ class SpecialSessionComponent(SessionComponent):
   def _track_pan_rst_value(self, _nValue):
     assert self.m_oTrackPanRstControl != None
     assert isinstance(_nValue, int)
-    self.song().view.selected_track.mixer_device.panning = 0
+    self.song().view.selected_track.mixer_device.panning.value = 0
 
   # CLIP GAIN ****************************************************************
 
