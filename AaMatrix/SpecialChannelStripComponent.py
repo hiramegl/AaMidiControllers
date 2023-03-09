@@ -59,9 +59,9 @@ class SpecialChannelStripComponent(ChannelStripComponent):
       if len(aSends) > 5 and aSends[5].value_has_listener(self._on_send6_changed):
         aSends[5].remove_value_listener(self._on_send6_changed)
       if len(aSends) > 6 and aSends[6].value_has_listener(self._on_send7_changed):
-        aSends[6].remove_value_listener(self._on_send6_changed)
+        aSends[6].remove_value_listener(self._on_send7_changed)
       if len(aSends) > 7 and aSends[7].value_has_listener(self._on_send8_changed):
-        aSends[7].remove_value_listener(self._on_send6_changed)
+        aSends[7].remove_value_listener(self._on_send8_changed)
 
     # remove buttons listeners
     if self.m_oPanResetButton != None:
