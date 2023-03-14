@@ -344,7 +344,7 @@ class MainSelectorComponent(ModeSelectorComponent):
 
             elif self.m_nNewSubMode == MIXER_SUBMODE_SENDS:
                 self.release_mixer_controls(MIXER_SUBMODE_TRACK)
-                aNames = ['Send', 'Send', 'Send', 'Send', 'Send', 'Send', 'Monitor', 'Select']
+                aNames = ['Send', 'Send', 'Send', 'Send', 'Send', 'Send', 'Send', 'Send']
                 for nTrackIdx in range(self.m_oMatrix.width()):
                     for nSceneIdx in range(self.m_oMatrix.height()):
                         self.m_oMatrix.get_button(nTrackIdx, nSceneIdx).set_on_off_values("Mixer.%s" % (aNames[nSceneIdx]))
@@ -355,12 +355,9 @@ class MainSelectorComponent(ModeSelectorComponent):
                         self.m_oMatrix.get_button(nTrackIdx, 2),
                         self.m_oMatrix.get_button(nTrackIdx, 3),
                         self.m_oMatrix.get_button(nTrackIdx, 4),
-                        self.m_oMatrix.get_button(nTrackIdx, 5))
-                    oStrip.set_monitor_button(self.m_oMatrix.get_button(nTrackIdx, 6))
-                    oStrip.set_select_button (self.m_oMatrix.get_button(nTrackIdx, 7))
-                    #oStrip.set_view_controls(
-                    #    self.m_oMatrix.get_button(nTrackIdx, 6),
-                    #    self.m_oMatrix.get_button(nTrackIdx, 7))
+                        self.m_oMatrix.get_button(nTrackIdx, 5),
+                        self.m_oMatrix.get_button(nTrackIdx, 6),
+                        self.m_oMatrix.get_button(nTrackIdx, 7))
 
                 for nSceneIdx in range(self.m_oMatrix.height()):
                     oButton = self.m_lSceneButtons[nSceneIdx]
@@ -414,9 +411,7 @@ class MainSelectorComponent(ModeSelectorComponent):
         if (_nSubMode == MIXER_SUBMODE_SENDS or _nSubMode == None): # send commands
             for nTrackIdx in range(self.m_oMatrix.width()):
                 oStrip = self.m_oMixer.channel_strip(nTrackIdx)
-                oStrip.set_send_controls (None, None, None, None, None, None)
-                oStrip.set_monitor_button(None)
-                oStrip.set_select_button (None)
+                oStrip.set_send_controls (None, None, None, None, None, None, None, None)
                 #oStrip.set_view_controls(None, None)
             for nSceneIdx in range(self.m_oMatrix.height()):
                 oScene = self.m_oSession.scene(nSceneIdx)
